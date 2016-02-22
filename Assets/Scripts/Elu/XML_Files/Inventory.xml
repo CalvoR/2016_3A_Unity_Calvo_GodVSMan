@@ -1,0 +1,17 @@
+
+
+<Inventory>
+
+    <slot1 isEmpty="true" idContent="any" amount="0"> </slot1>
+    <slot2 isEmpty="false" idContent="item2" amount="1"> </slot1>
+    …
+
+
+    <shortcutSlot1 isEmpty="false" refersTo="slot2"> </shortcutSlot1>
+    <shortcutSlot2 isEmpty="true" refersTo="any"> </shortcutSlot2>
+    …
+
+    <leftHand isEmpty="false" refersTo="slot3" </leftHand>
+    <rightHand isEmpty="true" refersTo="any" </rightHand>
+
+</Inventory>

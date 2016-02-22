@@ -1,0 +1,130 @@
+<ItemsTable>
+    <Weapons>
+
+        <Dagger id="weapon1">
+			<attack> 15 </attack>
+			<speed> -5 </speed>
+		</Dagger>
+
+		<SuperiorDagger id="weapon2">
+			<attack> 40 </attack>
+			<speed> -8 </speed>
+		</SuperiorDagger>
+		
+		<Axe id="weapon3">
+			<attack> 15 </attack>
+			<speed> -15 </speed>
+		</Axe>
+		
+		<Pickaxe id="weapon4">
+			<attack> 20 </attack>
+			<speed> -10 </speed>
+		</Pickaxe>
+		
+		<WoodSword id="weapon5">
+			<attack> 10 </attack>
+			<speed> -2 </speed>
+		</WoodSword>
+		
+		<SteelSword id="weapon6">
+			<attack> 25 </attack>
+			<speed> -12 </speed>
+		</SteelSword>
+		
+		<SuperiorSword id="weapon7">
+			<attack> 50 </attack>
+			<speed> -15 </speed>
+		</SuperiorSword>
+
+		<Sabre id="weapon8">			
+			<attack> 20 </attack>
+			<speed> -7 </speed>
+		</Sabre>
+		
+		<DoubleSabre id="weapon9">
+			<attack> 40 </attack>
+			<speed> -15 </speed>
+		</DoubleSabre id="weapon10">
+		
+		<Gauntlet id="weapon11"> 
+			<attack> 15 </attack>
+			<defence> 5 </defence>
+		</Gauntlet>
+		
+		<SteelGauntlet id="weapon12">
+			<attack> 30 </attack>
+			<defence> 15 </defence>
+			<speed> -7 </speed>
+		</SteelGauntlet>
+		
+		<SuperiorGauntlet id="weapon13">
+			<attack> 45 </attack>
+			<defence> 20 </defence>
+			<speed> -12 </speed>
+		</SuperiorGauntlet>
+		
+		<Bow id="weapon14">
+			<attack> 15 </attack>
+			<speed> -5 </speed>
+		</Bow>
+		
+		<Crossbow id="weapon15">
+			<attack> 30 </attack>
+			<speed> -10 </speed>
+		</Crossbow>
+		
+		<ExplosiveCrossbow id="weapon16">
+			<attack> 45 </attack>
+			<speed> -12 </speed>
+		</ExplosiveCrossbow>
+		
+    </Weapons>
+
+    <FieldItems>
+    </FieldItems>
+
+    <Consumables>
+	
+		<EndurancePotion>
+		
+		</EndurancePotion>
+		
+		<SpeedPotion>
+		
+		</SpeedPotion>
+		
+		<DefencePotion>
+		
+		</DefencePotion>
+		
+		<AttackPotion>
+		
+		</AttackPotion>
+		
+		<CalmingPowder>
+		
+		</CalmingPowder>
+		
+		<StunningPowder>
+		
+		</StunningPowder>
+		
+		<AggressivePowder>
+		
+		</AggressivePowder>		
+
+    </Consumables>
+    
+    <Resources>
+
+        <wood id="itemX" rarity="1"/>
+        <mineral id="itemY" rarity="1"/>
+        <diamond id="itemZ"  rarity="3"/>
+
+    </Resources>
+
+    <Others>
+
+    </Others>
+
+</ItemsTable>
