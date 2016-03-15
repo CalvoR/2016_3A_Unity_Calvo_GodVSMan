@@ -37,21 +37,28 @@ public class gvmPlayerControler : MonoBehaviour {
 
     void Update() {
 
-        if (Input.GetKeyDown("up"))                                 
+
+
+      //  forwardVar = Input.GetAxis("Forward") * Time.deltaTime * currentSpeed;
+       // SidewayVar = Input.GetAxis("Sideway") * Time.deltaTime * currentSpeed;
+
+        //this.transform.position = Vector3.forward * forwardVar;
+        if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))                                 
         {               
-            if (Time.time - lastTapTime < doubleTapDelay) {                    // activation ou non de la course
+            if (Time.time - lastTapTime < doubleTapDelay) 
+            {                                                           // activation ou non de la course
                 currentSpeed = runSpeed;
                 startRunningTime = Time.time;
             }            
             lastTapTime = Time.time;
         }
 
-        if (Input.GetKeyUp("up") || HeroStats.isEnduranceFinished(startRunningTime) )       // test sur la jauge d'endurance 
+        if (Input.GetKeyUp("up") || Input.GetKeyUp("z") || HeroStats.isEnduranceFinished(startRunningTime))       // test sur la jauge d'endurance 
             currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut        
 
         forwardVar = Input.GetAxis("Forward") * currentSpeed;
         SidewayVar = Input.GetAxis("Sideway") * currentSpeed;
-
+        
         if(Input.GetMouseButtonUp(0))       // Récupération d'un objet
             GetResource();
 
