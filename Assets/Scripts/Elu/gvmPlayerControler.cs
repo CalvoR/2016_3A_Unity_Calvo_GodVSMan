@@ -14,6 +14,9 @@ public class gvmPlayerControler : MonoBehaviour {
     [Range(5.0f, 35.0f)]
     float runSpeed;
 
+    [SerializeField]
+    Camera player_camera;
+
     float currentSpeed;
 
     private float forwardVar;               // distance de déplacement sur les axes X et Z
@@ -85,7 +88,7 @@ public class gvmPlayerControler : MonoBehaviour {
 
     public void GetResource()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = player_camera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out rayHit, 5.0f) && GameObject.Find(rayHit.collider.gameObject.name).CompareTag("Resource"))   // Calcul de la collision et vérifiaction s'il s'agit d'une ressource
         {
             Destroy(GameObject.Find(rayHit.collider.gameObject.name));
