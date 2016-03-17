@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Xml;
-using System.IO;
 
 public class gvmSpellEffectGetter : MonoBehaviour {
 

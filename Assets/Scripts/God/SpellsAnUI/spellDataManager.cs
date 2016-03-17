@@ -6,9 +6,9 @@ using System.Xml;
 public class spellDataManager : MonoBehaviour {
 
     //Key == spellName / Value == list of every spell data 
-    private Dictionary<string, List<int>> spellDataContainer;
+    private Dictionary<string, List<int>> spellDataContainer = new Dictionary<string, List<int>>();
     private string spellName;
-    private List<int> listData;
+    private List<int> listData = new List<int>();
 
     [SerializeField]
     private TextAsset xmlSpellDataFile;
