@@ -13,13 +13,15 @@ public class gvmYawMainCamera : MonoBehaviour {
 
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+    {
 
-        xVariation = Input.GetAxisRaw("Horizontal");
+        xVariation = Input.GetAxisRaw("Mouse X");
     }
 
 
-    void FixedUpdate()  {
+    void FixedUpdate()  
+    {
         cameraTransform.Rotate(Vector3.up * xVariation * Time.deltaTime * yawSpeed);
     }
 }

@@ -21,11 +21,12 @@ public class gvmPitchMainCamera : MonoBehaviour {
 
 	void Update ()
     {
-        yVariation += Input.GetAxisRaw("Vertical") * Time.deltaTime * pitchSpeed;
+        yVariation += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * pitchSpeed;
         yVariation = Mathf.Clamp(yVariation, -clampAngle, clampAngle);
     }
 
-    void FixedUpdate()  {
+    void FixedUpdate()  
+    {
         cameraTransform.rotation = Quaternion.Euler(-yVariation, cameraTransform.rotation.eulerAngles.y, 0.0f);
     }
 }

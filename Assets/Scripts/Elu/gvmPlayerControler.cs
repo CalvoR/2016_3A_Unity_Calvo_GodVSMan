@@ -14,6 +14,9 @@ public class gvmPlayerControler : MonoBehaviour {
     [Range(5.0f, 35.0f)]
     float runSpeed;
 
+    [SerializeField]
+    Camera player_camera;
+
     float currentSpeed;
 
     private float forwardVar;               // distance de déplacement sur les axes X et Z
@@ -37,21 +40,28 @@ public class gvmPlayerControler : MonoBehaviour {
 
     void Update() {
 
-        if (Input.GetKeyDown("up"))                                 
+
+
+      //  forwardVar = Input.GetAxis("Forward") * Time.deltaTime * currentSpeed;
+       // SidewayVar = Input.GetAxis("Sideway") * Time.deltaTime * currentSpeed;
+
+        //this.transform.position = Vector3.forward * forwardVar;
+        if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))                                 
         {               
-            if (Time.time - lastTapTime < doubleTapDelay) {                    // activation ou non de la course
+            if (Time.time - lastTapTime < doubleTapDelay) 
+            {                                                           // activation ou non de la course
                 currentSpeed = runSpeed;
                 startRunningTime = Time.time;
             }            
             lastTapTime = Time.time;
         }
 
-        if (Input.GetKeyUp("up") || HeroStats.isEnduranceFinished(startRunningTime) )       // test sur la jauge d'endurance 
+        if (Input.GetKeyUp("up") || Input.GetKeyUp("z") || HeroStats.isEnduranceFinished(startRunningTime))       // test sur la jauge d'endurance 
             currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut        
 
         forwardVar = Input.GetAxis("Forward") * currentSpeed;
         SidewayVar = Input.GetAxis("Sideway") * currentSpeed;
-
+        
         if(Input.GetMouseButtonUp(0))       // Récupération d'un objet
             GetResource();
 
@@ -78,7 +88,7 @@ public class gvmPlayerControler : MonoBehaviour {
 
     public void GetResource()
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = player_camera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out rayHit, 5.0f) && GameObject.Find(rayHit.collider.gameObject.name).CompareTag("Resource"))   // Calcul de la collision et vérifiaction s'il s'agit d'une ressource
         {
             Destroy(GameObject.Find(rayHit.collider.gameObject.name));

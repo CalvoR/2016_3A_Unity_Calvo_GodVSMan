@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scene/GodUI.unity
+=======
+- path: Assets/Scene/Elu.unity
+>>>>>>> e959997a7100f4abc0a85a7e0092c85ac06adf68
   isLoaded: 1
   isActive: 1
