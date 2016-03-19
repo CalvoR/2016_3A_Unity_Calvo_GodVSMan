@@ -20,7 +20,7 @@ public class gvmSpellBehaviour : MonoBehaviour {
     void OnMouseDown() {
         if(spellCasted == false) {
             spellCasted = true;
-            gvmMonoBehaviourReference.xmlRessources.useRessourcesForCastedSpell(gameObject.tag);
+            //gvmMonoBehaviourReference.xmlRessources.useRessourcesForCastedSpell(gameObject.tag);
             //setRessources(gameObject.tag);
             //animation
         }
@@ -30,8 +30,7 @@ public class gvmSpellBehaviour : MonoBehaviour {
         Invoke("disableSpell", 1);
     }
 
-    void OnTriggerEnter(Collider other) {
-        
+    void OnTriggerEnter(Collider other) {        
         //check and disabled every object which trigger
         if (other.gameObject.tag == "TriggerSpells") {
             //other.gameObject.SetActive(false); 

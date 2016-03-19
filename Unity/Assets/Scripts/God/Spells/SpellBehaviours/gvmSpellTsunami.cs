@@ -106,7 +106,7 @@ public class gvmSpellTsunami : MonoBehaviour {
     
     //display final spell position and area end start trigger animation
     void castSpellTsunami(Vector3 spellAreaBeginning, Vector3 spellAreaEnd) {
-        gvmMonoBehaviourReference.xmlRessources.useRessourcesForCastedSpell(gameObject.tag);
+        gvmMonoBehaviourReference.Ressources.useRessourcesForCastedSpell(gameObject.tag);
         spellContainer.transform.position = spellAreaBeginning;
         displayCastedSpellPosition(spellAreaBeginning, spellAreaEnd); 
         StartCoroutine(spellAnimation(spellAreaBeginning, spellAreaEnd));

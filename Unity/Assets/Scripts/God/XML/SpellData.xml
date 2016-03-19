@@ -32,4 +32,12 @@
     <damageOverTime>1</damageOverTime>
     <stateEffect>-1</stateEffect>
   </spell>
+  <spell>
+    <name>EarthQuake</name>
+    <fearCost>0</fearCost>
+    <faithCost>10</faithCost>
+    <damage>10</damage>
+    <damageOverTime>1</damageOverTime>
+    <stateEffect>-1</stateEffect>
+  </spell>
 </spells>

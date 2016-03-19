@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Xml;
 
-public class gvmSpellCrackle : MonoBehaviour {
+public class gvmSpellDisease : MonoBehaviour {
     
     private int floorMask;
     private float camRayLenght = 100f;
@@ -12,20 +12,19 @@ public class gvmSpellCrackle : MonoBehaviour {
     [SerializeField]
     private GameObject spellRender;
     [SerializeField]
-    private Collider spellCollider;
+    private GameObject diseaseArea;
+    private GameObject prefab;
 
     void Awake() {
-        floorMask = LayerMask.GetMask("Floor"); //Floor layer = every object it is possible to cast spell on it position
-        spellCollider.isTrigger = false;
+        floorMask = LayerMask.GetMask("Floor");
     }
 
-    //activate the spell trigger area : disable click for the spell : call the xml loader to remove spell specific cost
-    void OnMouseDown() { 
+    //disable click for the spell : call the effect of the spell
+    void OnMouseDown() {
         if (spellCasted == false) {
-            spellCollider.isTrigger = true;
             spellCasted = true;
-            gvmMonoBehaviourReference.xmlRessources.useRessourcesForCastedSpell(gameObject.tag);
-            //animation
+            //askServer 
+            spellEffect(transform.position);
         }
     }
 
@@ -34,12 +33,7 @@ public class gvmSpellCrackle : MonoBehaviour {
         disableSpell();
     }
 
-    void Update() {/*
-        if (Input.GetMouseButtonDown(0)) {
-            gvmMonoBehaviourReference.Ressources.crackle = true;
-        } else {
-            gvmMonoBehaviourReference.Ressources.crackle = false;
-        }*/
+    void Update() {
         if (Input.GetMouseButtonDown(1)) {
             disableSpell();
         }
@@ -47,7 +41,15 @@ public class gvmSpellCrackle : MonoBehaviour {
             setSpellPosition();
         }
     }
-    
+
+    //instantiate the effect area : call the xml loader to remove spell specific cost 
+    void spellEffect(Vector3 spellPosition) {
+        //animation
+        prefab = Instantiate(Resources.Load("Prefabs/God/Spells/" + "diseaseArea", typeof(GameObject))) as GameObject;
+        prefab.transform.position = spellPosition;
+        gvmMonoBehaviourReference.Ressources.useRessourcesForCastedSpell(gameObject.tag);
+    }
+
     //Update the spell position according to the mouse position on screen
     void setSpellPosition() {
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -55,21 +57,14 @@ public class gvmSpellCrackle : MonoBehaviour {
         if (Physics.Raycast(camRay, out floorHit, camRayLenght, floorMask)) {
             Vector3 spellPosition = floorHit.point;
             spellPosition.y = 0f;
-            transform.position = spellPosition;            
+            transform.position = spellPosition;
         }
     }
 
     //reset spell prefab to default
     void disableSpell() {
-        spellCollider.isTrigger = false;
         spellCasted = false;
+        gameObject.transform.position = Vector3.up * -1000;
         gameObject.SetActive(false);
-    }
-
-    //Event gameobject which can trigger the spell effect want it enter the collider and set to the gameobject the name of the spell
-    void OnTriggerEnter(Collider col) {
-        if (col.gameObject.tag == "TriggerSpells") {
-            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = "Crackle";
-        }
     }
 }

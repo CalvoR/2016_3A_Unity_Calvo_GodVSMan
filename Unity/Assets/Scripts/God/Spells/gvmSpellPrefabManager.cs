@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class gvmSpellPrefabManager : MonoBehaviour {
 
     private GameObject prefab;
-    public Text spellName;
+    [SerializeField]
+    private Text spellName;
 
     void Start()
     {

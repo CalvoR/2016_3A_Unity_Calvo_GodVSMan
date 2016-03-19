@@ -47,7 +47,7 @@ public class gvmSpellMassHeal : MonoBehaviour {
         //animation
         prefab = Instantiate(Resources.Load("Prefabs/God/Spells/" + "healingArea", typeof(GameObject))) as GameObject;
         prefab.transform.position = spellPosition;
-        gvmMonoBehaviourReference.xmlRessources.useRessourcesForCastedSpell(gameObject.tag);
+        gvmMonoBehaviourReference.Ressources.useRessourcesForCastedSpell(gameObject.tag);
     }
 
     //Update the spell position according to the mouse position on screen

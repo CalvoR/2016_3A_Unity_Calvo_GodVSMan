@@ -1,5 +1,4 @@
 ﻿public static class gvmMonoBehaviourReference {
-    public static gvmRessourcesGlobalValues Ressources { get; set; }
-    public static gvmLoadSpellDataFromXMLFile xmlRessources { get; set; }
-    public static spellDataManager spellDataContainer { get; set; }
+    public static gvmGodRessourcesManager Ressources { get; set; }
+    public static gvmSpellDataManager spellContainer { get; set; }
 }

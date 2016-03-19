@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class gvmRessourcesGlobalValues : MonoBehaviour {
+public class gvmGodRessourcesManager : MonoBehaviour {
 
     [SerializeField]
     public int faith = 0;
@@ -21,5 +21,10 @@ public class gvmRessourcesGlobalValues : MonoBehaviour {
     void Awake() {
         gvmMonoBehaviourReference.Ressources = this;
         InvokeRepeating("updateRessources", 2, 1f);
+    }
+
+    public void useRessourcesForCastedSpell(string spellName) {
+        fear -= gvmMonoBehaviourReference.spellContainer.spellDataContainer[spellName][0];
+        faith -= gvmMonoBehaviourReference.spellContainer.spellDataContainer[spellName][0];
     }
 }
