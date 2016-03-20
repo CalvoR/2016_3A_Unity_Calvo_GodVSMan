@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<spellCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <spells>
+    <spell>
+      <name>MassHeal</name>
+      <fearCost>0</fearCost>
+      <faithCost>0</faithCost>
+      <damage>0</damage>
+      <damageOverTime>0</damageOverTime>
+      <stateEffect>0</stateEffect>
+    </spell>
+    <spell>
+      <name>MassHeal</name>
+      <fearCost>0</fearCost>
+      <faithCost>0</faithCost>
+      <damage>0</damage>
+      <damageOverTime>0</damageOverTime>
+      <stateEffect>0</stateEffect>
+    </spell>
+    <spell>
+      <name>Disease</name>
+      <fearCost>0</fearCost>
+      <faithCost>0</faithCost>
+      <damage>0</damage>
+      <damageOverTime>0</damageOverTime>
+      <stateEffect>0</stateEffect>
+    </spell>
+    <spell>
+      <name>Tsunami</name>
+      <fearCost>0</fearCost>
+      <faithCost>0</faithCost>
+      <damage>0</damage>
+      <damageOverTime>0</damageOverTime>
+      <stateEffect>0</stateEffect>
+    </spell>
+    <spell>
+      <name>Crackle</name>
+      <fearCost>0</fearCost>
+      <faithCost>0</faithCost>
+      <damage>0</damage>
+      <damageOverTime>0</damageOverTime>
+      <stateEffect>0</stateEffect>
+    </spell>
+  </spells>
+</spellCollection>

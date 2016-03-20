@@ -12,9 +12,6 @@ public class gvmGodSceneManager : MonoBehaviour {
     [SerializeField]
     private Text[] buttonsText = new Text[5];
 
-    //gvmDataLoader godDataContainer;
-    //gvmGodUIManager GodUIManager;
-    //gvmSpellDataManager GodSpellManager;
 
     void Awake() {
         //GodDataLoader godDataContainer();
@@ -29,8 +26,8 @@ public class gvmGodSceneManager : MonoBehaviour {
         XmlNodeList spellList = xmlDoc.GetElementsByTagName("spells")[0].ChildNodes;
 
         foreach (GameObject button in spellButtons) {
-            button.tag = spellList[btnIndex].InnerText;
-            buttonsText[btnIndex].text = spellList[btnIndex].InnerText;
+            button.tag = spellList[btnIndex].FirstChild.InnerText;
+            buttonsText[btnIndex].text = spellList[btnIndex].FirstChild.InnerText;
             btnIndex++;
         }
     }

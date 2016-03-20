@@ -13,7 +13,7 @@ public class gvmSpellEffectGetter : MonoBehaviour {
 
     void Update() {
         if (affectedBy != null) {
-            List<int> Data = gvmMonoBehaviourReference.spellContainer.spellDataContainer[affectedBy]; //get spell data when affected by
+            List<gvmSpell> Data = gvmMonoBehaviourReference.spellContainer.spellDataContainer.spells; //get spell data when affected by
             for (int i = 0; i < Data.Count; i++) {
                 Debug.Log(Data[i]); //display affectedBy (spell) data from xml file 
             }
