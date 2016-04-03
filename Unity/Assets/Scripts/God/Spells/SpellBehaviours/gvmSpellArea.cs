@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class gvmSpellArea : MonoBehaviour {
+public class gvmSpellArea: gvmSpell {
 
     public int duration;
 

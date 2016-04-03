@@ -4,7 +4,7 @@ using System.Xml;
 
 public class gvmSpellDataManager : MonoBehaviour {
 
-
+    public gvmPropertiesManager spellProperties;
     private string path = "SpellData";
 
     [SerializeField]
@@ -13,9 +13,7 @@ public class gvmSpellDataManager : MonoBehaviour {
 
     void Awake() {
         gvmMonoBehaviourReference.spellContainer = this;
+        spellProperties = gvmPropertiesManager.GetInstance();
         spellDataContainer = gvmSpellContainer.Load(path);
-
-
     }
-
 }

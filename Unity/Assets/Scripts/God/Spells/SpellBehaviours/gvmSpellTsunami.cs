@@ -3,13 +3,9 @@ using System.Collections;
 using System.Xml;
 using System;
 
-public class gvmSpellTsunami : MonoBehaviour {
-
-    private int floorMask;
-    private float camRayLength = 1000f;
+public class gvmSpellTsunami : gvmSpell {
+    
     private int tsunamiWaveSpeed;
-    [SerializeField]
-    private TextAsset xmlSpellDataFile;
     [SerializeField]
     private GameObject spellAreaDisplay;
     [SerializeField]
@@ -23,7 +19,6 @@ public class gvmSpellTsunami : MonoBehaviour {
     private float areaSize;
 
     void Awake() {
-        floorMask = LayerMask.GetMask("Floor");
         firstClickPosition = Vector3.up * -1000;
         secondClickPosition = Vector3.up * -1000;
         tsunamiWaveSpeed = 30;
@@ -75,18 +70,7 @@ public class gvmSpellTsunami : MonoBehaviour {
         secondClickPosition = floorHit.point;
         secondClickPosition.y = 0f;
     }
-
-    //display spell position before first click
-    void setSpellPosition() {
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit floorHit;
-        if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
-            Vector3 spellPosition = floorHit.point;
-            spellPosition.y = 0f;
-            spellContainer.transform.position = spellPosition;
-        }
-    }
-
+    
     //display wave area after first click depending on first click position
     void displayCastedSpellPosition(Vector3 spellAreaBeginning, Vector3 spellAreaEnd) {
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -134,9 +118,4 @@ public class gvmSpellTsunami : MonoBehaviour {
     }
 
     //behaviour want the wave hit a NPC
-    void OnTriggerEnter(Collider col) {
-        if(col.gameObject.tag == "TriggerSpells" && firstClickPosition != Vector3.up * -1000 && secondClickPosition != Vector3.up * -1000) {
-            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = "Tsunami";
-        }
-    }
 }

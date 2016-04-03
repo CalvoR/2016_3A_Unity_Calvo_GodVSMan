@@ -1,21 +1,12 @@
 ﻿using UnityEngine;
 using System.Xml;
 
-public class gvmSpellCrackle : MonoBehaviour {
+public class gvmSpellCrackle : gvmSpell {
     
-    private int floorMask;
-    private float camRayLenght = 100f;
-    [SerializeField]
-    private TextAsset xmlSpellDataFile;
-    [SerializeField]
-    private bool spellCasted = false;
-    [SerializeField]
-    private GameObject spellRender;
     [SerializeField]
     private Collider spellCollider;
 
     void Awake() {
-        floorMask = LayerMask.GetMask("Floor"); //Floor layer = every object it is possible to cast spell on it position
         spellCollider.isTrigger = false;
     }
 
@@ -34,33 +25,8 @@ public class gvmSpellCrackle : MonoBehaviour {
         disableSpell();
     }
 
-    void Update() {/*
-        if (Input.GetMouseButtonDown(0)) {
-            gvmMonoBehaviourReference.Ressources.crackle = true;
-        } else {
-            gvmMonoBehaviourReference.Ressources.crackle = false;
-        }*/
-        if (Input.GetMouseButtonDown(1)) {
-            disableSpell();
-        }
-        if (spellCasted == false) {
-            setSpellPosition();
-        }
-    }
-    
-    //Update the spell position according to the mouse position on screen
-    void setSpellPosition() {
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit floorHit;
-        if (Physics.Raycast(camRay, out floorHit, camRayLenght, floorMask)) {
-            Vector3 spellPosition = floorHit.point;
-            spellPosition.y = 0f;
-            transform.position = spellPosition;            
-        }
-    }
-
     //reset spell prefab to default
-    void disableSpell() {
+    override public void disableSpell() {
         spellCollider.isTrigger = false;
         spellCasted = false;
         gameObject.SetActive(false);
