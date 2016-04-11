@@ -33,11 +33,16 @@ namespace InventoryManagement {
                 shorcutSlots[i] = new InventorySlot();
         }
 
-        public static void AddItem(string name, ItemType type, string spritePath)
+        /// <summary>
+        /// Ajoute un item à un slot déjà existant
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <param name="spritePath"></param>
+        public static void AddItem(Item itemToAdd)
         {
             int slotId = 0;                     // Initialisation du numéro de slot à remplir
-            while (!slots[slotId].IsEmpty)
-            {   
+            while (!slots[slotId].IsEmpty && slotId <= slots.Count() + 1)  {   
                 if (slotId >= SLOTS_NBR)    {
                     Debug.Log("No empty slot can be found in Inventory");
                     return;
@@ -45,7 +50,7 @@ namespace InventoryManagement {
                 slotId++;
             }
 
-            slots[slotId].Item = new Item(name, type, new Dictionary<string, int>(), spritePath);
+            slots[slotId].FillSlot(itemToAdd);
 
             if (slots[slotId].UI_SlotName == null)  {
                 Debug.Log("dataSlot linked to UISlot can't be found");
@@ -53,10 +58,9 @@ namespace InventoryManagement {
             }
 
                 // Affichage de la nouvelle image de l'objet  
-     /*       GameObject UiSlot = GameObject.Find(slots[slotId].UI_SlotName);
+            GameObject UiSlot = GameObject.Find(slots[slotId].UI_SlotName);
             if (UiSlot != null)
-                UiSlot.GetComponent<gvmUI_SlotManager>().LoadImage();*/
-
+                UiSlot.GetComponent<gvmUI_SlotManager>().LoadImage();
         }
 	   
     }
@@ -105,6 +109,20 @@ namespace InventoryManagement {
             IsEmpty = true;
             Amount = 0;
             UI_SlotName = string.Empty;
+        }
+
+        // Remplit le slot avec l'objet souhaité
+        public void FillSlot (Item itemToAdd)
+        {
+            if (!IsEmpty && !Item.Name.Equals(itemToAdd.Name))
+            {
+                Debug.Log("Trying to add a different item to an already filled slot");
+                return;
+            }
+
+            isEmpty = false;
+            Amount++;
+            Item = itemToAdd;         
         }
 
     }
