@@ -17,34 +17,33 @@ public class gvmGodAbilitySelectionView : MonoBehaviour {
     private Toggle[] faithToggleList;
     [SerializeField]
     private TextAsset xmlPlayerPreferencesFile;
-    private string path = "PlayerPreferences";
     gvmSpellContainer playerBuildContainer;
 
     void Start() {
-        playerBuildContainer = gvmSpellContainer.Load(path);
+        playerBuildContainer = gvmSpellContainer.GetInstance();
+        playerBuildContainer.Load();
         int faithCounter = 0;
         int fearCounter = 0;
-        foreach (gvmSpell spell in gvmMonoBehaviourReference.spellContainer.spellDataContainer.spells) {
+        foreach (gvmSpellData spell in gvmSpellContainer.GetInstance().spells) {
             if (spell.faithCost >= 1) {
-                abilitiesFaithTextArea[faithCounter].text = spell.spellName;
-                faithToggleList[faithCounter].isOn = IsSelected(playerBuildContainer.spells, spell.spellName);
+                abilitiesFaithTextArea[faithCounter].text = spell.name;
+                faithToggleList[faithCounter].isOn = IsSelected(playerBuildContainer.spells, spell.name);
                 faithCounter++;
             } else {
-                abilitiesFearTextArea[fearCounter].text = spell.spellName;
-                fearToggleList[fearCounter].isOn = IsSelected(playerBuildContainer.spells, spell.spellName);
+                abilitiesFearTextArea[fearCounter].text = spell.name;
+                fearToggleList[fearCounter].isOn = IsSelected(playerBuildContainer.spells, spell.name);
                 fearCounter++;
             }
         }
     }
 
     void OnDisable() {
-        gvmSpellContainer.Save(path, playerBuildContainer);
-        
+        playerBuildContainer.Save(playerBuildContainer.spells);        
     }
 
-    bool IsSelected(List<gvmSpell> spellList, string spellName) {
+    bool IsSelected(List<gvmSpellData> spellList, string spellName) {
         for(int i = 0; i < spellList.Count; i++) {
-            if (spellName == spellList[i].spellName) {
+            if (spellName == spellList[i].name) {
                 return true;
             }
         }
@@ -52,12 +51,12 @@ public class gvmGodAbilitySelectionView : MonoBehaviour {
     }
 
     public void changeSpellInPLayerSpellContainer(Text toggleText) {
-        int spellIndex = playerBuildContainer.spells.FindIndex(spell => spell.spellName == toggleText.text);
+        int spellIndex = playerBuildContainer.spells.FindIndex(spell => spell.name == toggleText.text);
         if (spellIndex != -1) {
             playerBuildContainer.spells.RemoveAt(spellIndex);
         } else {
-            playerBuildContainer.spells.Add(new gvmSpell());
-            playerBuildContainer.spells[playerBuildContainer.spells.Count-1].spellName = toggleText.text;
+            playerBuildContainer.spells.Add(new gvmSpellData());
+            playerBuildContainer.spells[playerBuildContainer.spells.Count-1].name = toggleText.text;
         }
     }
 }

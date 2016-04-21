@@ -9,25 +9,29 @@ public class gvmGodSceneManager : MonoBehaviour {
     private TextAsset xmlPlayerPreferencesFile;
     [SerializeField]
     private GameObject[] spellButtons = new GameObject[5];
-    [SerializeField]
-    private Text[] buttonsText = new Text[5];
-
+    
+    private gvmPropertiesManager spellProperties;
+    private gvmSpellContainer spellDataContainer;
 
     void Awake() {
         //GodDataLoader godDataContainer();
+        spellProperties = gvmPropertiesManager.GetInstance();
+        spellDataContainer = gvmSpellContainer.GetInstance();
+        spellDataContainer.Load();
+        //spellDataContainer.Load(path);
+
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(xmlPlayerPreferencesFile.text);
-        initialiseSpellButtons(xmlDoc, spellButtons, buttonsText);
+        initialiseSpellButtons(xmlDoc);
         //GodSpellManager = new gvmSpellDataManager();
     }
 
-    public void initialiseSpellButtons(XmlDocument xmlDoc, GameObject[] spellButtons, Text[] buttonsText) {
+    public void initialiseSpellButtons(XmlDocument xmlDoc) {
         int btnIndex = 0;
         XmlNodeList spellList = xmlDoc.GetElementsByTagName("spells")[0].ChildNodes;
 
         foreach (GameObject button in spellButtons) {
-            button.tag = spellList[btnIndex].FirstChild.InnerText;
-            buttonsText[btnIndex].text = spellList[btnIndex].FirstChild.InnerText;
+            button.GetComponent<gvmSpellButton>().initialise(spellDataContainer.getDataByName(spellList[btnIndex].FirstChild.InnerText));
             btnIndex++;
         }
     }

@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Xml;
 
-public class gvmSpellDisease : gvmSpell {
-    
+public class gvmSpellDisease {
+    /**
     private GameObject prefab;
     
     //disable click for the spell : call the effect of the spell
@@ -32,5 +32,5 @@ public class gvmSpellDisease : gvmSpell {
         spellCasted = false;
         gameObject.transform.position = Vector3.up * -1000;
         gameObject.SetActive(false);
-    }
+    }*/
 }

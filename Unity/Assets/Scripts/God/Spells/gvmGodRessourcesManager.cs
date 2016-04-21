@@ -24,10 +24,10 @@ public class gvmGodRessourcesManager : MonoBehaviour {
     }
 
     public void useRessourcesForCastedSpell(string spellName) {
-        foreach (gvmSpell spell in gvmMonoBehaviourReference.spellContainer.spellDataContainer.spells) {
-            if (spell.spellName == spellName) {
-                fear -= spell.fearCost;
-                faith -= spell.faithCost;
+        foreach (gvmSpellData spellData in gvmSpellContainer.GetInstance().spells) {
+            if (spellData.name == spellName) {
+                fear -= spellData.fearCost;
+                faith -= spellData.faithCost;
             }
         }
     }

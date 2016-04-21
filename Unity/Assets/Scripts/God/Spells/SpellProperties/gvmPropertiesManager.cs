@@ -4,24 +4,17 @@ using System.Xml.Serialization;
 using System.IO;
 
 [XmlRoot("collection")]
+[System.Serializable]
 public class gvmPropertiesManager {
     
     [XmlArray("properties")]
     [XmlArrayItem("property")]
-    public static List<gvmSpellProperty> spellCompatibility;
-    public string path = "SpellCompatibility";
+    public List<gvmSpellProperty> propertiesContainer;
+    public string _path = "PropertiesCompatibility";
     private static gvmPropertiesManager _instance;
 
     private gvmPropertiesManager() {
-        TextAsset _xml = Resources.Load<TextAsset>(path);
-
-        XmlSerializer serializer = new XmlSerializer(typeof(gvmPropertiesManager));
-
-        StringReader reader = new StringReader(_xml.text);
-
-        spellCompatibility = serializer.Deserialize(reader) as List<gvmSpellProperty>;
-
-        reader.Close();
+        propertiesContainer = new List<gvmSpellProperty>();
     }
 
     public static gvmPropertiesManager GetInstance() {
@@ -31,28 +24,25 @@ public class gvmPropertiesManager {
         return _instance;
     }
 
-    public void Load(string path) {
-        TextAsset _xml = Resources.Load<TextAsset>(path);
+    public void Load() {
+        TextAsset _xml = Resources.Load<TextAsset>(_path);
 
         XmlSerializer serializer = new XmlSerializer(typeof(gvmPropertiesManager));
-
         StringReader reader = new StringReader(_xml.text);
 
-        spellCompatibility = serializer.Deserialize(reader) as List<gvmSpellProperty>;
+        _instance = serializer.Deserialize(reader) as gvmPropertiesManager;
 
         reader.Close();
     }
 
-    public void Save(string path) {
-        path = "Assets/Resources/" + path + ".xml";
-        foreach (gvmSpellProperty property in spellCompatibility) {
-            Debug.Log(property.id);
-        }
+    public void Save(List<gvmSpellProperty> Data) {
+        propertiesContainer = Data;
+        var _fullPath = "Assets/Resources/" + _path + ".xml";
         XmlSerializer serializer = new XmlSerializer(typeof(gvmPropertiesManager));
 
-        FileStream stream = new FileStream(path, FileMode.Truncate);
+        FileStream stream = new FileStream(_fullPath, FileMode.Truncate);
 
-        serializer.Serialize(stream, spellCompatibility);
+        serializer.Serialize(stream,  _instance);
 
         stream.Close();
     }
@@ -67,7 +57,7 @@ public class gvmPropertiesManager {
         int rmN = 0;
         for (int x = 0; x < currentSpellProperties.Count;) {
             for (int y = 0; y < encounteredSpellProperties.Count; y++) {
-                switch (spellCompatibility[currentSpellProperties[x]].compatibility[encounteredSpellProperties[y]]) {
+                switch (propertiesContainer[currentSpellProperties[x]].compatibility[encounteredSpellProperties[y]]) {
                     case -1:
                         tmp.Remove(currentSpellProperties[x + rmC]);
                         rmC++;
@@ -91,6 +81,7 @@ public class gvmPropertiesManager {
     }
 }
 
+[System.Serializable]
 public class gvmSpellProperty {
 
     [XmlElement("name")]
@@ -100,8 +91,14 @@ public class gvmSpellProperty {
     [XmlArray("compatibility")]
     public List<int> compatibility;
 
-    gvmSpellProperty() {
+    public gvmSpellProperty() {
+    }
 
+    public gvmSpellProperty(int length) {
+        compatibility = new List<int>();
+        for(int i = 0; i < length; i++) {
+            compatibility.Add(0);
+        }
     }
 }
 

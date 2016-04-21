@@ -14,8 +14,7 @@ public class gvmActionProperties : MonoBehaviour {
         propertiesActionContainer = new List<Delegate>();
 
         propertiesActionContainer.Add(new Func<int, int, int, IEnumerator>(damageOverTime));
-        propertiesActionContainer.Add(new Func<int, int, int, IEnumerator>(damage));
-        propertiesActionContainer.Add(new Func<int, int, int, IEnumerator>(healOverTime));
+        propertiesActionContainer.Add(new Func<int, int, int, IEnumerator>(directDamage));
         // propertiesContainer.Add(new Func<int, int, int, IEnumerator>(heal);
 
         propertiesCompatibility = new gvmActionProperties();
@@ -30,7 +29,7 @@ public class gvmActionProperties : MonoBehaviour {
         return _instance;
     }
 
-    private IEnumerator damage(int HPPool, int damage, int duration) {
+    private IEnumerator directDamage(int HPPool, int damage, int duration) {
         if (duration > 0) {
             yield return new WaitForSeconds(1f);
             duration--;
@@ -40,15 +39,6 @@ public class gvmActionProperties : MonoBehaviour {
     }
 
     private IEnumerator damageOverTime(int HPPool, int damage, int duration) {
-        if (duration > 0) {
-            yield return new WaitForSeconds(1f);
-            duration--;
-            HPPool += damage;
-            yield return new int[] { HPPool };
-        }
-    }
-
-    private IEnumerator healOverTime(int HPPool, int damage, int duration) {
         if (duration > 0) {
             yield return new WaitForSeconds(1f);
             duration--;

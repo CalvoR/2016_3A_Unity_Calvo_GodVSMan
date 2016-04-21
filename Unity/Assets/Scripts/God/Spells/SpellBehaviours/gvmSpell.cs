@@ -1,61 +1,30 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Serialization;
 
 public class gvmSpell : MonoBehaviour {
 
-    [XmlElement("name")]
-    public string spellName { get; set; }
+    public gvmSpellData spellData;
+    public GameObject spellPrefab;
 
-    [XmlElement("fearCost")]
-    public int fearCost;
-
-    [XmlElement("faithCost")]
-    public int faithCost;
-
-    [XmlElement("stateEffect")]
-    public int stateEffect;
-
-    [XmlElement("properties")]
-    public List<int> propertiesId;
-
-    public int floorMask = LayerMask.GetMask("Floor");
+    public int floorMask;
     public float camRayLength = 100f;
     [SerializeField]
     public TextAsset xmlSpellDataFile;
     [SerializeField]
-    public bool spellCasted = false;
-    [SerializeField]
     public GameObject spellRender;
     
-    public void setSpellPosition() {
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit floorHit;
-        if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
-            Vector3 spellPosition = floorHit.point;
-            spellPosition.y = 0f;
-            transform.position = spellPosition;
-        }
-    }
-
-    void Update() {
-        if (Input.GetMouseButtonDown(1)) {
-            disableSpell();
-        }
-        if (spellCasted == false) {
-            setSpellPosition();
-        }
-    }
-
-    virtual public void disableSpell() {
+    public gvmSpell(gvmSpellData data) {
+        spellData = data;
+        floorMask = LayerMask.GetMask("Floor");
+        spellPrefab = Instantiate(Resources.Load("Prefabs/God/Spells/" + spellData.behaviour, typeof(GameObject))) as GameObject;
+        spellPrefab.SetActive(true);
+        spellPrefab.SetActive(false);
     }
 
     void OnTriggerEnter(Collider col) {
         if (col.gameObject.tag == "TriggerSpells") {
-            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = spellName;
-        } else if(col.gameObject.tag == "spell") {
-            gvmPropertiesManager.GetInstance().GetCompatibility(propertiesId, col.GetComponent<gvmSpell>().propertiesId);
+            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = spellData.name;
+        } else if (col.gameObject.tag == "spell") {
+            gvmPropertiesManager.GetInstance().GetCompatibility(spellData.propertiesId, col.GetComponent<gvmSpell>().spellData.propertiesId);
         }
     }
 }
