@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 
 /// <summary>
@@ -48,6 +47,14 @@ public class Item {
         Type = type;
         Bonus = bonus;
         SpritePath = spritePath;
+    }
+        // Constructeur utilisant un objet de référence chargé dans le XML
+    public Item (Item itemModel)
+    {
+        Name = itemModel.Name;
+        Type = itemModel.Type;
+        Bonus = itemModel.Bonus;
+        SpritePath = itemModel.SpritePath;
     }
     
 	
