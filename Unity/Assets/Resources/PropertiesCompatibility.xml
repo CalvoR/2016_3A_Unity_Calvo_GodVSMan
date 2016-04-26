@@ -5,40 +5,40 @@
       <name>dot</name>
       <id>0</id>
       <compatibility>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
+        <int>-1</int>
+        <int>2</int>
+        <int>2</int>
+        <int>2</int>
       </compatibility>
     </property>
     <property>
       <name>damage</name>
       <id>0</id>
       <compatibility>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
+        <int>2</int>
+        <int>-1</int>
+        <int>2</int>
+        <int>2</int>
       </compatibility>
     </property>
     <property>
       <name>hol</name>
       <id>0</id>
       <compatibility>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
+        <int>2</int>
+        <int>2</int>
+        <int>-1</int>
+        <int>2</int>
       </compatibility>
     </property>
     <property>
       <name>heal</name>
       <id>0</id>
       <compatibility>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
-        <int>1</int>
+        <int>2</int>
+        <int>2</int>
+        <int>2</int>
+        <int>-1</int>
       </compatibility>
     </property>
   </properties>

@@ -16,8 +16,7 @@ public class gvmGodSceneManager : MonoBehaviour {
     void Awake() {
         //GodDataLoader godDataContainer();
         spellProperties = gvmPropertiesManager.GetInstance();
-        spellDataContainer = gvmSpellContainer.GetInstance();
-        spellDataContainer.Load();
+        spellDataContainer = gvmSpellContainer.Load("SpellData");
         //spellDataContainer.Load(path);
 
         XmlDocument xmlDoc = new XmlDocument();

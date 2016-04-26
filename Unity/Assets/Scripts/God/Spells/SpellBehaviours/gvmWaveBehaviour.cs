@@ -5,11 +5,11 @@ using System;
 public class gvmWaveBehaviour : MonoBehaviour {
 
     [SerializeField]
-    public GameObject areaOfEffect;
-    [SerializeField]
     public GameObject spellContainer;
     [SerializeField]
-    public GameObject waveCollider;
+    public GameObject areaOfEffect;
+    [SerializeField]
+    public Collider waveCollider;
     [SerializeField]
     public TextAsset xmlSpellDataFile;
 
@@ -23,7 +23,12 @@ public class gvmWaveBehaviour : MonoBehaviour {
     private float areaSize;
     private int tsunamiWaveSpeed;
 
+    private gvmUIDataContainer dataContainer;
+
     void Awake() {
+        dataContainer = gameObject.GetComponent<gvmUIDataContainer>();
+        waveCollider.GetComponent<gvmUIDataContainer>().init(dataContainer.getData());
+
         floorMask = LayerMask.GetMask("Floor");
         firstClickPosition = Vector3.up * -1000;
         secondClickPosition = Vector3.up * -1000;
@@ -113,6 +118,7 @@ public class gvmWaveBehaviour : MonoBehaviour {
 
     //translate trigger block along aera effect
     IEnumerator spellAnimation(Vector3 spellAreaBeginning, Vector3 spellAreaEnd) {
+        waveCollider.isTrigger = true;
         while (waveCollider.transform.localPosition.x < areaSize) {
             waveCollider.transform.Translate(Vector3.right * tsunamiWaveSpeed * Time.deltaTime);
             yield return new WaitForSeconds(0.1f);
@@ -122,6 +128,7 @@ public class gvmWaveBehaviour : MonoBehaviour {
 
     //reset spell prefab to default
     void resetSpellVariables() {
+        waveCollider.isTrigger = false;
         firstClickPosition = Vector3.up * -1000;
         secondClickPosition = Vector3.up * -1000;
         spellContainer.SetActive(false);
@@ -133,5 +140,13 @@ public class gvmWaveBehaviour : MonoBehaviour {
     }
 
     //behaviour when the wave hit a NPC
-
+    /*
+    void OnTriggerEnter(Collider col) {
+        if (col.gameObject.tag == "TriggerSpells") {
+            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = dataContainer.name;
+        } else if (col.gameObject.tag == "GodSpell") {
+            Debug.Log(dataContainer.name + " : "+ col.gameObject.name);
+            Debug.Log(gvmPropertiesManager.GetInstance().GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId));
+        }
+    }*/
 }

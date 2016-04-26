@@ -10,12 +10,6 @@ public class gvmSpellContainer {
     [XmlArray("spells")]
     [XmlArrayItem("spell")]
     public List<gvmSpellData> spells = new List<gvmSpellData>();
-    private string _path = "SpellData";
-    private static gvmSpellContainer _instance;
-
-    private gvmSpellContainer() {
-        spells = new List<gvmSpellData>();
-    }
 
     public gvmSpellData getDataByName(string spellName) {
         foreach (gvmSpellData spell in spells) {
@@ -24,25 +18,19 @@ public class gvmSpellContainer {
             }
         }
         return null;
-    }
+    }   
 
-    public static gvmSpellContainer GetInstance() {
-        if (_instance == null) {
-            _instance = new gvmSpellContainer();
-            _instance.Load();
-        }
-        return _instance;
-    }
-
-    public void Load() {
-        TextAsset _xml = Resources.Load<TextAsset>(_path);
+    public static gvmSpellContainer Load(string path) {
+        TextAsset _xml = Resources.Load<TextAsset>(path);
 
         XmlSerializer serializer = new XmlSerializer(typeof(gvmSpellContainer));
         StringReader reader = new StringReader(_xml.text);
-
-        _instance = serializer.Deserialize(reader) as gvmSpellContainer;
+        
+        var data = serializer.Deserialize(reader) as gvmSpellContainer;
 
         reader.Close();
+
+        return data;
     }
 
     public void Save(List<gvmSpellData> spellList) {
@@ -53,7 +41,7 @@ public class gvmSpellContainer {
 
         FileStream stream = new FileStream(path, FileMode.Truncate);
 
-        serializer.Serialize(stream, _instance);
+        serializer.Serialize(stream, this);
 
         stream.Close();
     }

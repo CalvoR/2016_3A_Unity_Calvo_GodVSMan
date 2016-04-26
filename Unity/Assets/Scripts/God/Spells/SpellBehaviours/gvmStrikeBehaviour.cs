@@ -8,8 +8,12 @@ public class gvmStrikeBehaviour : MonoBehaviour {
     private Collider spellCollider;
     private int floorMask;
     public float camRayLength = 100f;
+    private gvmUIDataContainer dataContainer;
 
     void Awake() {
+        dataContainer = gameObject.GetComponent<gvmUIDataContainer>();
+        spellCollider.GetComponent<gvmUIDataContainer>().init(dataContainer.getData());
+
         floorMask = LayerMask.GetMask("Floor");
         spellCollider.isTrigger = false;
     }
@@ -54,4 +58,13 @@ public class gvmStrikeBehaviour : MonoBehaviour {
         spellCasted = false;
         gameObject.SetActive(false);
     }
+    /*
+    void OnTriggerEnter(Collider col) {
+        if (col.gameObject.tag == "TriggerSpells") {
+            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = dataContainer.name;
+        } else if (col.gameObject.tag == "GodSpell") {
+            Debug.Log(dataContainer.name + " : " + col.gameObject.name);
+            Debug.Log(gvmPropertiesManager.GetInstance().GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId));
+        }
+    }*/
 }

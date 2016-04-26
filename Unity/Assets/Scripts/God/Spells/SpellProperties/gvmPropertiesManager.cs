@@ -20,6 +20,7 @@ public class gvmPropertiesManager {
     public static gvmPropertiesManager GetInstance() {
         if(_instance == null) {
             _instance = new gvmPropertiesManager();
+            _instance.Load();
         }
         return _instance;
     }
@@ -53,26 +54,30 @@ public class gvmPropertiesManager {
             tmp.Add(encounteredSpellProperties[i]);
         }
 
-        int rmC = 0;
-        int rmN = 0;
-        for (int x = 0; x < currentSpellProperties.Count;) {
+        int rmC = 0; //removedCurrent
+        int rmN = 0; //removedNew
+        for (int x = 0; x < currentSpellProperties.Count; x++) {
             for (int y = 0; y < encounteredSpellProperties.Count; y++) {
                 switch (propertiesContainer[currentSpellProperties[x]].compatibility[encounteredSpellProperties[y]]) {
                     case -1:
+                        Debug.Log(-1);
                         tmp.Remove(currentSpellProperties[x + rmC]);
                         rmC++;
                         break;
                     case 0:
+                        Debug.Log(0);
                         tmp.Remove(currentSpellProperties[x + rmC]);
                         tmp.Remove(encounteredSpellProperties[y + rmC + rmN]);
                         rmC++;
                         rmN++;
                         break;
                     case 1:
+                        Debug.Log(1);
                         tmp.Remove(encounteredSpellProperties[y + rmC + rmN]);
                         rmN++;
                         break;
                     case 2:
+                        Debug.Log(2);
                         break;
                 }
             }

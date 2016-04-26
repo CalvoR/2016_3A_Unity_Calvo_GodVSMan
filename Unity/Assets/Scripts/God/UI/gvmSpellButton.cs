@@ -16,12 +16,12 @@ public class gvmSpellButton : MonoBehaviour {
 
     public void OnClickBehaviour()
     {
-        spellAttached.spellPrefab.SetActive(true);
+        spellAttached.spellContainer.SetActive(true);
     }
 
     void Update ()
     {        
         if (Input.GetButtonDown(gameObject.name))
-            spellAttached.spellPrefab.SetActive(true);
+            spellAttached.spellContainer.SetActive(true);
     }
 }
