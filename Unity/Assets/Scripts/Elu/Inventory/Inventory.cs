@@ -26,11 +26,11 @@ namespace InventoryManagement {
             for (int i = 0; i < SLOTS_NBR; i++)
             {
                 slots[i] = new InventorySlot();
-                slots[i].UI_SlotName = "Slot" + i;
             }
 
             for (int i = 0; i < SHORTCUTSLOTS_NBR; i++)
                 shorcutSlots[i] = new InventorySlot();
+
         }
 
         /// <summary>
@@ -53,14 +53,9 @@ namespace InventoryManagement {
             slots[slotId].FillSlot(itemToAdd);
 
             if (slots[slotId].UI_SlotName == null)  {
-                Debug.Log("dataSlot linked to UISlot can't be found");
+                Debug.Log("DataSlot linked to UISlot can't be found");
                 return;
-            }
-
-                // Affichage de la nouvelle image de l'objet  
-            GameObject UiSlot = GameObject.Find(slots[slotId].UI_SlotName);
-            if (UiSlot != null)
-                UiSlot.GetComponent<gvmUI_SlotManager>().LoadImage();
+            }           
         }
 	   
     }
@@ -122,7 +117,7 @@ namespace InventoryManagement {
 
             isEmpty = false;
             Amount++;
-            Item = itemToAdd;         
+            Item = itemToAdd;     
         }
 
     }

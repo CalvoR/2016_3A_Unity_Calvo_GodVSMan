@@ -15,7 +15,6 @@ public class DefaultItemsList : MonoBehaviour {
     public void Awake()
     {
         FillListFromXmlFile();
-        Debug.Log(ItemList.Count);
     }
 
 

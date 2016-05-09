@@ -66,7 +66,7 @@ public class gvmPlayerControler : MonoBehaviour {
     public void UpdateStatsDisplay()
     {
         if (heroStatsDisplay != null)
-            heroStatsDisplay.text =  "Player\n Attaque:" + HeroStats.Attack + "\n Defence:" + HeroStats.Defense + "\n Speed:" + HeroStats.Speed;
+            heroStatsDisplay.text =  "Player\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + HeroStats.Speed;
     }
 
     /// <summary>
@@ -96,13 +96,22 @@ public class gvmPlayerControler : MonoBehaviour {
         var ray = player_camera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out rayHit, 5.0f))
             return;
-        string objectName = rayHit.collider.gameObject.name;
 
-        if (GameObject.Find(objectName).CompareTag("Resource"))   // Calcul de la collision et vérifiaction s'il s'agit d'une ressource
+        GameObject targetResource = GameObject.Find(rayHit.collider.gameObject.name);       // Calcul de la collision et de l'objet touché
+        string resourceType = string.Empty;
+
+        if (targetResource != null) 
         {
-            Destroy(GameObject.Find(objectName));
+            if (targetResource.CompareTag("wood_resource"))
+                resourceType = "Wood";
+            else if (targetResource.CompareTag("steel_resource"))
+                resourceType = "Steel";
+            else
+                return;
+
+            Destroy(targetResource);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
             InventoryManagement.Inventory.AddItem(
-                DefaultItemsList.ItemList[ItemType.resource].Where(x => x.Name.Equals("Wood")).SingleOrDefault()
+                DefaultItemsList.ItemList[ItemType.resource].Where(x => x.Name.Equals(resourceType)).SingleOrDefault()
             );
         }
     }

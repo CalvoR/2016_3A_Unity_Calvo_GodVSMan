@@ -113,13 +113,13 @@
 		</AggressivePowder>		
     </consumable>  
     <resource>
-        <Wood id="resource1" rarity="1" sprite="Picture/wood_resource.png"/>
+        <Wood id="resource1" rarity="1" sprite="Picture/wood_resource"/>
         <Mineral id="resource2" rarity="1" sprite=""/>
 		<Verisine id="resource3"  rarity="1" sprite=""/>
 		<Coat id="resource4"  rarity="1" sprite=""/>
 		<String id="resource5"  rarity="1" sprite=""/>
 		<Magmatite id="resource6"  rarity="2" sprite=""/>
-		<Steel id="resource7"  rarity="2" sprite=""/>
+		<Steel id="resource7"  rarity="2" sprite="Picture/steel_resource"/>
 		<Terravale id="resource8"  rarity="2" sprite=""/>
 		<Template id="resource9"  rarity="2" sprite=""/>
 		<Orphea id="resource10"  rarity="3" sprite=""/>
