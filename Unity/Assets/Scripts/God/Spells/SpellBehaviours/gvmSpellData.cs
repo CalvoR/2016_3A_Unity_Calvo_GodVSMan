@@ -25,7 +25,7 @@ public class gvmSpellData {
     public int areaMax = 15;
 
     [XmlElement("duration")]
-    public int duration;
+    public int areaDuration; 
 
     [XmlElement("behaviour")]
     public string behaviour;

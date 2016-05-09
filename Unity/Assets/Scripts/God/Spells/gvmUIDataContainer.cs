@@ -9,9 +9,9 @@ public class gvmUIDataContainer : MonoBehaviour {
     
     public List<int> propertiesId;
     
-    public int areaMax = 15;
+    public int areaMax;
     
-    public int duration;
+    public int areaDuration;
     
     public string behaviour;
 
@@ -20,18 +20,16 @@ public class gvmUIDataContainer : MonoBehaviour {
         stateEffect = data.stateEffect;
         propertiesId = data.propertiesId;
         areaMax = data.areaMax;
-        duration = data.duration;
+        areaDuration = data.areaDuration;
         behaviour = data.behaviour;
     }
-    
-    public gvmSpellData getData() {
-        gvmSpellData data = new gvmSpellData();
-        data.name = Name;
-        data.stateEffect = stateEffect;
-        data.propertiesId = propertiesId;
-        data.areaMax = areaMax;
-        data.duration = duration;
-        data.behaviour = behaviour;
-        return data;
+
+    public void init(gvmUIDataContainer data) {
+        Name = data.name;
+        stateEffect = data.stateEffect;
+        propertiesId = data.propertiesId;
+        areaMax = data.areaMax;
+        areaDuration = data.areaDuration;
+        behaviour = data.behaviour;
     }
 }

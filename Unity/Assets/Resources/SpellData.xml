@@ -6,7 +6,9 @@
       <fearCost>5</fearCost>
       <faithCost>0</faithCost>
       <stateEffect>-1</stateEffect>
-      <properties>9</properties>
+      <properties>2</properties>
+      <areaMax>1</areaMax>
+      <duration>0</duration>
       <behaviour>Strike</behaviour>
     </spell>
     <spell>
@@ -14,7 +16,9 @@
       <fearCost>6</fearCost>
       <faithCost>0</faithCost>
       <stateEffect>-1</stateEffect>
-      <properties>7</properties>
+      <properties>3</properties>
+      <areaMax>1</areaMax>
+      <duration>0</duration>
       <behaviour>Wave</behaviour>
     </spell>
     <spell>
@@ -22,23 +26,29 @@
       <fearCost>10</fearCost>
       <faithCost>0</faithCost>
       <stateEffect>-1</stateEffect>
-      <properties>1</properties>
-      <behaviour>AOE</behaviour>
+      <properties>5</properties>
+      <areaMax>15</areaMax>
+      <duration>30</duration>
+      <behaviour>Disease</behaviour>
     </spell>
     <spell>
       <name>MassHeal</name>
       <fearCost>0</fearCost>
       <faithCost>10</faithCost>
-      <stateEffect>1</stateEffect>
-      <properties>0</properties>
-      <behaviour>AOE</behaviour>
+      <stateEffect>15</stateEffect>
+      <properties>7</properties>
+      <areaMax>15</areaMax>
+      <duration>30</duration>
+      <behaviour>MassHeal</behaviour>
     </spell>
     <spell>
       <name>EarthQuake</name>
       <fearCost>0</fearCost>
       <faithCost>15</faithCost>
       <stateEffect>1</stateEffect>
-      <properties>0</properties>
+      <properties>3</properties>
+      <areaMax>1</areaMax>
+      <duration>0</duration>
       <behaviour>Wave</behaviour>
     </spell>
   </spells>

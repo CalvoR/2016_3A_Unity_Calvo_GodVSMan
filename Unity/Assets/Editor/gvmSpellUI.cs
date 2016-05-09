@@ -6,8 +6,10 @@ using System.IO;
 public class gvmSpellUI : EditorWindow {
 
     private gvmSpellContainer spellContainer;
+    private string[] propertiesNameList;
     private List<gvmSpellData> data;
     private int[] index;
+    private List<int>[] propList;
     private Vector2 scroll;
     private string[] fileList;
 
@@ -17,6 +19,7 @@ public class gvmSpellUI : EditorWindow {
     }
 
     void OnEnable() {
+
         scroll = new Vector2(0, 0);
         spellContainer = gvmSpellContainer.Load("SpellData");
         data = spellContainer.spells;
@@ -26,6 +29,17 @@ public class gvmSpellUI : EditorWindow {
         fileList = toArrayOfString(behaviourDir);
         for (int i = 0; i < index.Length; i++) {
             index[i] = getndexOf(data[i].behaviour, fileList);
+        }
+
+        var properties = gvmPropertiesManager.GetInstance().propertiesContainer;
+        propertiesNameList = new string[properties.Count];
+        for(int i = 0; i < properties.Count; i++) {
+            propertiesNameList[i] = properties[i].name;
+        }
+
+        propList = new List<int>[data.Count];
+        for (int i = 0; i < propList.Length; i++) {
+            propList[i] = data[i].propertiesId;
         }
     }
 
@@ -91,27 +105,27 @@ public class gvmSpellUI : EditorWindow {
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Properties Id", GUILayout.Width(100));
+                EditorGUILayout.LabelField("Properties", GUILayout.Width(100));
                 if (GUILayout.Button("+", GUILayout.Width(30))) {
-                    spell.propertiesId.Add(0);
+                    propList[j].Add(0);
                 }
                 if (GUILayout.Button("-", GUILayout.Width(30))) {
-                    spell.propertiesId.RemoveAt(0);
+                    propList[j].RemoveAt(0);
                 }
                 for (int i = 0; i < spell.propertiesId.Count; i++) {
-                    spell.propertiesId[i] = EditorGUILayout.IntField(spell.propertiesId[i], GUILayout.Width(30));
+                    propList[j][i] = EditorGUILayout.Popup(propList[j][i], propertiesNameList);
                 }
                 EditorGUILayout.EndHorizontal();
-
-
-                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
-                EditorGUILayout.LabelField("duration");
-                spell.duration = EditorGUILayout.IntField(spell.duration);
-                EditorGUILayout.EndHorizontal();
-
+                
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
                 EditorGUILayout.LabelField("number of area to instantiate");
                 spell.areaMax = EditorGUILayout.IntField(spell.areaMax);
+                EditorGUILayout.EndHorizontal();
+
+
+                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+                EditorGUILayout.LabelField("area duration");
+                spell.areaDuration = EditorGUILayout.IntField(spell.areaDuration);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(400));

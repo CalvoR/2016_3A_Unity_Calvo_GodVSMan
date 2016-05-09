@@ -23,17 +23,14 @@ public class gvmWaveBehaviour : MonoBehaviour {
     private float areaSize;
     private int tsunamiWaveSpeed;
 
-    private gvmUIDataContainer dataContainer;
-
     void Awake() {
-        dataContainer = gameObject.GetComponent<gvmUIDataContainer>();
-        waveCollider.GetComponent<gvmUIDataContainer>().init(dataContainer.getData());
-
         floorMask = LayerMask.GetMask("Floor");
         firstClickPosition = Vector3.up * -1000;
         secondClickPosition = Vector3.up * -1000;
         tsunamiWaveSpeed = 30;
         areaSize = 1f;
+        waveCollider.GetComponent<gvmUIDataContainer>().init(gameObject.GetComponent<gvmUIDataContainer>());
+        gameObject.SetActive(false);
     }
     
     void OnEnable() {
@@ -118,7 +115,7 @@ public class gvmWaveBehaviour : MonoBehaviour {
 
     //translate trigger block along aera effect
     IEnumerator spellAnimation(Vector3 spellAreaBeginning, Vector3 spellAreaEnd) {
-        waveCollider.isTrigger = true;
+        waveCollider.enabled = true;
         while (waveCollider.transform.localPosition.x < areaSize) {
             waveCollider.transform.Translate(Vector3.right * tsunamiWaveSpeed * Time.deltaTime);
             yield return new WaitForSeconds(0.1f);
@@ -128,7 +125,7 @@ public class gvmWaveBehaviour : MonoBehaviour {
 
     //reset spell prefab to default
     void resetSpellVariables() {
-        waveCollider.isTrigger = false;
+        waveCollider.enabled = false;
         firstClickPosition = Vector3.up * -1000;
         secondClickPosition = Vector3.up * -1000;
         spellContainer.SetActive(false);

@@ -1,23 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class gvmSpellCollider : MonoBehaviour {
 
-    public int duration;
     private gvmUIDataContainer dataContainer;
+    private gvmPropertiesManager properties;
+    private int basicProperty;
 
     void Awake() {
         dataContainer = gameObject.GetComponent<gvmUIDataContainer>();
-        duration = dataContainer.duration;
+        properties = gvmPropertiesManager.GetInstance();
+        basicProperty = dataContainer.propertiesId[0];
+    }
+
+    void OnEnable() {
+        dataContainer.propertiesId = new List<int>() { basicProperty };
+        if (dataContainer.areaDuration > 0) {
+            StartCoroutine(areaCountdown());
+        }
+    }
+
+    //Timer before the effect area of the spell disappear
+    IEnumerator areaCountdown() {
+        yield return new WaitForSeconds(dataContainer.areaDuration);
+        gameObject.SetActive(false);
     }
 
     //Event gameobject which can trigger the spell effect want it enter the collider and set to the gameobject the name of the spell
     void OnTriggerEnter(Collider col) {
         if (col.gameObject.tag == "TriggerSpells") {
-            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = dataContainer.name;
+            Debug.Log(dataContainer.name);
+            col.gameObject.GetComponent<gvmSpellEffectGetter>().getNewEffect(dataContainer.propertiesId);
         } else if (col.gameObject.tag == "GodSpell") {
-            Debug.Log(dataContainer.name + " : " + col.gameObject.name);
-            dataContainer.propertiesId = gvmPropertiesManager.GetInstance().GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId);
+            dataContainer.propertiesId = properties.GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId);
         }
     }
 }

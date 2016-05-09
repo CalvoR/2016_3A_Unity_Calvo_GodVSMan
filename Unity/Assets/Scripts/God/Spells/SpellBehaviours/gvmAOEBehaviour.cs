@@ -7,24 +7,23 @@ public class gvmAOEBehaviour : MonoBehaviour {
     [SerializeField]
     private int floorMask;
     private GameObject[] AOEContainer;
+    public GameObject AOECollider;
     public float camRayLength = 100f;
     private int areaCounter;
-    private int areaMax = 15;
-    private int duration = 15;
-    private gvmUIDataContainer dataContainer;
+
+    gvmUIDataContainer SpellData;
 
     void Awake() {
+        SpellData = gameObject.GetComponent<gvmUIDataContainer>();
         floorMask = LayerMask.GetMask("Floor");
-        AOEContainer = new GameObject[areaMax];
+        AOEContainer = new GameObject[SpellData.areaMax];
+        AOECollider.GetComponent<gvmUIDataContainer>().init(SpellData);
         areaCounter = 0;
-        dataContainer = gameObject.GetComponent<gvmUIDataContainer>();
         for(int i = 0; i < AOEContainer.Length; i++) {
-            AOEContainer[i] = Instantiate(Resources.Load("Prefabs/God/Spells/" + "diseaseArea", typeof(GameObject))) as GameObject;
-            AOEContainer[i].GetComponent<gvmUIDataContainer>().init(dataContainer.getData());
-
-            AOEContainer[i].SetActive(true);
+            AOEContainer[i] = Instantiate(AOECollider);
             AOEContainer[i].SetActive(false);
         }
+        gameObject.SetActive(false);
     }
 
     void Update() {
@@ -59,16 +58,7 @@ public class gvmAOEBehaviour : MonoBehaviour {
         gameObject.transform.position = Vector3.up * -1000;
         disableSpell();
     }
-    /**
-    void OnTriggerEnter(Collider col) {
-        if (col.gameObject.tag == "TriggerSpells") {
-            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = dataContainer.name;
-        } else if (col.gameObject.tag == "GodSpell") {
-            Debug.Log(" : " + col.gameObject.name);
-            //Debug.Log(gvmPropertiesManager.GetInstance().GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().getData().propertiesId));
-        }
-    }
-    **/
+
     //instantiate the effect area : call the xml loader to remove spell specific cost
     void spellEffect(Vector3 spellPosition) {
         AOEContainer[areaCounter].transform.position = spellPosition;
@@ -89,8 +79,7 @@ public class gvmAOEBehaviour : MonoBehaviour {
     }
 
     IEnumerator areaCountdown(int index) {
-        yield return new WaitForSeconds(duration);
-        Debug.Log("End: "+ index);
+        yield return new WaitForSeconds(SpellData.areaDuration);
         AOEContainer[index].SetActive(false);
     }
 }
