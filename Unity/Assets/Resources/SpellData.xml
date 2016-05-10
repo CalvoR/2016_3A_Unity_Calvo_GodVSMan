@@ -3,43 +3,43 @@
   <spells>
     <spell>
       <name>Crackle</name>
-      <fearCost>5</fearCost>
+      <fearCost>0</fearCost>
       <faithCost>0</faithCost>
-      <stateEffect>-1</stateEffect>
-      <properties>9</properties>
+      <stateEffect>0</stateEffect>
+      <properties>0</properties>
+      <areaMax>0</areaMax>
+      <duration>0</duration>
       <behaviour>Strike</behaviour>
     </spell>
     <spell>
       <name>Tsunami</name>
-      <fearCost>6</fearCost>
+      <fearCost>0</fearCost>
       <faithCost>0</faithCost>
-      <stateEffect>-1</stateEffect>
-      <properties>7</properties>
+      <stateEffect>0</stateEffect>
+      <properties>1</properties>
+      <areaMax>0</areaMax>
+      <duration>0</duration>
       <behaviour>Wave</behaviour>
     </spell>
     <spell>
       <name>Disease</name>
-      <fearCost>10</fearCost>
+      <fearCost>0</fearCost>
       <faithCost>0</faithCost>
-      <stateEffect>-1</stateEffect>
-      <properties>1</properties>
-      <behaviour>AOE</behaviour>
+      <stateEffect>0</stateEffect>
+      <properties>2</properties>
+      <areaMax>15</areaMax>
+      <duration>0</duration>
+      <behaviour>Disease</behaviour>
     </spell>
     <spell>
       <name>MassHeal</name>
       <fearCost>0</fearCost>
-      <faithCost>10</faithCost>
-      <stateEffect>1</stateEffect>
-      <properties>0</properties>
-      <behaviour>AOE</behaviour>
-    </spell>
-    <spell>
-      <name>EarthQuake</name>
-      <fearCost>0</fearCost>
-      <faithCost>15</faithCost>
-      <stateEffect>1</stateEffect>
-      <properties>0</properties>
-      <behaviour>Wave</behaviour>
+      <faithCost>0</faithCost>
+      <stateEffect>0</stateEffect>
+      <properties>3</properties>
+      <areaMax>15</areaMax>
+      <duration>0</duration>
+      <behaviour>MassHeal</behaviour>
     </spell>
   </spells>
 </spellCollection>
