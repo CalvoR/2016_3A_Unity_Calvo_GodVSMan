@@ -24,7 +24,8 @@ public class gvmGodRessourcesManager : MonoBehaviour {
     }
 
     public void useRessourcesForCastedSpell(string spellName) {
-        foreach (gvmSpellData spellData in gvmSpellContainer.GetInstance().spells) {
+        var spellContainer = gvmSpellContainer.Load("SpellData");
+        foreach (gvmSpellData spellData in spellContainer.spells) {
             if (spellData.name == spellName) {
                 fear -= spellData.fearCost;
                 faith -= spellData.faithCost;

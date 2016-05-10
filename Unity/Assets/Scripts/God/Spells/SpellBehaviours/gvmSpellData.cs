@@ -20,7 +20,17 @@ public class gvmSpellData {
 
     [XmlElement("properties")]
     public List<int> propertiesId;
+    
+    [XmlElement("areaMax")]
+    public int areaMax = 15;
+
+    [XmlElement("duration")]
+    public int areaDuration; 
 
     [XmlElement("behaviour")]
     public string behaviour;
+
+    public gvmSpellData() {
+        propertiesId = new List<int>();
+    }
 }

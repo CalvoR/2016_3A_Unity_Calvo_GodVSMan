@@ -5,13 +5,15 @@ public class gvmStrikeBehaviour : MonoBehaviour {
         
     private bool spellCasted = false;
     [SerializeField]
-    private Collider spellCollider;
+    public Collider spellCollider;
     private int floorMask;
     public float camRayLength = 100f;
 
     void Awake() {
         floorMask = LayerMask.GetMask("Floor");
-        spellCollider.isTrigger = false;
+        spellCollider.GetComponent<gvmUIDataContainer>().init(gameObject.GetComponent<gvmUIDataContainer>());
+        spellCollider.enabled = false;
+        gameObject.SetActive(false);
     }
 
     void Update() {
@@ -36,7 +38,7 @@ public class gvmStrikeBehaviour : MonoBehaviour {
     //activate the spell trigger area : disable click for the spell : call the xml loader to remove spell specific cost
     void OnMouseDown() {
         if (spellCasted == false) {
-            spellCollider.isTrigger = true;
+            spellCollider.enabled = true;
             spellCasted = true;
             gvmMonoBehaviourReference.Ressources.useRessourcesForCastedSpell(gameObject.tag);
             //animation
@@ -50,8 +52,17 @@ public class gvmStrikeBehaviour : MonoBehaviour {
 
     //reset spell prefab to default
     public void disableSpell() {
-        spellCollider.isTrigger = false;
+        spellCollider.enabled = false;
         spellCasted = false;
         gameObject.SetActive(false);
     }
+    /*
+    void OnTriggerEnter(Collider col) {
+        if (col.gameObject.tag == "TriggerSpells") {
+            col.gameObject.GetComponent<gvmSpellEffectGetter>().affectedBy = dataContainer.name;
+        } else if (col.gameObject.tag == "GodSpell") {
+            Debug.Log(dataContainer.name + " : " + col.gameObject.name);
+            Debug.Log(gvmPropertiesManager.GetInstance().GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId));
+        }
+    }*/
 }

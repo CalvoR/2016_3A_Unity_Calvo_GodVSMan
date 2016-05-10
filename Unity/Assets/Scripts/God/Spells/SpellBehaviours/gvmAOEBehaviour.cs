@@ -2,25 +2,28 @@
 using System.Collections;
 
 public class gvmAOEBehaviour : MonoBehaviour {
-
-    private GameObject prefab;
+    
     private bool spellCasted = false;
     [SerializeField]
     private int floorMask;
     private GameObject[] AOEContainer;
+    public GameObject AOECollider;
     public float camRayLength = 100f;
     private int areaCounter;
-    private int areaMax = 15;
-    private int duration = 15;
+
+    gvmUIDataContainer SpellData;
 
     void Awake() {
+        SpellData = gameObject.GetComponent<gvmUIDataContainer>();
         floorMask = LayerMask.GetMask("Floor");
-        AOEContainer = new GameObject[areaMax];
+        AOEContainer = new GameObject[SpellData.areaMax];
+        AOECollider.GetComponent<gvmUIDataContainer>().init(SpellData);
         areaCounter = 0;
         for(int i = 0; i < AOEContainer.Length; i++) {
-            AOEContainer[i] = Instantiate(Resources.Load("Prefabs/God/Spells/" + "areaOfEffect", typeof(GameObject))) as GameObject;
+            AOEContainer[i] = Instantiate(AOECollider);
             AOEContainer[i].SetActive(false);
         }
+        gameObject.SetActive(false);
     }
 
     void Update() {
@@ -56,7 +59,7 @@ public class gvmAOEBehaviour : MonoBehaviour {
         disableSpell();
     }
 
-    //instantiate the effect area : call the xml loader to remove spell specific cost 
+    //instantiate the effect area : call the xml loader to remove spell specific cost
     void spellEffect(Vector3 spellPosition) {
         AOEContainer[areaCounter].transform.position = spellPosition;
         AOEContainer[areaCounter].SetActive(true);
@@ -65,7 +68,6 @@ public class gvmAOEBehaviour : MonoBehaviour {
         if (areaCounter == AOEContainer.Length) {
             areaCounter = 0;
         }
-        Debug.Log(areaCounter);
         gvmMonoBehaviourReference.Ressources.useRessourcesForCastedSpell(gameObject.tag);
     }
 
@@ -77,8 +79,7 @@ public class gvmAOEBehaviour : MonoBehaviour {
     }
 
     IEnumerator areaCountdown(int index) {
-        yield return new WaitForSeconds(duration);
-        Debug.Log("End: "+ index);
+        yield return new WaitForSeconds(SpellData.areaDuration);
         AOEContainer[index].SetActive(false);
     }
 }

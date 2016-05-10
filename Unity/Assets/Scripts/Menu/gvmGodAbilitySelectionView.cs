@@ -16,15 +16,16 @@ public class gvmGodAbilitySelectionView : MonoBehaviour {
     [SerializeField]
     private Toggle[] faithToggleList;
     [SerializeField]
-    private TextAsset xmlPlayerPreferencesFile;
+    private string xmlPlayerPreferencesFile;
     gvmSpellContainer playerBuildContainer;
 
     void Start() {
-        playerBuildContainer = gvmSpellContainer.GetInstance();
-        playerBuildContainer.Load();
+        playerBuildContainer = gvmSpellContainer.Load(xmlPlayerPreferencesFile);
+        
+        var spellContainer = gvmSpellContainer.Load("SpellData");
         int faithCounter = 0;
         int fearCounter = 0;
-        foreach (gvmSpellData spell in gvmSpellContainer.GetInstance().spells) {
+        foreach (gvmSpellData spell in spellContainer.spells) {
             if (spell.faithCost >= 1) {
                 abilitiesFaithTextArea[faithCounter].text = spell.name;
                 faithToggleList[faithCounter].isOn = IsSelected(playerBuildContainer.spells, spell.name);
@@ -50,7 +51,7 @@ public class gvmGodAbilitySelectionView : MonoBehaviour {
         return false;
     }
 
-    public void changeSpellInPLayerSpellContainer(Text toggleText) {
+    public void changeSpellInPlayerSpellContainer(Text toggleText) {
         int spellIndex = playerBuildContainer.spells.FindIndex(spell => spell.name == toggleText.text);
         if (spellIndex != -1) {
             playerBuildContainer.spells.RemoveAt(spellIndex);
