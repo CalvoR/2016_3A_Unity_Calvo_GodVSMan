@@ -41,6 +41,10 @@ public class gvmSpellEffectGetter : MonoBehaviour {
             data.HP += prop.damage;
         }
         Debug.Log(effect);
+<<<<<<< HEAD
         effectList.RemoveAt(effectIndex);
+=======
+        effectList.Remove(effect);
+>>>>>>> origin/master
     }
 }
