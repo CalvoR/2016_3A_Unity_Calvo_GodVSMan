@@ -41,6 +41,6 @@ public class gvmSpellEffectGetter : MonoBehaviour {
             data.HP += prop.damage;
         }
         Debug.Log(effect);
-        effectList.RemoveAt(effectIndex);
+        effectList.Remove(effect);
     }
 }
