@@ -54,35 +54,29 @@ public class gvmPropertiesManager {
             tmp.Add(encounteredSpellProperties[i]);
         }
 
-        int rmC = 0; //removedCurrent
-        int rmN = 0; //removedNew
-        for (int x = 0; x < currentSpellProperties.Count; x++) {
-            for (int y = 0; y < encounteredSpellProperties.Count; y++) {
-                switch (propertiesContainer[currentSpellProperties[x]].compatibility[encounteredSpellProperties[y]]) {
+        for (int x = 0; x < tmp.Count-1; x++) {
+            for (int y = x+1; y < tmp.Count; y++) {
+                switch (propertiesContainer[tmp[x]].compatibility[tmp[y]]) {
                     case -1:
-                        Debug.Log(-1);
-                        tmp.Remove(currentSpellProperties[x + rmC]);
-                        rmC++;
+                        tmp.RemoveAt(y);
                         break;
                     case 0:
-                        Debug.Log(0);
-                        tmp.Remove(currentSpellProperties[x + rmC]);
-                        tmp.Remove(encounteredSpellProperties[y + rmC + rmN]);
-                        rmC++;
-                        rmN++;
+                        tmp.RemoveAt(x);
+                        tmp.RemoveAt(y);
                         break;
                     case 1:
-                        Debug.Log(1);
-                        tmp.Remove(encounteredSpellProperties[y + rmC + rmN]);
-                        rmN++;
+                        tmp.RemoveAt(x);
                         break;
                     case 2:
-                        Debug.Log(2);
                         break;
                 }
             }
         }
         return tmp;
+    }
+
+    public gvmSpellProperty getPropertyById(int id) {
+        return propertiesContainer[id];
     }
 }
 
@@ -93,6 +87,12 @@ public class gvmSpellProperty {
     public string name;
     [XmlElement("id")]
     public int id;
+    [XmlElement("duration")]
+    public int duration = 1;
+    [XmlElement("damage")]
+    public float damage;
+    [XmlElement("stateEffect")]
+    public int stateEffect;
     [XmlArray("compatibility")]
     public List<int> compatibility;
 
