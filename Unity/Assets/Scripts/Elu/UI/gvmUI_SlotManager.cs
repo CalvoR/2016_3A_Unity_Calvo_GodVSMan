@@ -16,7 +16,14 @@ public class gvmUI_SlotManager : MonoBehaviour {
     // Image du contenu du slot
     [SerializeField]
     public Image image;
-    
+
+    // UI image des informations sur l'item
+    [SerializeField]
+    public GameObject itemInfosBackground;
+
+    // UI text des informations sur l'item
+    [SerializeField]
+    public Text itemInfosText;   
 
     // Slot en mémoire associé à ce slot UI
     private InventorySlot dataSlot;
@@ -44,9 +51,22 @@ public class gvmUI_SlotManager : MonoBehaviour {
 
 	public void OnMouseHover ()
     {
-        //print("OnMouseHover");
-    }
+        if (DataSlot.IsEmpty)
+            return;
+        if (itemInfosText == null || itemInfosBackground == null || DataSlot.Item == null)
+        {
+            Debug.Log("Reference to item details UI or the item data slot is null.");
+            return;
+        }
 
+        itemInfosBackground.SetActive(true);
+
+        itemInfosBackground.transform.position = new Vector2(image.transform.position.x - 15 , image.transform.position.y + 15);
+        itemInfosText.text = DataSlot.Item.Name+"\n Type: "+ DataSlot.Item.Type;
+        foreach (string field in DataSlot.Item.Bonus.Keys)
+            itemInfosText.text += "\n" + field + ": " + DataSlot.Item.Bonus[field];       
+        
+    }
     
     /// <summary>
     ///  Charge l'image d'un slot selon le path indiqué dans le fichier XML

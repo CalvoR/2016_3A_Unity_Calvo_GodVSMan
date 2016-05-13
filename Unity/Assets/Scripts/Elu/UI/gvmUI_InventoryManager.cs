@@ -15,12 +15,17 @@ public class gvmUI_InventoryManager : MonoBehaviour {
     [SerializeField]
     public List<GameObject> UI_SlotsList;
 
+    // UI des informations sur l'item
+    [SerializeField]
+    public GameObject itemInfosDisplay;    
+
     private bool isVisible;
 
     void Awake()
     {
         Inventory.InitSlotsTable();
         isVisible = false;
+        itemInfosDisplay.SetActive(false);
     }
 
 	void Update () {
@@ -31,9 +36,12 @@ public class gvmUI_InventoryManager : MonoBehaviour {
             foreach (GameObject UI_Slot in UI_SlotsList)
             {
                 UI_Slot.SetActive(isVisible);
-                if (UI_Slot.GetComponent<gvmUI_SlotManager>() != null)
+                if (UI_Slot.GetComponent<gvmUI_SlotManager>() != null && isVisible)
                     UI_Slot.GetComponent<gvmUI_SlotManager>().LoadImage();
             }
+
+            if (!isVisible)         // La fenêtre d'info d'un item est cachée si l'inventaire est fermé
+                itemInfosDisplay.SetActive(false);    
         }
 	}
 
