@@ -40,10 +40,6 @@ public class gvmSpellEffectGetter : MonoBehaviour {
             yield return new WaitForSeconds(1);
             data.HP += prop.damage;
         }
-<<<<<<< HEAD
-=======
-        Debug.Log(effect);
->>>>>>> 89ca5fab250ec1f692278024dda48ff9528b3db3
         effectList.Remove(effect);
     }
 }
