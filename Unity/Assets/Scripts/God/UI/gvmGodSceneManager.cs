@@ -12,6 +12,7 @@ public class gvmGodSceneManager : MonoBehaviour {
     
     private gvmPropertiesManager spellProperties;
     private gvmSpellContainer spellDataContainer;
+    private gvmUnitsManager unitManager;
 
     void Awake() {
         //GodDataLoader godDataContainer();
@@ -21,8 +22,10 @@ public class gvmGodSceneManager : MonoBehaviour {
 
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(xmlPlayerPreferencesFile.text);
-        initialiseSpellButtons(xmlDoc);
-        //GodSpellManager = new gvmSpellDataManager();
+        //initialiseSpellButtons(xmlDoc);
+        //
+        unitManager = gvmUnitsManager.GetInstance();
+        //
     }
 
     public void initialiseSpellButtons(XmlDocument xmlDoc) {
@@ -33,5 +36,9 @@ public class gvmGodSceneManager : MonoBehaviour {
             button.GetComponent<gvmSpellButton>().initialise(spellDataContainer.getDataByName(spellList[btnIndex].FirstChild.InnerText));
             btnIndex++;
         }
+    }
+
+    void OnMouseDown() {
+        Debug.Log("clicked");
     }
 }
