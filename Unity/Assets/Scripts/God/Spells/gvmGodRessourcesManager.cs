@@ -11,7 +11,6 @@ public class gvmGodRessourcesManager : MonoBehaviour {
     public int faithPerSeconds = 0;
     [SerializeField]
     public int fearPerSeconds = 0;
-    public bool crackle = false;
 
     void updateRessources() {
         fear += fearPerSeconds;

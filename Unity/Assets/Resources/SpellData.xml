@@ -5,15 +5,9 @@
       <name>Crackle</name>
       <fearCost>0</fearCost>
       <faithCost>0</faithCost>
-<<<<<<< HEAD
       <stateEffect>-1</stateEffect>
       <properties>2</properties>
       <areaMax>1</areaMax>
-=======
-      <stateEffect>0</stateEffect>
-      <properties>0</properties>
-      <areaMax>0</areaMax>
->>>>>>> origin/master
       <duration>0</duration>
       <behaviour>Strike</behaviour>
     </spell>
@@ -21,15 +15,9 @@
       <name>Tsunami</name>
       <fearCost>0</fearCost>
       <faithCost>0</faithCost>
-<<<<<<< HEAD
       <stateEffect>-1</stateEffect>
       <properties>3</properties>
       <areaMax>1</areaMax>
-=======
-      <stateEffect>0</stateEffect>
-      <properties>1</properties>
-      <areaMax>0</areaMax>
->>>>>>> origin/master
       <duration>0</duration>
       <behaviour>Wave</behaviour>
     </spell>
@@ -37,23 +25,15 @@
       <name>Disease</name>
       <fearCost>0</fearCost>
       <faithCost>0</faithCost>
-<<<<<<< HEAD
       <stateEffect>-1</stateEffect>
       <properties>5</properties>
       <areaMax>15</areaMax>
       <duration>30</duration>
-=======
-      <stateEffect>0</stateEffect>
-      <properties>2</properties>
-      <areaMax>15</areaMax>
-      <duration>0</duration>
->>>>>>> origin/master
       <behaviour>Disease</behaviour>
     </spell>
     <spell>
       <name>MassHeal</name>
       <fearCost>0</fearCost>
-<<<<<<< HEAD
       <faithCost>10</faithCost>
       <stateEffect>15</stateEffect>
       <properties>7</properties>
@@ -70,14 +50,6 @@
       <areaMax>1</areaMax>
       <duration>0</duration>
       <behaviour>Wave</behaviour>
-=======
-      <faithCost>0</faithCost>
-      <stateEffect>0</stateEffect>
-      <properties>3</properties>
-      <areaMax>15</areaMax>
-      <duration>0</duration>
-      <behaviour>MassHeal</behaviour>
->>>>>>> origin/master
     </spell>
   </spells>
 </spellCollection>
