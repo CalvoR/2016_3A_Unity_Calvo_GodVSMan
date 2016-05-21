@@ -22,7 +22,7 @@ public class gvmGodSceneManager : MonoBehaviour {
 
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(xmlPlayerPreferencesFile.text);
-        //initialiseSpellButtons(xmlDoc);
+        initialiseSpellButtons(xmlDoc);
         //
         unitManager = gvmUnitsManager.GetInstance();
         //
