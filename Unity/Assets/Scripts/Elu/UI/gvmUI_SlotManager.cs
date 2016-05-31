@@ -17,9 +17,9 @@ public class gvmUI_SlotManager : MonoBehaviour {
     [SerializeField]
     public Image image;
 
-    // UI image des informations sur l'item
-    [SerializeField]
-    public GameObject itemInfosBackground;
+    //// UI des informations sur l'item
+    //[SerializeField]
+    //public GameObject itemInfosObject;
 
     // UI text des informations sur l'item
     [SerializeField]
@@ -53,15 +53,17 @@ public class gvmUI_SlotManager : MonoBehaviour {
     {
         if (DataSlot.IsEmpty)
             return;
-        if (itemInfosText == null || itemInfosBackground == null || DataSlot.Item == null)
+        if (itemInfosText == null || DataSlot.Item == null)
         {
             Debug.Log("Reference to item details UI or the item data slot is null.");
             return;
         }
 
-        itemInfosBackground.SetActive(true);
+        itemInfosText.enabled = false;
 
-        itemInfosBackground.transform.position = new Vector2(image.transform.position.x - 15 , image.transform.position.y + 15);
+        //itemInfosObject.SetActive(true);
+
+        itemInfosText.transform.position = new Vector2(image.transform.position.x - 15 , image.transform.position.y + 15);
         itemInfosText.text = DataSlot.Item.Name+"\n Type: "+ DataSlot.Item.Type;
         foreach (string field in DataSlot.Item.Bonus.Keys)
             itemInfosText.text += "\n" + field + ": " + DataSlot.Item.Bonus[field];       
