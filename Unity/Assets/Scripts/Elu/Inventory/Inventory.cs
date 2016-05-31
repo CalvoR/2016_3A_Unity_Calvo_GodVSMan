@@ -81,7 +81,6 @@ namespace InventoryManagement {
         bool isEmpty;
         Item item;
         int amount;
-        string UI_slotName;
 
         // Accesseurs et modificateurs
 
@@ -103,19 +102,19 @@ namespace InventoryManagement {
             set { amount = value;}
         }
 
-        public string UI_SlotName
-        {
-            get { return UI_slotName; }
-            set { UI_slotName = value; }
+        public SlotType Type{
+            get;
+            set;
         }
+
 
         // Constructeur
         public InventorySlot()
-        {
-            IsEmpty = true;
-            Amount = 0;
-            UI_SlotName = string.Empty;
-        }
+            {
+                IsEmpty = true;
+                Amount = 0;
+            }
+
 
         // Remplit le slot avec l'objet souhaité
         public void FillSlot (Item itemToAdd)

@@ -17,7 +17,7 @@ public class gvmUI_InventoryManager : MonoBehaviour {
 
     // UI des informations sur l'item
     [SerializeField]
-    public GameObject itemInfosDisplay;    
+    public GameObject itemInfosBackground;    
 
     private bool isVisible;
 
@@ -25,7 +25,6 @@ public class gvmUI_InventoryManager : MonoBehaviour {
     {
         Inventory.InitSlotsTable();
         isVisible = false;
-        itemInfosDisplay.SetActive(false);
     }
 
 	void Update () {
@@ -41,7 +40,7 @@ public class gvmUI_InventoryManager : MonoBehaviour {
             }
 
             if (!isVisible)         // La fenêtre d'info d'un item est cachée si l'inventaire est fermé
-                itemInfosDisplay.SetActive(false);    
+                itemInfosBackground.SetActive(false);
         }
 	}
 
