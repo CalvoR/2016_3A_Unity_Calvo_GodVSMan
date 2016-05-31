@@ -6,6 +6,7 @@ public class gvmAOEBehaviour : MonoBehaviour {
     private bool spellCasted = false;
     [SerializeField]
     private int floorMask;
+    private Camera GodCamera;
     private GameObject[] AOEContainer;
     public GameObject AOECollider;
     public float camRayLength = 100f;
@@ -14,6 +15,8 @@ public class gvmAOEBehaviour : MonoBehaviour {
     gvmUIDataContainer SpellData;
 
     void Awake() {
+        Debug.Log("AOE");
+        GodCamera = GameObject.FindGameObjectWithTag("GodCamera").GetComponent<Camera>();
         SpellData = gameObject.GetComponent<gvmUIDataContainer>();
         floorMask = LayerMask.GetMask("Floor");
         AOEContainer = new GameObject[SpellData.areaMax];
@@ -31,14 +34,16 @@ public class gvmAOEBehaviour : MonoBehaviour {
             disableSpell();
         }
         if (spellCasted == false) {
+            GodCamera = GameObject.FindGameObjectWithTag("GodCamera").GetComponent<Camera>();
             setSpellPosition();
         }
     }
 
     public void setSpellPosition() {
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray camRay = GodCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit floorHit;
         if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
+            Debug.Log(floorHit.point);
             Vector3 spellPosition = floorHit.point;
             spellPosition.y = 0f;
             transform.position = spellPosition;
@@ -68,7 +73,7 @@ public class gvmAOEBehaviour : MonoBehaviour {
         if (areaCounter == AOEContainer.Length) {
             areaCounter = 0;
         }
-        gvmMonoBehaviourReference.Ressources.useRessourcesForCastedSpell(gameObject.tag);
+        //gvmMonoBehaviourReference.Ressources.useRessourcesForCastedSpell(gameObject.tag);
     }
 
     //reset spell prefab to default

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class gvmYawMainCamera : MonoBehaviour {
+public class gvmYawMainCamera : NetworkBehaviour {
 
     [SerializeField]
     Transform cameraTransform;
@@ -15,13 +16,16 @@ public class gvmYawMainCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-
-        xVariation = Input.GetAxisRaw("Mouse X");
+        if (isLocalPlayer) {
+            xVariation = Input.GetAxisRaw("Mouse X");
+        }
     }
 
 
     void FixedUpdate()  
     {
-        cameraTransform.Rotate(Vector3.up * xVariation * Time.deltaTime * yawSpeed);
+        if (isLocalPlayer) {
+            cameraTransform.Rotate(Vector3.up * xVariation * Time.deltaTime * yawSpeed);
+        }
     }
 }

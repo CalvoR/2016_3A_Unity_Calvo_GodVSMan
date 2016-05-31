@@ -2,33 +2,51 @@
 using System.Xml;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class gvmGodSceneManager : MonoBehaviour {
+public class gvmGodSceneManager : NetworkBehaviour {
 
     [SerializeField]
     private TextAsset xmlPlayerPreferencesFile;
     [SerializeField]
     private GameObject[] spellButtons = new GameObject[5];
+    [SerializeField]
+    private GameObject GodUI;
     
     private gvmPropertiesManager spellProperties;
     private gvmSpellContainer spellDataContainer;
-    private gvmUnitsManager unitManager;
+    //private gvmUnitsManager unitManager;
 
-    void Awake() {
-        //GodDataLoader godDataContainer();
-        spellProperties = gvmPropertiesManager.GetInstance();
-        spellDataContainer = gvmSpellContainer.Load("SpellData");
-        //spellDataContainer.Load(path);
+    //public Vector3 vector3InvertYAndZAxes;
+    
+    [SerializeField]
+    GameObject playerCamera;
 
-        XmlDocument xmlDoc = new XmlDocument();
-        xmlDoc.LoadXml(xmlPlayerPreferencesFile.text);
-        initialiseSpellButtons(xmlDoc);
-        //
-        unitManager = gvmUnitsManager.GetInstance();
-        //
+
+    public override void OnStartLocalPlayer() {
+        base.OnStartLocalPlayer();
+        if (Camera.main && Camera.main.gameObject) {
+            Camera.main.gameObject.SetActive(false);
+        }
+        //GodUI.SetActive(true);
+        playerCamera.gameObject.SetActive(true);
+        awake();
     }
 
-    public void initialiseSpellButtons(XmlDocument xmlDoc) {
+    public void awake() {
+        spellProperties = gvmPropertiesManager.GetInstance();
+        spellDataContainer = gvmSpellContainer.Load("SpellData");
+
+        //unitManager = gvmUnitsManager.GetInstance();
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(xmlPlayerPreferencesFile.text);
+        RpcInitialiseSpellButtons(xmlDoc);
+
+        GodUI.SetActive(true);
+    }
+    
+    
+    public void RpcInitialiseSpellButtons(XmlDocument xmlDoc) {
         int btnIndex = 0;
         XmlNodeList spellList = xmlDoc.GetElementsByTagName("spells")[0].ChildNodes;
 
@@ -38,7 +56,4 @@ public class gvmGodSceneManager : MonoBehaviour {
         }
     }
 
-    void OnMouseDown() {
-        Debug.Log("clicked");
-    }
 }

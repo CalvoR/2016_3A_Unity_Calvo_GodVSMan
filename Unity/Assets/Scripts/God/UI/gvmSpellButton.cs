@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 
-public class gvmSpellButton : MonoBehaviour {
+public class gvmSpellButton : NetworkBehaviour {
 
     private GameObject prefab;
     [SerializeField]
@@ -11,7 +12,7 @@ public class gvmSpellButton : MonoBehaviour {
 
     public void initialise(gvmSpellData data) {
         spellName.text = data.name;
-        spellAttached = new gvmSpell(data);
+        spellAttached = new gvmSpell(data, this);
     }
 
     public void OnClickBehaviour()
@@ -23,5 +24,13 @@ public class gvmSpellButton : MonoBehaviour {
     {        
         if (Input.GetButtonDown(gameObject.name))
             spellAttached.spellContainer.SetActive(true);
+    }
+
+    [Command]
+    public void CmdSpawn(GameObject toSpawn) {
+
+        NetworkServer.Spawn(toSpawn);
+
+        //NetworkServer.SpawnWithClientAuthority(spellContainer, connectionToClient);
     }
 }

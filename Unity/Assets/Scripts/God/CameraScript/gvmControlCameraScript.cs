@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class gvmControlCameraScript : MonoBehaviour {
+public class gvmControlCameraScript : NetworkBehaviour {
 
     private GameObject gameCamera;
     private Vector3 mapPosition;
@@ -28,10 +29,8 @@ public class gvmControlCameraScript : MonoBehaviour {
     private float cameraKeyboardSpeed = 1.0f;
 
 
-    public Vector3 vector3InvertYAndZAxes;
-
     void Start() {
-        gameCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        gameCamera = GameObject.FindGameObjectWithTag("GodCamera");
     }
 
     void Update() {

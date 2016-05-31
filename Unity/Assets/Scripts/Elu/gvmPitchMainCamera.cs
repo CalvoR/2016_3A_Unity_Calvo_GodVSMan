@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class gvmPitchMainCamera : MonoBehaviour {
+public class gvmPitchMainCamera : NetworkBehaviour {
 
 
     [SerializeField]
@@ -21,12 +22,16 @@ public class gvmPitchMainCamera : MonoBehaviour {
 
 	void Update ()
     {
-        yVariation += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * pitchSpeed;
-        yVariation = Mathf.Clamp(yVariation, -clampAngle, clampAngle);
+        if (isLocalPlayer) {
+            yVariation += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * pitchSpeed;
+            yVariation = Mathf.Clamp(yVariation, -clampAngle, clampAngle);
+        }
     }
 
     void FixedUpdate()  
     {
-        cameraTransform.rotation = Quaternion.Euler(-yVariation, cameraTransform.rotation.eulerAngles.y, 0.0f);
+        if (isLocalPlayer) {
+            cameraTransform.rotation = Quaternion.Euler(-yVariation, cameraTransform.rotation.eulerAngles.y, 0.0f);
+        }
     }
 }

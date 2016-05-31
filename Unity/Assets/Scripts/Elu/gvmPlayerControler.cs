@@ -2,8 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Networking;
 
-public class gvmPlayerControler : MonoBehaviour {
+public class gvmPlayerControler : NetworkBehaviour {
 
     [SerializeField]
     Transform mainTransform;
@@ -17,6 +18,28 @@ public class gvmPlayerControler : MonoBehaviour {
 
     [SerializeField]
     Camera player_camera;
+
+    [SerializeField]
+    MeshRenderer playerHead;
+
+    [SerializeField]
+    MeshRenderer playerBody;
+
+    [SerializeField]
+    GameObject prefab;
+
+    public override void OnStartLocalPlayer() {
+        base.OnStartLocalPlayer();
+        //CmdSpawn();
+
+        if (Camera.main && Camera.main.gameObject) {
+            Camera.main.gameObject.SetActive(false);
+        }
+
+        player_camera.enabled = true;
+        playerBody.material.color = Color.green;
+        playerHead.material.color = Color.green;
+    }
 
     float currentSpeed;
 
@@ -32,30 +55,31 @@ public class gvmPlayerControler : MonoBehaviour {
 
     void Start()
     {
-        UpdateStatsDisplay();
-        doubleTapDelay = 0.5f;
-        lastTapTime = 0;
-        currentSpeed = HeroStats.Speed;
-        runSpeed = (runSpeed <= HeroStats.Speed) ? HeroStats.Speed + 2 : runSpeed;
+            UpdateStatsDisplay();
+            doubleTapDelay = 0.5f;
+            lastTapTime = 0;
+            currentSpeed = HeroStats.Speed;
+            runSpeed = (runSpeed <= HeroStats.Speed) ? HeroStats.Speed + 2 : runSpeed;
     }
 
     void Update() {
+        if (isLocalPlayer) {
+            CmdManageRun();
 
-        ManageRun();   
+            Debug.Log("test ");
+            if (Input.GetMouseButtonUp(0))       // Récupération d'un objet au clic gauche
+                GetResource();
 
-        forwardVar = Input.GetAxis("Forward") * currentSpeed;
-        SidewayVar = Input.GetAxis("Sideway") * currentSpeed;
-        
-        if(Input.GetMouseButtonUp(0))       // Récupération d'un objet au clic gauche
-            GetResource();
+            UpdateStatsDisplay();
+            // AGIR sur le composant RigidBody plutot que Tranform
+        }
 
-        UpdateStatsDisplay();
-
-        // AGIR sur le composant RigidBody plutot que Tranform
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
+        forwardVar = Input.GetAxis("Forward") * currentSpeed;
+        SidewayVar = Input.GetAxis("Sideway") * currentSpeed;
+
         mainTransform.Translate(
             Vector3.forward * forwardVar * Time.deltaTime +
             Vector3.right * SidewayVar * Time.deltaTime
@@ -72,7 +96,9 @@ public class gvmPlayerControler : MonoBehaviour {
     /// <summary>
     /// Met à jour la vitesse de déplacement si la course commence ou doit s'arrêter
     /// </summary>
-    public void ManageRun()
+    /// 
+    [Command]
+    public void CmdManageRun()
     {
         if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))
         {

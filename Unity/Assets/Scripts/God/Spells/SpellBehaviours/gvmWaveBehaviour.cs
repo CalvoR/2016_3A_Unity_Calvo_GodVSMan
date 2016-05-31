@@ -24,6 +24,7 @@ public class gvmWaveBehaviour : MonoBehaviour {
     private int tsunamiWaveSpeed;
 
     void Awake() {
+        Debug.Log("Wave");
         floorMask = LayerMask.GetMask("Floor");
         firstClickPosition = Vector3.up * -1000;
         secondClickPosition = Vector3.up * -1000;
