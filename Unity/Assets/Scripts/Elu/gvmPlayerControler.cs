@@ -2,9 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
-using UnityEngine.Networking;
 
-public class gvmPlayerControler : NetworkBehaviour {
+public class gvmPlayerControler : MonoBehaviour {
 
     [SerializeField]
     Transform mainTransform;
@@ -27,7 +26,7 @@ public class gvmPlayerControler : NetworkBehaviour {
 
     [SerializeField]
     GameObject prefab;
-
+    /*
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
         //CmdSpawn();
@@ -39,7 +38,7 @@ public class gvmPlayerControler : NetworkBehaviour {
         player_camera.enabled = true;
         playerBody.material.color = Color.green;
         playerHead.material.color = Color.green;
-    }
+    }*/
 
     float currentSpeed;
 
@@ -55,24 +54,23 @@ public class gvmPlayerControler : NetworkBehaviour {
 
     void Start()
     {
-            UpdateStatsDisplay();
-            doubleTapDelay = 0.5f;
-            lastTapTime = 0;
-            currentSpeed = HeroStats.Speed;
-            runSpeed = (runSpeed <= HeroStats.Speed) ? HeroStats.Speed + 2 : runSpeed;
+        player_camera.enabled = true;
+        UpdateStatsDisplay();
+        doubleTapDelay = 0.5f;
+        lastTapTime = 0;
+        currentSpeed = HeroStats.Speed;
+        runSpeed = (runSpeed <= HeroStats.Speed) ? HeroStats.Speed + 2 : runSpeed;
     }
 
     void Update() {
-        if (isLocalPlayer) {
             CmdManageRun();
-
-            Debug.Log("test ");
+            
             if (Input.GetMouseButtonUp(0))       // Récupération d'un objet au clic gauche
                 GetResource();
 
             UpdateStatsDisplay();
             // AGIR sur le composant RigidBody plutot que Tranform
-        }
+        
 
     }
 
@@ -97,7 +95,6 @@ public class gvmPlayerControler : NetworkBehaviour {
     /// Met à jour la vitesse de déplacement si la course commence ou doit s'arrêter
     /// </summary>
     /// 
-    [Command]
     public void CmdManageRun()
     {
         if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))
