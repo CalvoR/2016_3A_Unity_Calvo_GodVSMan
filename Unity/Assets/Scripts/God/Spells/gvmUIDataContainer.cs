@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class gvmUIDataContainer : MonoBehaviour {
+public class gvmUIDataContainer : NetworkBehaviour {
     
     public string Name;
     
@@ -22,7 +23,9 @@ public class gvmUIDataContainer : MonoBehaviour {
         areaMax = data.areaMax;
         areaDuration = data.areaDuration;
         behaviour = data.behaviour;
+        Debug.LogError("INIT: " + behaviour);
     }
+    
 
     public void init(gvmUIDataContainer data) {
         Name = data.name;

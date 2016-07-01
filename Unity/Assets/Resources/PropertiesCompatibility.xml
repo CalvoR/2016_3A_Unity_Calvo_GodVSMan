@@ -124,7 +124,7 @@
       <name>holy</name>
       <id>0</id>
       <duration>20</duration>
-      <damage>-4</damage>
+      <damage>4</damage>
       <stateEffect>3</stateEffect>
       <compatibility>
         <int>2</int>

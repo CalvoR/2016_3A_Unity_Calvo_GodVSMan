@@ -12,12 +12,12 @@ public class gvmSpell : NetworkBehaviour {
     [SerializeField]
     public TextAsset xmlSpellDataFile;
     
-    public gvmSpell(gvmSpellData data, gvmSpellButton test) {
+    public gvmSpell(gvmSpellData data, GameObject GO) {
         spellData = data;
         floorMask = LayerMask.GetMask("Floor");
+        spellContainer = GO;
 
-
-
+        /*
         spellContainer = Instantiate(Resources.Load("Prefabs/God/Spells/" + spellData.behaviour, typeof(GameObject))) as GameObject;
 
         //spellContainer =  (GameObject)Network.Instantiate(Resources.Load("Prefabs/God/Spells/" + spellData.behaviour, typeof(GameObject)), transform.position, Quaternion.identity, 0);
@@ -25,9 +25,7 @@ public class gvmSpell : NetworkBehaviour {
         spellContainer.GetComponent<gvmUIDataContainer>().init(spellData);
 
         spellContainer.SetActive(true);
-
-        test.CmdSpawn(spellContainer);
+        */
+        //button.CmdSpawn(spellData);
     }
-
-
 }

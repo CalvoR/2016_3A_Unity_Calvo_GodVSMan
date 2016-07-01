@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class XavierChosenMovementTest : NetworkBehaviour {
 
     [SerializeField]
-    Camera playerCamera;
+    GameObject playerCamera;
 
     [SerializeField]
     float speed;
@@ -18,7 +18,7 @@ public class XavierChosenMovementTest : NetworkBehaviour {
         if (Camera.main && Camera.main.gameObject) {
             Camera.main.gameObject.SetActive(false);
         }
-        playerCamera.enabled = true;
+        playerCamera.SetActive(true);
     }
 
     public void FixedUpdate() {

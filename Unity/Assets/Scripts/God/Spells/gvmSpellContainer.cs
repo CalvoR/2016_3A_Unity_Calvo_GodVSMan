@@ -11,9 +11,9 @@ public class gvmSpellContainer {
     [XmlArrayItem("spell")]
     public List<gvmSpellData> spells = new List<gvmSpellData>();
 
-    public gvmSpellData getDataByName(string spellName) {
+    public gvmSpellData getDataByBehaviour(string spellName) {
         foreach (gvmSpellData spell in spells) {
-            if(spell.name == spellName) {
+            if(spell.behaviour == spellName) {
                 return spell;
             }
         }

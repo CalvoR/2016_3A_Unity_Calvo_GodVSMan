@@ -2,14 +2,14 @@
 <spellCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <spells>
     <spell>
-      <name>Crackle</name>
+      <name>Eclair</name>
       <fearCost>0</fearCost>
       <faithCost>0</faithCost>
       <stateEffect>-1</stateEffect>
       <properties>2</properties>
       <areaMax>1</areaMax>
-      <duration>0</duration>
-      <behaviour>Strike</behaviour>
+      <duration>1</duration>
+      <behaviour>Crackle</behaviour>
     </spell>
     <spell>
       <name>Tsunami</name>
@@ -18,11 +18,11 @@
       <stateEffect>-1</stateEffect>
       <properties>3</properties>
       <areaMax>1</areaMax>
-      <duration>0</duration>
-      <behaviour>Wave</behaviour>
+      <duration>15</duration>
+      <behaviour>Tsunami</behaviour>
     </spell>
     <spell>
-      <name>Disease</name>
+      <name>Maladie</name>
       <fearCost>0</fearCost>
       <faithCost>0</faithCost>
       <stateEffect>-1</stateEffect>
@@ -32,7 +32,7 @@
       <behaviour>Disease</behaviour>
     </spell>
     <spell>
-      <name>MassHeal</name>
+      <name>Soin</name>
       <fearCost>0</fearCost>
       <faithCost>10</faithCost>
       <stateEffect>15</stateEffect>
@@ -42,14 +42,24 @@
       <behaviour>MassHeal</behaviour>
     </spell>
     <spell>
-      <name>EarthQuake</name>
+      <name>Totem Sacre</name>
       <fearCost>0</fearCost>
       <faithCost>15</faithCost>
       <stateEffect>1</stateEffect>
-      <properties>3</properties>
+      <properties>7</properties>
       <areaMax>1</areaMax>
-      <duration>0</duration>
-      <behaviour>Wave</behaviour>
+      <duration>60</duration>
+      <behaviour>Totem</behaviour>
+    </spell>
+    <spell>
+      <name>Illumination</name>
+      <fearCost>0</fearCost>
+      <faithCost>20</faithCost>
+      <stateEffect>10</stateEffect>
+      <properties>7</properties>
+      <areaMax>1</areaMax>
+      <duration>1</duration>
+      <behaviour>Blessing</behaviour>
     </spell>
   </spells>
 </spellCollection>

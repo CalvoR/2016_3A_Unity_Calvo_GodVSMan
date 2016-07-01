@@ -1,59 +1,81 @@
 ﻿using UnityEngine;
 using System.Xml;
-using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.Networking;
 
 public class gvmGodSceneManager : NetworkBehaviour {
 
     [SerializeField]
-    private TextAsset xmlPlayerPreferencesFile;
-    [SerializeField]
-    private GameObject[] spellButtons = new GameObject[5];
-    [SerializeField]
-    private GameObject GodUI;
-    
-    private gvmPropertiesManager spellProperties;
-    private gvmSpellContainer spellDataContainer;
-    //private gvmUnitsManager unitManager;
+    TextAsset xmlPlayerPreferencesFile;
 
-    //public Vector3 vector3InvertYAndZAxes;
+    [SerializeField]
+    gvmSpellButton[] spellButtons = new gvmSpellButton[5];
+
+    [SerializeField]
+    GameObject GodUI;
     
     [SerializeField]
     GameObject playerCamera;
-
+    
+    gvmSpellContainer spellDataContainer;
 
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
+        GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>().enabled = false;
         if (Camera.main && Camera.main.gameObject) {
             Camera.main.gameObject.SetActive(false);
         }
-        //GodUI.SetActive(true);
-        playerCamera.gameObject.SetActive(true);
-        awake();
-    }
-
-    public void awake() {
-        spellProperties = gvmPropertiesManager.GetInstance();
-        spellDataContainer = gvmSpellContainer.Load("SpellData");
-
-        //unitManager = gvmUnitsManager.GetInstance();
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.LoadXml(xmlPlayerPreferencesFile.text);
-        RpcInitialiseSpellButtons(xmlDoc);
 
         GodUI.SetActive(true);
+        initialiseSpellButtons(xmlDoc);
+        playerCamera.gameObject.SetActive(true);
+    }
+
+    void Awake() {
+        gvmPropertiesManager.GetInstance();
+        spellDataContainer = gvmSpellContainer.Load("SpellData");
     }
     
-    
-    public void RpcInitialiseSpellButtons(XmlDocument xmlDoc) {
-        int btnIndex = 0;
+    public void initialiseSpellButtons(XmlDocument xmlDoc) {
         XmlNodeList spellList = xmlDoc.GetElementsByTagName("spells")[0].ChildNodes;
-
-        foreach (GameObject button in spellButtons) {
-            button.GetComponent<gvmSpellButton>().initialise(spellDataContainer.getDataByName(spellList[btnIndex].FirstChild.InnerText));
-            btnIndex++;
+        for(int i = 0; i < spellButtons.Length; i++) {
+            CmdSpawn(i, spellList[i].LastChild.InnerText);
         }
     }
 
+    [Command]
+    public void CmdSpawn(int btnId, string spellName) {
+        var go = (GameObject)Instantiate((GameObject)Resources.Load("Prefabs/God/Spells/"+spellName), transform.position, Quaternion.identity);
+        go.GetComponent<gvmUIDataContainer>().init(spellDataContainer.getDataByBehaviour(spellName));
+
+        NetworkServer.SpawnWithClientAuthority(go, connectionToClient);
+
+        spellButtons[btnId].spellGO = go;
+        spellButtons[btnId].spellName.text = spellDataContainer.getDataByBehaviour(spellName).name;
+        spellButtons[btnId].spellData = spellDataContainer.getDataByBehaviour(spellName);
+
+        RpcSetSpellNetId(go.GetComponent<NetworkIdentity>().netId, btnId, spellName);
+        spellButtons[btnId].spellGO.SetActive(true);
+    }
+    
+    [ClientRpc]
+    public void RpcSetSpellNetId(NetworkInstanceId netId, int btnId, string name) {//gvmSpellData spellData) {
+        spellButtons[btnId].spellGO = ClientScene.FindLocalObject(netId);
+        spellButtons[btnId].spellGO.GetComponent<gvmUIDataContainer>().init(spellDataContainer.getDataByBehaviour(name));
+        spellButtons[btnId].spellName.text = spellDataContainer.getDataByBehaviour(name).name;
+        spellButtons[btnId].spellData = spellDataContainer.getDataByBehaviour(name);
+
+        spellButtons[btnId].spellGO.SetActive(true);
+    }
+    
+    public void OnClickBehaviour(int i) {
+        spellButtons[i].spellGO.SetActive(true);
+        CmdSetSpellActive(i);
+    }
+    
+    [Command]
+    public void CmdSetSpellActive(int i) {
+        spellButtons[i].spellGO.SetActive(true);
+    }
 }

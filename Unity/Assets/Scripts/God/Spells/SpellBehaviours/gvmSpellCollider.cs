@@ -1,39 +1,48 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class gvmSpellCollider : MonoBehaviour {
-
-    private gvmUIDataContainer dataContainer;
+public class gvmSpellCollider : NetworkBehaviour {
+    
+    
+    public gvmUIDataContainer dataContainer;
     private gvmPropertiesManager properties;
-    private int basicProperty;
+    private List<int> basicProperty = new List<int>();
+    readonly Vector3 _areaDefaultPosition = new Vector3(0, -200, 0);
 
-    void Awake() {
-        dataContainer = gameObject.GetComponent<gvmUIDataContainer>();
+    public void Init(gvmUIDataContainer data) {
+        dataContainer = data;
         properties = gvmPropertiesManager.GetInstance();
-        basicProperty = dataContainer.propertiesId[0];
+        basicProperty.Add(dataContainer.propertiesId[0]);
     }
 
     void OnEnable() {
-        dataContainer.propertiesId = new List<int>() { basicProperty };
-        if (dataContainer.areaDuration > 0) {
-            StartCoroutine(areaCountdown());
+        if (dataContainer != null) {
+            dataContainer.propertiesId = basicProperty;
         }
+        StartCoroutine(StartCountdown());
     }
-
-    //Timer before the effect area of the spell disappear
-    IEnumerator areaCountdown() {
+    
+    private IEnumerator StartCountdown()
+    {
         yield return new WaitForSeconds(dataContainer.areaDuration);
         gameObject.SetActive(false);
+        gameObject.transform.position = _areaDefaultPosition;
     }
-
+    
     //Event gameobject which can trigger the spell effect want it enter the collider and set to the gameobject the name of the spell
     void OnTriggerEnter(Collider col) {
+        if (isServer)
+        {
+            Debug.LogError("Server");
+        }
         if (col.gameObject.tag == "TriggerSpells") {
-            Debug.Log(dataContainer.name);
+            Debug.LogError(col.gameObject.name);
             col.gameObject.GetComponent<gvmSpellEffectGetter>().getNewEffect(dataContainer.propertiesId);
         } else if (col.gameObject.tag == "GodSpell") {
             dataContainer.propertiesId = properties.GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId);
+            Debug.LogError(dataContainer.propertiesId.Count);
         }
     }
 }
