@@ -65,17 +65,13 @@ public class gvmUI_SlotManager : MonoBehaviour {
         itemInfosText.enabled = true;      
        
         itemInfosBackground.transform.position = new Vector2(                   // positionnement de la fenêtre, puis remplissage du texte
-            image.transform.position.x + image.rectTransform.rect.width/2, 
-            image.transform.position.y + image.rectTransform.rect.height/2
+            image.transform.position.x + image.rectTransform.rect.width, 
+            image.transform.position.y + image.rectTransform.rect.height 
                 );
-        itemInfosText.transform.position = new Vector2(
-            itemInfosBackground.transform.position.x, 
-            itemInfosBackground.transform.position.y
-            );
-        itemInfosText.text = DataSlot.Item.Name+"\n Type: "+ DataSlot.Item.Type + "\n Quantity: "+DataSlot.Amount.ToString();
+        itemInfosText.text = DataSlot.Item.Name+"\n  Type: "+ DataSlot.Item.Type + "\n  Quantity: "+DataSlot.Amount.ToString();
 
         foreach (string field in DataSlot.Item.Bonus.Keys)
-            itemInfosText.text += "\n" + field + ": " + DataSlot.Item.Bonus[field];             
+            itemInfosText.text += "  \n" + field + ": " + DataSlot.Item.Bonus[field];             
     }
 
     /// <summary>
@@ -95,44 +91,74 @@ public class gvmUI_SlotManager : MonoBehaviour {
         if (DataSlot.IsEmpty)
             return;
         else
-        {
-            Debug.Log("Drag started");
-            draggedUI_Slot = this;
-        }
-            
+            draggedUI_Slot = this;     
     }
 
     /// <summary>
     /// Lorsqu'un item est relaché sur un slot
     /// </summary>
-    public void OnMouseDrop ()
+    public void OnMouseDrop()
     {
-        if (!DataSlot.IsEmpty) {
-            Debug.Log("Slot is not empty");
+        if (draggedUI_Slot == null)
             return;
-        }
-
-        if (draggedUI_Slot == null)       
-            return;
-
-        // remplissage du nouveau slot et mise à vide de l'ancien
-        Debug.Log("Trying to fill a slot.");
 
         int dragSlotId = draggedUI_Slot.slotId;
-        InventorySlot[] slotSrcTable = draggedUI_Slot.Type.Equals(SlotType.shortcut) ? Inventory.shorcutSlots : Inventory.slots;
-        InventorySlot[] slotDestTable = Type.Equals(SlotType.shortcut) ? Inventory.shorcutSlots : Inventory.slots;
+        InventorySlot slotSrc, slotDest;
 
-        slotDestTable[slotId] = slotSrcTable[dragSlotId];
-        slotSrcTable[dragSlotId] = new InventorySlot();   
-        
+        UpdateSlots(out slotSrc, slotId, out slotDest, dragSlotId);
+
         // Mise à jour de l'affichage de chacun des deux slots
         linkDataSlotsToUI();
         LoadImage();
         draggedUI_Slot.linkDataSlotsToUI();
-        draggedUI_Slot.image.sprite = Resources.Load<Sprite> (String.Empty); ;
-        draggedUI_Slot = null;        
+        draggedUI_Slot.LoadImage();
+        draggedUI_Slot = null;
+
+            // Déséquippe si le slot d'origine était une arme et était placée sur un slot de main
+        if (dragSlotId < 0 && slotSrc.Item.Type.Equals(ItemType.weapon))
+                Inventory.EquipWeapon(slotDest.Item, true);
+        
+            // Equipe si l'objet est une arme et que le nouveau slot est une des mains
+        if (slotId < 0 && slotDest.Item.Type.Equals(ItemType.weapon))
+            Inventory.EquipWeapon(slotDest.Item, false);
+
     }
-    
+
+    /// <summary>
+    /// Met à jour le contenu en mémoire des slots destinataire et source envoyés en paramètres (avec leurs IDs respectifs)
+    /// </summary>
+    private void UpdateSlots(out InventorySlot slotSrc, int slotIdSrc, out InventorySlot slotDest, int slotIdDest)
+    {
+        // Associe le slot "data" correct par rapport ux IDs et types que l'on a
+        if (slotIdDest < 0)            
+            slotSrc = (slotIdDest == -1) ? Inventory.leftHand : Inventory.rightHand;
+        else
+            slotSrc = draggedUI_Slot.Type.Equals(SlotType.shortcut) ? Inventory.shorcutSlots[slotIdDest] : Inventory.slots[slotIdDest];
+
+        if (slotIdSrc < 0)
+            slotDest = (slotIdSrc == -1) ? Inventory.leftHand : Inventory.rightHand;
+        else
+            slotDest = Type.Equals(SlotType.shortcut) ? Inventory.shorcutSlots[slotIdSrc] : Inventory.slots[slotIdSrc];
+
+
+        if (Input.GetMouseButtonUp(1))          // Si clic droit, l'objet est séparé
+        {
+            Inventory.SeparateItemStack(slotSrc, slotDest);
+        }
+        else if (!slotDest.IsEmpty)                         // Si slot occupé par un objet du même type, fusion dans la même pile
+        {
+            if (slotDest.Item.Name.Equals(slotSrc.Item.Name))
+            {
+                Inventory.MoveOrMergeItem(slotSrc, slotDest, true);
+                itemInfosBackground.SetActive(false);
+            }
+            else                                            // Sinon, les deux positions d'item sont inversés
+                Inventory.ExchangeItems(slotSrc, slotDest);
+        }
+        else
+            Inventory.MoveOrMergeItem(slotSrc, slotDest, false);
+    }
+
     /// <summary>
     ///  Charge l'image d'un slot selon le path indiqué dans le fichier XML
     /// </summary>
