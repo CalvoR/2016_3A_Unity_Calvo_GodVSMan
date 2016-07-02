@@ -2,8 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Networking;
 
-public class gvmPlayerControler : MonoBehaviour {
+public class gvmPlayerControler : NetworkBehaviour {
 
     #region Attributs
 
@@ -14,7 +15,7 @@ public class gvmPlayerControler : MonoBehaviour {
     public Text heroStatsDisplay;
 
     [SerializeField]
-    Camera player_camera;
+    Camera playerCamera;
 
     [SerializeField]
     MeshRenderer playerHead;
@@ -24,9 +25,6 @@ public class gvmPlayerControler : MonoBehaviour {
 
     [SerializeField]
     GameObject prefab;
-
-    private float forwardVar;               // distance de déplacement sur les axes X et Z
-    private float SidewayVar;
 
     private float lastTapTime;              // gestion de la course
     private float doubleTapDelay;
@@ -44,23 +42,13 @@ public class gvmPlayerControler : MonoBehaviour {
 
     #region Méthodes
 
-        /*
+
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
-        //CmdSpawn();
-
         if (Camera.main && Camera.main.gameObject) {
             Camera.main.gameObject.SetActive(false);
         }
-
-        player_camera.enabled = true;
-        playerBody.material.color = Color.green;
-        playerHead.material.color = Color.green;
-    }       */
-
-    void Start()
-    {
-        player_camera.enabled = true;
+        playerCamera.gameObject.SetActive(true);
         UpdateStatsDisplay();
         doubleTapDelay = 0.5f;
         lastTapTime = 0;
@@ -68,27 +56,32 @@ public class gvmPlayerControler : MonoBehaviour {
         runSpeed = HeroStats.Speed * RUN_COEF;
     }
 
+    /*
+public override void OnStartLocalPlayer() {
+    base.OnStartLocalPlayer();
+    //CmdSpawn();
+
+    if (Camera.main && Camera.main.gameObject) {
+        Camera.main.gameObject.SetActive(false);
+    }
+
+    player_camera.enabled = true;
+    playerBody.material.color = Color.green;
+    playerHead.material.color = Color.green;
+}       */
+
     void Update()
     {
+        if (isLocalPlayer) {
             CmdManageRun();
-            
+
             if (Input.GetMouseButtonUp(0))       // Récupération d'un objet au clic gauche
                 GetItem();
 
             UpdateStatsDisplay();
+        }
     }
-
-    void FixedUpdate()
-    {
-        forwardVar = Input.GetAxis("Forward") * currentSpeed;
-        SidewayVar = Input.GetAxis("Sideway") * currentSpeed;
-
-        mainTransform.Translate(
-            Vector3.forward * forwardVar * Time.deltaTime +
-            Vector3.right * SidewayVar * Time.deltaTime
-            );
-    }
-
+    
     /// <summary>
     /// Met à jour l'affichage des statistiques
     /// </summary>
@@ -113,7 +106,6 @@ public class gvmPlayerControler : MonoBehaviour {
             }
             lastTapTime = Time.time;
         }
-
         if (Input.GetKeyUp("up") || Input.GetKeyUp("z") || HeroStats.isEnduranceFinished(startRunningTime))       // test sur la jauge d'endurance 
              currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut     
     }
@@ -123,7 +115,7 @@ public class gvmPlayerControler : MonoBehaviour {
     /// </summary>
     public void GetItem()
     {
-        var ray = player_camera.ScreenPointToRay(Input.mousePosition);
+        var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out rayHit, 5.0f))
             return;
 

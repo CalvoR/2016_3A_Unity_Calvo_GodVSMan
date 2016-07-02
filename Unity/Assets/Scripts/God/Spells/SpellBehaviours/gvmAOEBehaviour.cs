@@ -30,6 +30,7 @@ public class gvmAOEBehaviour : NetworkBehaviour {
             AOEContainer[i].GetComponent<gvmSpellCollider>().Init(SpellData);
         }
         gameObject.SetActive(false);
+        Debug.LogError("Start");
     }
     
     void Update() {
