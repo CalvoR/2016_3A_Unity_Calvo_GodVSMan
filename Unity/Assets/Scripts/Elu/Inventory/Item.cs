@@ -80,6 +80,11 @@ public class Item {
                 return new string[] { "Steel", ((int)ItemType.resource).ToString() };
             else if (targetObject.CompareTag("sword_weapon"))
                 return new string[] { "SteelSword", ((int)ItemType.weapon).ToString() };
+            else if (targetObject.CompareTag("Relic"))
+            {
+                gvmRelicManager.hasToUpdate = true;
+                return new string[] { "Relic", null };
+            }
             else
                 return null;
         }

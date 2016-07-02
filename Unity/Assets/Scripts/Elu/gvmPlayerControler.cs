@@ -134,6 +134,9 @@ public class gvmPlayerControler : MonoBehaviour {
             return;
 
         Destroy(targetResource);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
+        if (ItemInfos[0].Equals("Relic"))
+            return;
+
         InventoryManagement.Inventory.AddItem(
             DefaultItemsList.ItemList[(ItemType) int.Parse(ItemInfos[1])].Where(x => x.Name.Equals(ItemInfos[0])).SingleOrDefault()
             );      
