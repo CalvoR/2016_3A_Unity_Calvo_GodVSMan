@@ -33,16 +33,10 @@ public class gvmSpellCollider : NetworkBehaviour {
     
     //Event gameobject which can trigger the spell effect want it enter the collider and set to the gameobject the name of the spell
     void OnTriggerEnter(Collider col) {
-        if (isServer)
-        {
-            Debug.LogError("Server");
-        }
         if (col.gameObject.tag == "TriggerSpells") {
-            Debug.LogError(col.gameObject.name);
-            col.gameObject.GetComponent<gvmSpellEffectGetter>().getNewEffect(dataContainer.propertiesId);
+            col.gameObject.GetComponent<gvmSpellEffectGetter>().getNewEffect(dataContainer);
         } else if (col.gameObject.tag == "GodSpell") {
             dataContainer.propertiesId = properties.GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId);
-            Debug.LogError(dataContainer.propertiesId.Count);
         }
     }
 }

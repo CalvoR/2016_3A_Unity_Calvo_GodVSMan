@@ -4,7 +4,7 @@
     <spell>
       <name>Eclair</name>
       <fearCost>0</fearCost>
-      <faithCost>0</faithCost>
+      <faithCost>10</faithCost>
       <stateEffect>-1</stateEffect>
       <properties>2</properties>
       <areaMax>1</areaMax>
@@ -13,7 +13,7 @@
     </spell>
     <spell>
       <name>Tsunami</name>
-      <fearCost>0</fearCost>
+      <fearCost>50</fearCost>
       <faithCost>0</faithCost>
       <stateEffect>-1</stateEffect>
       <properties>3</properties>
@@ -23,7 +23,7 @@
     </spell>
     <spell>
       <name>Maladie</name>
-      <fearCost>0</fearCost>
+      <fearCost>20</fearCost>
       <faithCost>0</faithCost>
       <stateEffect>-1</stateEffect>
       <properties>5</properties>
@@ -35,7 +35,7 @@
       <name>Soin</name>
       <fearCost>0</fearCost>
       <faithCost>10</faithCost>
-      <stateEffect>15</stateEffect>
+      <stateEffect>1</stateEffect>
       <properties>7</properties>
       <areaMax>15</areaMax>
       <duration>30</duration>
@@ -55,7 +55,7 @@
       <name>Illumination</name>
       <fearCost>0</fearCost>
       <faithCost>20</faithCost>
-      <stateEffect>10</stateEffect>
+      <stateEffect>3</stateEffect>
       <properties>7</properties>
       <areaMax>1</areaMax>
       <duration>1</duration>

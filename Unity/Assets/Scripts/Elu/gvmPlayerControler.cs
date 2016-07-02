@@ -5,15 +5,13 @@ using System.Linq;
 
 public class gvmPlayerControler : MonoBehaviour {
 
+    #region Attributs
+
     [SerializeField]
     Transform mainTransform;
 
     [SerializeField]
     public Text heroStatsDisplay;
-
-    [SerializeField]
-    [Range(5.0f, 35.0f)]
-    float runSpeed;
 
     [SerializeField]
     Camera player_camera;
@@ -26,7 +24,27 @@ public class gvmPlayerControler : MonoBehaviour {
 
     [SerializeField]
     GameObject prefab;
-    /*
+
+    private float forwardVar;               // distance de déplacement sur les axes X et Z
+    private float SidewayVar;
+
+    private float lastTapTime;              // gestion de la course
+    private float doubleTapDelay;
+    private float startRunningTime;
+
+    private float currentSpeed;             // Vitesse actuelle
+    private float runSpeed;                 // Vitesse attribué à la course
+
+    const float RUN_COEF = 1.75f;
+
+    RaycastHit rayHit;
+
+    #endregion
+
+
+    #region Méthodes
+
+        /*
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
         //CmdSpawn();
@@ -38,19 +56,7 @@ public class gvmPlayerControler : MonoBehaviour {
         player_camera.enabled = true;
         playerBody.material.color = Color.green;
         playerHead.material.color = Color.green;
-    }*/
-
-    float currentSpeed;
-
-    private float forwardVar;               // distance de déplacement sur les axes X et Z
-    private float SidewayVar;
-
-    private float lastTapTime;              // gestion de la course
-    private float doubleTapDelay;
-    private float startRunningTime;
-
-    RaycastHit rayHit;
-
+    }       */
 
     void Start()
     {
@@ -59,22 +65,21 @@ public class gvmPlayerControler : MonoBehaviour {
         doubleTapDelay = 0.5f;
         lastTapTime = 0;
         currentSpeed = HeroStats.Speed;
-        runSpeed = (runSpeed <= HeroStats.Speed) ? HeroStats.Speed + 2 : runSpeed;
+        runSpeed = HeroStats.Speed * RUN_COEF;
     }
 
-    void Update() {
+    void Update()
+    {
             CmdManageRun();
             
             if (Input.GetMouseButtonUp(0))       // Récupération d'un objet au clic gauche
-                GetResource();
+                GetItem();
 
             UpdateStatsDisplay();
-            // AGIR sur le composant RigidBody plutot que Tranform
-        
-
     }
 
-    void FixedUpdate() {
+    void FixedUpdate()
+    {
         forwardVar = Input.GetAxis("Forward") * currentSpeed;
         SidewayVar = Input.GetAxis("Sideway") * currentSpeed;
 
@@ -84,23 +89,25 @@ public class gvmPlayerControler : MonoBehaviour {
             );
     }
 
-
+    /// <summary>
+    /// Met à jour l'affichage des statistiques
+    /// </summary>
     public void UpdateStatsDisplay()
     {
         if (heroStatsDisplay != null)
-            heroStatsDisplay.text =  "Player\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + HeroStats.Speed;
+            heroStatsDisplay.text =  "Player\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + currentSpeed;
     }
 
     /// <summary>
     /// Met à jour la vitesse de déplacement si la course commence ou doit s'arrêter
     /// </summary>
-    /// 
     public void CmdManageRun()
     {
         if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))
         {
-            if (Time.time - lastTapTime < doubleTapDelay)
-            {                                                           // activation ou non de la course
+            if (Time.time - lastTapTime < doubleTapDelay)       // activationde la course
+            {
+                runSpeed = HeroStats.Speed * RUN_COEF;
                 currentSpeed = runSpeed;
                 startRunningTime = Time.time;
             }
@@ -108,35 +115,46 @@ public class gvmPlayerControler : MonoBehaviour {
         }
 
         if (Input.GetKeyUp("up") || Input.GetKeyUp("z") || HeroStats.isEnduranceFinished(startRunningTime))       // test sur la jauge d'endurance 
-            currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut     
+             currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut     
     }
 
     /// <summary>
     /// Disparition et ajout de la ressource lorsque celle-ci est récupérée au sol
     /// </summary>
-    public void GetResource()
+    public void GetItem()
     {
         var ray = player_camera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out rayHit, 5.0f))
             return;
 
         GameObject targetResource = GameObject.Find(rayHit.collider.gameObject.name);       // Calcul de la collision et de l'objet touché
-        string resourceType = string.Empty;
+        string[] ItemInfos = Item.GetItemInfosFromGameObject(targetResource);
 
-        if (targetResource != null) 
-        {
-            if (targetResource.CompareTag("wood_resource"))
-                resourceType = "Wood";
-            else if (targetResource.CompareTag("steel_resource"))
-                resourceType = "Steel";
-            else
-                return;
+        if (ItemInfos == null)
+            return;
 
-            Destroy(targetResource);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
-            InventoryManagement.Inventory.AddItem(
-                DefaultItemsList.ItemList[ItemType.resource].Where(x => x.Name.Equals(resourceType)).SingleOrDefault()
-            );
-        }
+        Destroy(targetResource);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
+        if (ItemInfos[0].Equals("Relic"))
+            return;
+
+        InventoryManagement.Inventory.AddItem(
+            DefaultItemsList.ItemList[(ItemType) int.Parse(ItemInfos[1])].Where(x => x.Name.Equals(ItemInfos[0])).SingleOrDefault()
+            );      
     }
+    /*
+    public void ActivateConsumableItem()
+    {
+        
+        DateTime boostTimer;
+        
+        if (DateTime.Now < boostTimer + BOOST_DURATION)
+            Inventory.UseConsumable(boostTimer, false);
+        else
+            Inventory.UseConsumable(boostTimer, true);
+    }
+    */
+    #endregion
 
 }
+
+

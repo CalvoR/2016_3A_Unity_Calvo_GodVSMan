@@ -17,7 +17,7 @@ public static class HeroStats
         endurance = 5.0f;
         attack = 100.0f;
         defense = 100.0f;
-        speed = 6.0f;
+        speed = 7.0f;
     }
 
     // Méthodes d'accès et de modification de chaque stat"
@@ -52,7 +52,11 @@ public static class HeroStats
         set { speed = value; }
     }
 
-    // Fonction de vérification de l'endurance + màJ barre actuelle
+    /// <summary>
+    /// Fonction de vérification de l'endurance + màJ barre actuelle
+    /// </summary>
+    /// <param name="startRunningTime"></param>
+    /// <returns></returns>
     public static bool isEnduranceFinished (float startRunningTime)
     {
         if (Time.time - startRunningTime > Endurance)
