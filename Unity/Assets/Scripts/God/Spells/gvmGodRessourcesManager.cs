@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class gvmGodRessourcesManager : NetworkBehaviour {
     
-    [SyncVar]
     private int faith = 100;
-    [SyncVar]
     private int fear = 100;
     [SerializeField]
     private int faithPerSeconds = 0;
@@ -17,36 +15,58 @@ public class gvmGodRessourcesManager : NetworkBehaviour {
     public Text FearText;
     [SerializeField]
     public Text FaithText;
-
+    
     private gvmSpellContainer resourcesContainer;
+    public int NPCCounter = 0;
+    public int FaithfulNPCCounter = 0;
+    public int FearfulNPCCounter = 0;
 
     void Start() {
-        Debug.LogError(isServer + ":" + isClient);
-        Debug.LogError("Resource: ");
         gvmMonoBehaviourReference.Ressources = this;
         resourcesContainer = gvmSpellContainer.Load("SpellData");
-        InvokeRepeating("updateRessources", 2, 1f);
+        if (isServer) {
+            InvokeRepeating("updateRessources", 2, 1f);
+        }
     }
 
-    void Update() {
-        if (isServer)
+    void FixedUpdate()
+    {
+        if (FaithfulNPCCounter * 100 / NPCCounter >= 75)
         {
-            faith += faithPerSeconds;
-            fear += fearPerSeconds;
-            Debug.LogError(fear + " : " + faith);
+            Debug.LogError("GOD WIN BY FAITH");
         }
-        FearText.text = fear.ToString();
-        FaithText.text = faith.ToString();
+        if (FearfulNPCCounter * 100 / NPCCounter >= 75) {
+            Debug.LogError("GOD WIN BY FEAR");
+        }
+    }
+
+    public void setResourcesPerSeconds(int _fear, int _faith) {
+        faithPerSeconds += _faith;
+        fearPerSeconds += _fear;
     }
 
     public void useRessourcesForCastedSpell(string spellName) {
-        Debug.LogError(resourcesContainer.spells.Count);
         foreach (gvmSpellData spellData in resourcesContainer.spells) {
             if (spellData.behaviour+"(Clone)" == spellName) {
-                Debug.LogError(spellData.behaviour + " : " + spellName);
                 fear -= spellData.fearCost;
                 faith -= spellData.faithCost;
             }
         }
+        RpcSetGodResources(fear, faith);
+    }
+
+    void updateRessources() {
+        faith += faithPerSeconds;
+        fear += fearPerSeconds;
+        RpcSetGodResources(fear, faith);
+    }
+
+    [ClientRpc]
+    public void RpcSetGodResources(int _fear, int _faith)
+    {
+        fear = _fear;
+        faith = _faith;
+        FearText.text = fear.ToString();
+        FaithText.text = faith.ToString();
     }
 }
