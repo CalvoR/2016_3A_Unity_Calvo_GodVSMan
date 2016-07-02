@@ -12,14 +12,19 @@ public class gvmUI_InventoryManager : MonoBehaviour {
     [SerializeField]
     Image image;
 
+    // Liste des objets UI de chaque slot
     [SerializeField]
     public List<GameObject> UI_SlotsList;
 
     // UI des informations sur l'item
     [SerializeField]
-    public GameObject itemInfosBackground;    
+    public GameObject itemInfosBackground;
+
+    [SerializeField]
+    public GameObject playing_ShortcutSlots;
 
     private bool isVisible;
+
 
     void Awake()
     {
@@ -27,11 +32,13 @@ public class gvmUI_InventoryManager : MonoBehaviour {
         isVisible = false;
     }
 
+
 	void Update () {
 
         if (Input.GetKeyDown("e"))          // Ouverture / cache de l'inventaire
         {
             image.enabled = (isVisible = !isVisible);
+            playing_ShortcutSlots.SetActive(!isVisible);
             foreach (GameObject UI_Slot in UI_SlotsList)
             {
                 UI_Slot.SetActive(isVisible);
@@ -39,7 +46,7 @@ public class gvmUI_InventoryManager : MonoBehaviour {
                     UI_Slot.GetComponent<gvmUI_SlotManager>().LoadImage();
             }
 
-            if (!isVisible)         // La fenêtre d'info d'un item est cachée si l'inventaire est fermé
+            if (!isVisible)         // La fenêtre d'info d'un item est cachée si l'inventaire est fermé, et les raccourcis en jeu cachés si l'inventaire est ouvert
                 itemInfosBackground.SetActive(false);
         }
 	}

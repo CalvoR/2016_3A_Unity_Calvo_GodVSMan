@@ -1,145 +1,151 @@
 <?xml version="1.0" encoding ="utf-8"?>
 <ItemsTable>
+  
     <weapon>
-        <Dagger id="weapon1" sprite="">
-			<attack>15</attack>
-			<speed>-5</speed>
-		</Dagger>
-		<SuperiorDagger id="weapon2" sprite="">
-			<attack>40</attack>
-			<speed>-8</speed>
-		</SuperiorDagger>	
-		<Axe id="weapon3" sprite="">
-			<attack>15</attack>
-			<speed>-15</speed>
-		</Axe>		
-		<Pickaxe id="weapon4" sprite="">
-			<attack>20</attack >
-			<speed>-10</speed>
-		</Pickaxe>		
-		<WoodSword id="weapon5" sprite="">
-			<attack>10</attack>
-			<speed>-2</speed>
-		</WoodSword>		
-		<SteelSword id="weapon6" sprite="">
-			<attack>25</attack>
-			<speed>-12</speed>
-		</SteelSword>		
-		<SuperiorSword id="weapon7" sprite="">
-			<attack>50</attack>
-			<speed>-15</speed>
-		</SuperiorSword>
-		<Sabre id="weapon8" sprite="">			
-			<attack>20</attack>
-			<speed>-7</speed>
-		</Sabre>		
-		<DoubleSabre id="weapon9" sprite="">
-			<attack>40</attack>
-			<speed>-15</speed>
-		</DoubleSabre>		
-		<Gauntlet id="weapon10" sprite=""> 
-			<attack>15</attack>
-			<defence>5</defence>
-		</Gauntlet>		
-		<SteelGauntlet id="weapon11" sprite="">
-			<attack>30</attack>
-			<defence>15</defence>
-			<speed>-7</speed>
-		</SteelGauntlet>		
-		<SuperiorGauntlet id="weapon12" sprite="">
-			<attack>45</attack>
-			<defence>20</defence>
-			<speed>-12</speed>
-		</SuperiorGauntlet>		
-		<Bow id="weapon13" sprite="">
-			<attack>15</attack>
-			<speed>-5</speed>
-		</Bow>		
-		<Crossbow id="weapon14" sprite="">
-			<attack>30</attack>
-			<speed>-10</speed>
-		</Crossbow>		
-		<ExplosiveCrossbow id="weapon15" sprite="">
-			<attack>45</attack>
-			<speed>-12</speed>
-		</ExplosiveCrossbow>		
+      <Dagger id="weapon1" sprite="">
+			  <attack>15</attack>
+			  <speed>-5</speed>
+		  </Dagger>
+		  <SuperiorDagger id="weapon2" sprite="">
+			  <attack>40</attack>
+			  <speed>-8</speed>
+		  </SuperiorDagger>	
+		  <Axe id="weapon3" sprite="">
+			  <attack>15</attack>
+			  <speed>-15</speed>
+		  </Axe>		
+		  <Pickaxe id="weapon4" sprite="">
+			  <attack>20</attack>
+			  <speed>-10</speed>
+		  </Pickaxe>		
+		  <WoodSword id="weapon5" sprite="">
+			  <attack>10</attack>
+			  <speed>-2</speed>
+		  </WoodSword>		
+		  <SteelSword id="weapon6" sprite="Picture/steelSword_weapon">
+			  <attack>25</attack>
+			  <speed>-12</speed>
+		  </SteelSword>		
+		  <SuperiorSword id="weapon7" sprite="">
+			  <attack>50</attack>
+			  <speed>-15</speed>
+		  </SuperiorSword>
+		  <Sabre id="weapon8" sprite="">			
+			  <attack>20</attack>
+			  <speed>-7</speed>
+		  </Sabre>		
+		  <DoubleSabre id="weapon9" sprite="">
+			  <attack>40</attack>
+			  <speed>-15</speed>
+		  </DoubleSabre>		
+		  <Gauntlet id="weapon10" sprite=""> 
+			  <attack>15</attack>
+			  <defence>5</defence>
+		  </Gauntlet>		
+		  <SteelGauntlet id="weapon11" sprite="">
+			  <attack>30</attack>
+			  <defence>15</defence>
+			  <speed>-7</speed>
+		  </SteelGauntlet>		
+		  <SuperiorGauntlet id="weapon12" sprite="">
+			  <attack>45</attack>
+			  <defence>20</defence>
+			  <speed>-12</speed>
+		  </SuperiorGauntlet>		
+		  <Bow id="weapon13" sprite="">
+			  <attack>15</attack>
+			  <speed>-5</speed>
+		  </Bow>		
+		  <Crossbow id="weapon14" sprite="">
+			  <attack>30</attack>
+			  <speed>-10</speed>
+		  </Crossbow>		
+		  <ExplosiveCrossbow id="weapon15" sprite="">
+			  <attack>45</attack>
+			  <speed>-12</speed>
+		  </ExplosiveCrossbow>		
     </weapon>
+  
     <field>
-		<FixedLure id="field1" sprite="">
-		</FixedLure>
-		<MouseLure id="field2" sprite="">
-		</MouseLure>
-		<RobotLure id="field3" sprite="">
-		</RobotLure>
-		<ExplosiveMine id="field4" sprite="">
-		</ExplosiveMine>
-		<ArchiMine id="field5" sprite="">
-		</ArchiMine>
+		  <FixedLure id="field1" sprite="">
+		  </FixedLure>
+		  <MouseLure id="field2" sprite="">
+		  </MouseLure>
+		  <RobotLure id="field3" sprite="">
+		  </RobotLure>
+		  <ExplosiveMine id="field4" sprite="">
+		  </ExplosiveMine>
+		  <ArchiMine id="field5" sprite="">
+		  </ArchiMine>
     </field>
+  
     <consumable>
-		<HealPotion id="consumable1" sprite="">	
-			<life>50</life>
-		</HealPotion>
-		<RecoveryPotion id="consumable2" sprite="">
-			<life>100</life>
-		</RecoveryPotion>
-		<EndurancePotion id="consumable3" sprite="">
-			<endurance>200</endurance>
-		</EndurancePotion>
-		<SpeedPotion id="consumable4" sprite="">
-			<speed>125</speed>
-		</SpeedPotion>
-		<DefencePotion id="consumable5" sprite="">
-			<defence>150</defence>
-		</DefencePotion>
-		<AttackPotion id="consumable6" sprite="">
-			<attack>150</attack>
-		</AttackPotion>		
-		<CalmingPowder id="consumable7" sprite="">
-			<speed>85</speed>
-			<endurance>90</endurance>
-		</CalmingPowder>		
-		<StunningPowder id="consumable8" sprite="">
-			<attack>80</attack>
-			<defence>80</defence>
-			<speed>0</speed>
-			<endurance>0</endurance>
-		</StunningPowder>	
-		<AggressivePowder id="consumable9" sprite="">
-			<attack>150</attack>
-			<defence>75</defence>
-			<speed>110</speed>
-			<endurance>80</endurance>
-		</AggressivePowder>		
-    </consumable>  
+		  <HealPotion id="consumable1" sprite="">	
+			  <life>50</life>
+		  </HealPotion>
+		  <RecoveryPotion id="consumable2" sprite="">
+			  <life>100</life>
+		  </RecoveryPotion>
+		  <EndurancePotion id="consumable3" sprite="">
+			  <endurance>200</endurance>
+		  </EndurancePotion>
+		  <SpeedPotion id="consumable4" sprite="">
+			  <speed>125</speed>
+		  </SpeedPotion>
+		  <DefencePotion id="consumable5" sprite="">
+			  <defence>150</defence>
+		  </DefencePotion>
+		  <AttackPotion id="consumable6" sprite="">
+			  <attack>150</attack>
+		  </AttackPotion>		
+		  <CalmingPowder id="consumable7" sprite="">
+			  <speed>85</speed>
+			  <endurance>90</endurance>
+		  </CalmingPowder>		
+		  <StunningPowder id="consumable8" sprite="">
+			  <attack>80</attack>
+			  <defence>80</defence>
+			  <speed>0</speed>
+			  <endurance>0</endurance>
+		  </StunningPowder>	
+		  <AggressivePowder id="consumable9" sprite="">
+			  <attack>150</attack>
+			  <defence>75</defence>
+			  <speed>110</speed>
+			  <endurance>80</endurance>
+		  </AggressivePowder>		
+    </consumable> 
+  
     <resource>
-        <Wood id="resource1" rarity="1" sprite="Picture/wood_resource"/>
-        <Mineral id="resource2" rarity="1" sprite=""/>
-		<Verisine id="resource3"  rarity="1" sprite=""/>
-		<Coat id="resource4"  rarity="1" sprite=""/>
-		<String id="resource5"  rarity="1" sprite=""/>
-		<Magmatite id="resource6"  rarity="2" sprite=""/>
-		<Steel id="resource7"  rarity="2" sprite="Picture/steel_resource"/>
-		<Terravale id="resource8"  rarity="2" sprite=""/>
-		<Template id="resource9"  rarity="2" sprite=""/>
-		<Orphea id="resource10"  rarity="3" sprite=""/>
-        <Diamond id="resource11"  rarity="3" sprite=""/>		
+      <Wood id="resource1" rarity="1" sprite="Picture/wood_resource"/>
+      <Mineral id="resource2" rarity="1" sprite=""/>
+		  <Verisine id="resource3"  rarity="1" sprite=""/>
+		  <Coat id="resource4"  rarity="1" sprite=""/>
+		  <String id="resource5"  rarity="1" sprite=""/>
+		  <Magmatite id="resource6"  rarity="2" sprite=""/>
+		  <Steel id="resource7"  rarity="2" sprite="Picture/steel_resource"/>
+		  <Terravale id="resource8"  rarity="2" sprite=""/>
+		  <Template id="resource9"  rarity="2" sprite=""/>
+		  <Orphea id="resource10"  rarity="3" sprite=""/>
+      <Diamond id="resource11"  rarity="3" sprite=""/>		
     </resource>
+  
     <other>
-		<WoodShield id="other1" sprite="">
-			<defence> 140 </defence>
-		</WoodShield>
-		<SteelShield id="other2" sprite="">
-			<defence> 160 </defence>
-		</SteelShield>
-		<SuperiorShield id="other3" sprite="">
-			<defence> 180 </defence>
-		</SuperiorShield>
-		<HypnoticNeckless id="other4" sprite="">
-		</HypnoticNeckless>
-		<TeleportationPlates id="other5" sprite="">
-		</TeleportationPlates>
-		<Puppet  id="other6" sprite="">
-		</Puppet>
+		  <WoodShield id="other1" sprite="">
+			  <defence> 140 </defence>
+		  </WoodShield>
+		  <SteelShield id="other2" sprite="">
+			  <defence> 160 </defence>
+		  </SteelShield>
+		  <SuperiorShield id="other3" sprite="">
+			  <defence> 180 </defence>
+		  </SuperiorShield>
+		  <HypnoticNeckless id="other4" sprite="">
+		  </HypnoticNeckless>
+		  <TeleportationPlates id="other5" sprite="">
+		  </TeleportationPlates>
+		  <Puppet  id="other6" sprite="">
+		  </Puppet>
     </other>
+  
 </ItemsTable>
