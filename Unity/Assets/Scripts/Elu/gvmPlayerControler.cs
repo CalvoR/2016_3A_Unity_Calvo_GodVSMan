@@ -3,14 +3,12 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class gvmPlayerControler : NetworkBehaviour {
 
     #region Attributs
-
-    [SerializeField]
-    Transform mainTransform;
-
+    
     [SerializeField]
     public Text heroStatsDisplay;
 
@@ -18,13 +16,8 @@ public class gvmPlayerControler : NetworkBehaviour {
     Camera playerCamera;
 
     [SerializeField]
-    MeshRenderer playerHead;
-
-    [SerializeField]
-    MeshRenderer playerBody;
-
-    [SerializeField]
-    GameObject prefab;
+    private GameObject ChosenUI;
+    
 
     private float lastTapTime;              // gestion de la course
     private float doubleTapDelay;
@@ -48,6 +41,7 @@ public class gvmPlayerControler : NetworkBehaviour {
         if (Camera.main && Camera.main.gameObject) {
             Camera.main.gameObject.SetActive(false);
         }
+        ChosenUI.SetActive(true);
         playerCamera.gameObject.SetActive(true);
         UpdateStatsDisplay();
         doubleTapDelay = 0.5f;
@@ -55,21 +49,7 @@ public class gvmPlayerControler : NetworkBehaviour {
         currentSpeed = HeroStats.Speed;
         runSpeed = HeroStats.Speed * RUN_COEF;
     }
-
-    /*
-public override void OnStartLocalPlayer() {
-    base.OnStartLocalPlayer();
-    //CmdSpawn();
-
-    if (Camera.main && Camera.main.gameObject) {
-        Camera.main.gameObject.SetActive(false);
-    }
-
-    player_camera.enabled = true;
-    playerBody.material.color = Color.green;
-    playerHead.material.color = Color.green;
-}       */
-
+    
     void Update()
     {
         if (isLocalPlayer) {
@@ -119,13 +99,13 @@ public override void OnStartLocalPlayer() {
         if (!Physics.Raycast(ray, out rayHit, 5.0f))
             return;
 
-        GameObject targetResource = GameObject.Find(rayHit.collider.gameObject.name);       // Calcul de la collision et de l'objet touché
+        GameObject targetResource = rayHit.collider.gameObject;       // Calcul de la collision et de l'objet touché
         string[] ItemInfos = Item.GetItemInfosFromGameObject(targetResource);
 
         if (ItemInfos == null)
             return;
 
-        Destroy(targetResource);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
+        CmdDisableResource(targetResource.GetComponent<NetworkIdentity>().netId);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
         if (ItemInfos[0].Equals("Relic"))
             return;
 
@@ -133,6 +113,20 @@ public override void OnStartLocalPlayer() {
             DefaultItemsList.ItemList[(ItemType) int.Parse(ItemInfos[1])].Where(x => x.Name.Equals(ItemInfos[0])).SingleOrDefault()
             );      
     }
+
+    [Command]
+    private void CmdDisableResource(NetworkInstanceId netId) {
+        Debug.LogError("Remove On Server: " + netId);
+        NetworkServer.FindLocalObject(netId).SetActive(false);
+        RpcDisableResource(netId);
+    }
+
+    [ClientRpc]
+    private void RpcDisableResource(NetworkInstanceId netId) {
+        Debug.LogError("Remove On Client: "+netId);
+        ClientScene.FindLocalObject(netId).SetActive(false);
+    }
+
     /*
     public void ActivateConsumableItem()
     {

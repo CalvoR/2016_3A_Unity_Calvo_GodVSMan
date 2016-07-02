@@ -4,8 +4,6 @@ using UnityEngine.Networking;
 
 public class gvmYawMainCamera : NetworkBehaviour {
 
-    [SerializeField]
-    Transform cameraTransform;
 
     [SerializeField]
     float yawSpeed;
@@ -20,6 +18,8 @@ public class gvmYawMainCamera : NetworkBehaviour {
     float speed;
 
     [SerializeField]
+    GameObject cameraTransform;
+    [SerializeField]
     GameObject playerCharacter;
     
     // Update is called once per frame
@@ -30,7 +30,8 @@ public class gvmYawMainCamera : NetworkBehaviour {
             yVariation += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * pitchSpeed;
             yVariation = Mathf.Clamp(yVariation, -clampAngle, clampAngle);
 
-            CmdMoveHead(xVariation, yVariation);
+            CmdMoveHead(yVariation);
+            CmdMoveBody(xVariation);
 
             CmdStraf(Input.GetAxis("Sideway"));
             CmdMoveForward(Input.GetAxis("Forward"));
@@ -38,9 +39,14 @@ public class gvmYawMainCamera : NetworkBehaviour {
     }
     
     [Command]
-    public void CmdMoveHead(float x, float y) {
+    public void CmdMoveHead( float y) {
+        cameraTransform.transform.Rotate(Vector3.right, y);
+        //cameraTransform.rotation = Quaternion.Euler(-y, cameraTransform.rotation.eulerAngles.y, 0.0f);
+    }
+
+    [Command]
+    public void CmdMoveBody(float x) {
         playerCharacter.transform.Rotate(Vector3.up * x);
-        cameraTransform.rotation = Quaternion.Euler(-y, cameraTransform.rotation.eulerAngles.y, 0.0f);
     }
 
     [Command]
@@ -51,11 +57,9 @@ public class gvmYawMainCamera : NetworkBehaviour {
     [Command]
     public void CmdMoveForward(float strafSpeed) {
         playerCharacter.transform.Translate(Vector3.forward * speed * strafSpeed);
-        playerCharacter.transform.position = Vector3.right * playerCharacter.transform.position.x +
-                                             Vector3.up +
-                                             Vector3.forward * playerCharacter.transform.position.z;
+        playerCharacter.transform.position =
+            Vector3.right * playerCharacter.transform.position.x +
+            Vector3.up +
+            Vector3.forward * playerCharacter.transform.position.z;
     }
-
-
-
 }

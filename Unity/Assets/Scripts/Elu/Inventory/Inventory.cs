@@ -61,7 +61,6 @@ namespace InventoryManagement {
                 }
 
                 currentSlot = slots[slotId];
-
                 if (currentSlot.IsEmpty)
                     break;
                 else if (currentSlot.Item.Name.Equals(itemToAdd.Name) && currentSlot.Amount < 100)
