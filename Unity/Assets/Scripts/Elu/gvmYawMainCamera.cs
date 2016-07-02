@@ -45,12 +45,15 @@ public class gvmYawMainCamera : NetworkBehaviour {
 
     [Command]
     public void CmdStraf(float strafSpeed) {
-        playerCharacter.transform.position += Vector3.right * speed * strafSpeed;
+        playerCharacter.transform.Translate(Vector3.right * speed * strafSpeed);
     }
 
     [Command]
     public void CmdMoveForward(float strafSpeed) {
-        playerCharacter.transform.position += Vector3.forward * speed * strafSpeed;
+        playerCharacter.transform.Translate(Vector3.forward * speed * strafSpeed);
+        playerCharacter.transform.position = Vector3.right * playerCharacter.transform.position.x +
+                                             Vector3.up +
+                                             Vector3.forward * playerCharacter.transform.position.z;
     }
 
 

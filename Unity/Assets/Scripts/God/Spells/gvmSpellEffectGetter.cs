@@ -22,7 +22,6 @@ public class gvmSpellEffectGetter : MonoBehaviour {
         properties = gvmPropertiesManager.GetInstance();
         effectList = new List<int>();
         resources.NPCCounter++;
-        Debug.LogError(resources.NPCCounter);
     }
 
     void update() {
@@ -42,7 +41,7 @@ public class gvmSpellEffectGetter : MonoBehaviour {
             if (data.state >= 0) {
                 if (data.state + Container.stateEffect >= 0)
                 {
-                    v2 = Container.stateEffect; 
+                    v2 = Container.stateEffect;
                 } else {
                     v2 = -data.state; 
                     v1 = -(data.state + Container.stateEffect); 
