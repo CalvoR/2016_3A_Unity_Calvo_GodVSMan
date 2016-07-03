@@ -8,7 +8,11 @@ using UnityEngine.SceneManagement;
 public class gvmPlayerControler : NetworkBehaviour {
 
     #region Attributs
-    
+
+
+    [SerializeField]
+    Transform characterTransform;
+
     [SerializeField]
     public Text heroStatsDisplay;
 
@@ -17,7 +21,9 @@ public class gvmPlayerControler : NetworkBehaviour {
 
     [SerializeField]
     private GameObject ChosenUI;
-    
+
+    private float forwardVar;               // distance de déplacement sur les axes X et Z
+    private float SidewayVar;
 
     private float lastTapTime;              // gestion de la course
     private float doubleTapDelay;
@@ -53,7 +59,10 @@ public class gvmPlayerControler : NetworkBehaviour {
     void Update()
     {
         if (isLocalPlayer) {
-            CmdManageRun();
+            ManageRun();
+
+            forwardVar = Input.GetAxis("Forward") * currentSpeed;
+            SidewayVar = Input.GetAxis("Sideway") * currentSpeed;
 
             if (Input.GetMouseButtonUp(0))       // Récupération d'un objet au clic gauche
                 GetItem();
@@ -62,6 +71,15 @@ public class gvmPlayerControler : NetworkBehaviour {
         }
     }
     
+    void FixedUpdate()
+    {
+        if (isLocalPlayer)
+        {
+            CmdMoveCharacter();
+        }
+    }
+
+
     /// <summary>
     /// Met à jour l'affichage des statistiques
     /// </summary>
@@ -71,24 +89,6 @@ public class gvmPlayerControler : NetworkBehaviour {
             heroStatsDisplay.text =  "Player\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + currentSpeed;
     }
 
-    /// <summary>
-    /// Met à jour la vitesse de déplacement si la course commence ou doit s'arrêter
-    /// </summary>
-    public void CmdManageRun()
-    {
-        if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))
-        {
-            if (Time.time - lastTapTime < doubleTapDelay)       // activationde la course
-            {
-                runSpeed = HeroStats.Speed * RUN_COEF;
-                currentSpeed = runSpeed;
-                startRunningTime = Time.time;
-            }
-            lastTapTime = Time.time;
-        }
-        if (Input.GetKeyUp("up") || Input.GetKeyUp("z") || HeroStats.isEnduranceFinished(startRunningTime))       // test sur la jauge d'endurance 
-             currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut     
-    }
 
     /// <summary>
     /// Disparition et ajout de la ressource lorsque celle-ci est récupérée au sol
@@ -110,8 +110,37 @@ public class gvmPlayerControler : NetworkBehaviour {
             return;
 
         InventoryManagement.Inventory.AddItem(
-            DefaultItemsList.ItemList[(ItemType) int.Parse(ItemInfos[1])].Where(x => x.Name.Equals(ItemInfos[0])).SingleOrDefault()
-            );      
+            DefaultItemsList.ItemList[(ItemType)int.Parse(ItemInfos[1])].Where(x => x.Name.Equals(ItemInfos[0])).SingleOrDefault()
+            );
+    }
+
+    [Command]
+    public void CmdMoveCharacter()
+    {
+        characterTransform.Translate(
+           Vector3.forward * forwardVar * Time.deltaTime +
+           Vector3.right * SidewayVar * Time.deltaTime
+           );
+    }
+
+
+    /// <summary>
+    /// Met à jour la vitesse de déplacement si la course commence ou doit s'arrêter
+    /// </summary>
+    public void ManageRun()
+    {
+        if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))
+        {
+            if (Time.time - lastTapTime < doubleTapDelay)       // activationde la course
+            {
+                runSpeed = HeroStats.Speed * RUN_COEF;
+                currentSpeed = runSpeed;
+                startRunningTime = Time.time;
+            }
+            lastTapTime = Time.time;
+        }
+        if (Input.GetKeyUp("up") || Input.GetKeyUp("z") || HeroStats.isEnduranceFinished(startRunningTime))       // test sur la jauge d'endurance 
+             currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut     
     }
 
     [Command]
