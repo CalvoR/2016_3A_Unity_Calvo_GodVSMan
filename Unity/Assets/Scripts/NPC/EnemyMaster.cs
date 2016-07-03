@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class EnemyMaster : MonoBehaviour 
+public class EnemyMaster : NetworkBehaviour 
 {
    
     public Transform myTarget;

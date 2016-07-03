@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class AutomaticallyAssignAvatarToPlayerNetworkManagerScript : NetworkManager {
 
     Dictionary<NetworkConnection, GameObject> activatedControllers = null;
-
+    
     public Dictionary<NetworkConnection, GameObject> ActivatedControllers
     {
         get
@@ -45,6 +45,14 @@ public class AutomaticallyAssignAvatarToPlayerNetworkManagerScript : NetworkMana
 
         // Do not forget base functionalities
         base.OnServerDisconnect(conn);
+    }
+
+    public void startClient() {
+        StartClient();
+    }
+
+    public void startServer() {
+        StartServer();
     }
 }
 

@@ -35,13 +35,21 @@ public class gvmYawMainCamera : NetworkBehaviour {
 
             CmdStraf(Input.GetAxis("Sideway"));
             CmdMoveForward(Input.GetAxis("Forward"));
+
+            playerCharacter.transform.Translate(Vector3.right * speed * Input.GetAxis("Forward"));
+
+            playerCharacter.transform.Translate(Vector3.forward * speed * Input.GetAxis("Sideway"));
+            playerCharacter.transform.position =
+                Vector3.right * playerCharacter.transform.position.x +
+                Vector3.up +
+                Vector3.forward * playerCharacter.transform.position.z;
         }
     }
     
     [Command]
     public void CmdMoveHead( float y) {
         cameraTransform.transform.Rotate(Vector3.right, y);
-        //cameraTransform.rotation = Quaternion.Euler(-y, cameraTransform.rotation.eulerAngles.y, 0.0f);
+        cameraTransform.transform.rotation = Quaternion.Euler(-y, cameraTransform.transform.rotation.eulerAngles.y, 0.0f);
     }
 
     [Command]

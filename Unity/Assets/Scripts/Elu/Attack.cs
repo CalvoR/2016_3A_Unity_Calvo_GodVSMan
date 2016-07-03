@@ -21,7 +21,7 @@ public class Attack : MonoBehaviour
     {
         if (collision.gameObject.tag == "npc")
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
         }
     }
 }

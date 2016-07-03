@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Enemy_Detection : MonoBehaviour {
+public class Enemy_Detection : NetworkBehaviour {
 
 	// Use this for initialization
     [SerializeField]
