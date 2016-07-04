@@ -29,7 +29,7 @@ public class gvmPitchYawCamera : NetworkBehaviour {
     void Start()
     {
         yVariation = HeadTransform.rotation.eulerAngles.x;
-        xVariation = 0.0f;
+        xVariation = HeadTransform.rotation.eulerAngles.y;
     }
     
     void FixedUpdate() {
@@ -37,16 +37,18 @@ public class gvmPitchYawCamera : NetworkBehaviour {
             yVariation += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * pitchSpeed;
             yVariation = Mathf.Clamp(yVariation, -CLAMP_ANGLE, CLAMP_ANGLE);
 
-            xVariation = Input.GetAxisRaw("Mouse X");
-            CmdRotateCamera();
+            xVariation += Input.GetAxisRaw("Mouse X") * Time.deltaTime * yawSpeed;
+            CmdRotateCamera(xVariation, yVariation);
+
+            HeadTransform.rotation = Quaternion.Euler(-yVariation, xVariation, 0.0f);
+            //CharacterTransform.rotation = Quaternion.Euler(0.0f, xVariation, 0.0f);
         }
     }
 
     [Command]
-    void CmdRotateCamera()
-    {
-        HeadTransform.rotation = Quaternion.Euler(-yVariation, HeadTransform.rotation.eulerAngles.y, 0.0f);
-        CharacterTransform.Rotate(Vector3.up * xVariation * Time.deltaTime * yawSpeed);
+    void CmdRotateCamera(float x, float y) {
+        //HeadTransform.rotation = Quaternion.Euler(-y, x, 0.0f);
+        CharacterTransform.rotation = Quaternion.Euler(0.0f, x, 0.0f);
     }
 
     #endregion
