@@ -75,7 +75,7 @@ public class gvmPlayerControler : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
-            CmdMoveCharacter();
+            CmdMoveCharacter(forwardVar, SidewayVar);
         }
     }
 
@@ -87,6 +87,15 @@ public class gvmPlayerControler : NetworkBehaviour {
     {
         if (heroStatsDisplay != null)
             heroStatsDisplay.text =  "Player\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + currentSpeed;
+    }
+
+
+    [Command]
+    public void CmdMoveCharacter(float f, float s) {
+        characterTransform.Translate(
+           Vector3.forward * f * Time.deltaTime +
+           Vector3.right * s * Time.deltaTime
+           );
     }
 
 
@@ -114,14 +123,6 @@ public class gvmPlayerControler : NetworkBehaviour {
             );
     }
 
-    [Command]
-    public void CmdMoveCharacter()
-    {
-        characterTransform.Translate(
-           Vector3.forward * forwardVar * Time.deltaTime +
-           Vector3.right * SidewayVar * Time.deltaTime
-           );
-    }
 
 
     /// <summary>
