@@ -92,7 +92,7 @@
 		  <SpeedPotion id="consumable4" sprite="">
 			  <speed>125</speed>
 		  </SpeedPotion>
-		  <DefencePotion id="consumable5" sprite="">
+		  <DefencePotion id="consumable5" sprite="Picture/defencePotion_consumable">
 			  <defence>150</defence>
 		  </DefencePotion>
 		  <AttackPotion id="consumable6" sprite="">

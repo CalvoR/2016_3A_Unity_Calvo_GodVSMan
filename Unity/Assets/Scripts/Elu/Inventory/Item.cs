@@ -76,22 +76,28 @@ public class Item {
         {
             if (targetObject.CompareTag("wood_resource"))
                 return new string[] { "Wood", ((int)ItemType.resource).ToString() };
+
             else if (targetObject.CompareTag("steel_resource"))
                 return new string[] { "Steel", ((int)ItemType.resource).ToString() };
+
             else if (targetObject.CompareTag("sword_weapon"))
                 return new string[] { "SteelSword", ((int)ItemType.weapon).ToString() };
+
+            else if (targetObject.CompareTag("defencePotion_consumable"))
+                return new string[] { "DefencePotion", ((int)ItemType.consumable).ToString() };
+
             else if (targetObject.CompareTag("Relic"))
             {
                 gvmRelicManager.hasToUpdate = true;
                 return new string[] { "Relic", null };
             }
-            else
-                return null;
         }
+
         return null;
     }
-    
+
     #endregion
+
 }
 
 

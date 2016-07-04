@@ -4,11 +4,11 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using InventoryManagement;
 
 public class gvmPlayerControler : NetworkBehaviour {
 
     #region Attributs
-
 
     [SerializeField]
     Transform characterTransform;
@@ -40,7 +40,6 @@ public class gvmPlayerControler : NetworkBehaviour {
 
 
     #region Méthodes
-
 
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
@@ -109,7 +108,7 @@ public class gvmPlayerControler : NetworkBehaviour {
         if (ItemInfos[0].Equals("Relic"))
             return;
 
-        InventoryManagement.Inventory.AddItem(
+        Inventory.AddItem(
             DefaultItemsList.ItemList[(ItemType)int.Parse(ItemInfos[1])].Where(x => x.Name.Equals(ItemInfos[0])).SingleOrDefault()
             );
     }
@@ -156,18 +155,6 @@ public class gvmPlayerControler : NetworkBehaviour {
         ClientScene.FindLocalObject(netId).SetActive(false);
     }
 
-    /*
-    public void ActivateConsumableItem()
-    {
-        
-        DateTime boostTimer;
-        
-        if (DateTime.Now < boostTimer + BOOST_DURATION)
-            Inventory.UseConsumable(boostTimer, false);
-        else
-            Inventory.UseConsumable(boostTimer, true);
-    }
-    */
     #endregion
 
 }

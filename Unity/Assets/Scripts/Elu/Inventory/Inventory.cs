@@ -104,35 +104,40 @@ namespace InventoryManagement {
             }
         }
         
-        /*
-        public static UseConsumable (DateTime timer, bool toRebootStats)
+        /// <summary>
+        /// Applique les bonus d'un objet
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="timer"></param>
+        /// <param name="toRebootStats"></param>
+        public static void UseConsumable (Item item, ref float timer, bool toRebootStats)
         {
-            if (!this.Type.Equals(ItemType.consumable))
+            if (item == null || (!item.Type.Equals(ItemType.consumable)) )
                 return;
                 
             int toRebootStatsCoef = (toRebootStats) ? -1 : 1;
                 
-            foreach (string key in weapon.Bonus.Keys)
+            foreach (string key in item.Bonus.Keys)
             {
                 switch (key)
                 {
-                    case "life":            HeroStats.Life += weapon.Bonus[key] * toRebootStatsCoef;
+                    case "life":            HeroStats.Life += item.Bonus[key] * toRebootStatsCoef;
                         break;
-                    case "attack":          HeroStats.Attack += weapon.Bonus[key] * toRebootStatsCoef;
+                    case "attack":          HeroStats.Attack += item.Bonus[key] * toRebootStatsCoef;
                         break;
-                    case "defence":         HeroStats.Defense += weapon.Bonus[key] * toRebootStatsCoef;
+                    case "defence":         HeroStats.Defense += item.Bonus[key] * toRebootStatsCoef;
                         break;
-                    case "speed":           HeroStats.Speed += (weapon.Bonus[key]* HeroStats.Speed) / 100.0f * toRebootStatsCoef;
+                    case "speed":           HeroStats.Speed += (item.Bonus[key]* HeroStats.Speed) / 100.0f * toRebootStatsCoef;
                         break;
-                    case "endurance":       HeroStats.Endurance += weapon.Bonus[key] * toRebootStatsCoef;
+                    case "endurance":       HeroStats.Endurance += item.Bonus[key] * toRebootStatsCoef;
                         break;
                 }
             }
             
-            if (!toRebootStatsCoef)     // Timer mis à la date courante pour annoncer le début de la période de boost
-                timer = Datetime.Now();
+            if (!toRebootStats)     // Timer mis à la date courante pour annoncer le début de la période de boost
+                timer = Time.time;
         }
-        */
+        
 
 
         /// <summary>
