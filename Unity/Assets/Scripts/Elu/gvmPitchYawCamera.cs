@@ -32,19 +32,14 @@ public class gvmPitchYawCamera : NetworkBehaviour {
         xVariation = 0.0f;
     }
     
+    void FixedUpdate() {
+        if (isLocalPlayer) {
+            yVariation += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * pitchSpeed;
+            yVariation = Mathf.Clamp(yVariation, -CLAMP_ANGLE, CLAMP_ANGLE);
 
-	void Update ()
-    {
-        yVariation += Input.GetAxisRaw("Mouse Y") * Time.deltaTime * pitchSpeed;
-        yVariation = Mathf.Clamp(yVariation, -CLAMP_ANGLE, CLAMP_ANGLE);
-
-        xVariation = Input.GetAxisRaw("Mouse X");
-    }
-
-
-    void FixedUpdate()  
-    {
-        CmdRotateCamera();   
+            xVariation = Input.GetAxisRaw("Mouse X");
+            CmdRotateCamera();
+        }
     }
 
     [Command]

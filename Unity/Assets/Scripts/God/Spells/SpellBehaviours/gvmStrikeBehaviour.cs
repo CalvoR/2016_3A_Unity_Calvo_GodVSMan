@@ -11,7 +11,6 @@ public class gvmStrikeBehaviour : NetworkBehaviour {
     private gvmUIDataContainer dataContainer;
     private bool spellCasted = false;
     public Collider spellCollider;
-    readonly Vector3 _areaDefaultPosition = new Vector3(0, -200, 0);
 
     void Start() {
         if (hasAuthority) {

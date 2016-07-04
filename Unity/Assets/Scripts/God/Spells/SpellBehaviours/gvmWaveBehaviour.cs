@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 public class gvmWaveBehaviour : NetworkBehaviour {
     
     private int floorMask;
-    private bool spellCasted = false;
     private float camRayLength = 100f;
     private Camera GodCamera;
     
