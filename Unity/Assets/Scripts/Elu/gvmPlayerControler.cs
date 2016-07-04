@@ -146,14 +146,12 @@ public class gvmPlayerControler : NetworkBehaviour {
 
     [Command]
     private void CmdDisableResource(NetworkInstanceId netId) {
-        Debug.LogError("Remove On Server: " + netId);
         NetworkServer.FindLocalObject(netId).SetActive(false);
         RpcDisableResource(netId);
     }
 
     [ClientRpc]
     private void RpcDisableResource(NetworkInstanceId netId) {
-        Debug.LogError("Remove On Client: "+netId);
         ClientScene.FindLocalObject(netId).SetActive(false);
     }
 

@@ -23,7 +23,6 @@ public class gvmUIDataContainer : NetworkBehaviour {
         areaMax = data.areaMax;
         areaDuration = data.areaDuration;
         behaviour = data.behaviour;
-        Debug.LogError("INIT: " + behaviour);
     }
     
 

@@ -26,11 +26,9 @@ public class gvmAOEBehaviour : NetworkBehaviour {
         }
         for (int i = 0; i < AOEContainer.Length; i++) {
             AOEContainer[i].transform.parent = null;
-            Debug.Log(SpellData.behaviour);
             AOEContainer[i].GetComponent<gvmSpellCollider>().Init(SpellData);
         }
         gameObject.SetActive(false);
-        Debug.LogError("Start");
     }
     
     void Update() {
