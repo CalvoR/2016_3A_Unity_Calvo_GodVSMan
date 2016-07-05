@@ -65,7 +65,7 @@ public class gvmUI_PlayingShortcuts : MonoBehaviour {
     /// </summary>
     public void CheckShortcutsUse()
     {
-        for (int i = 1; i <= 6; i++)
+        for (var i = 1; i <= 6; i++)
         {
             if (Input.GetAxis("Shortcut_" + i) > 0)                 // parcours des 6 input associés aux slots de raccourci
                 UseShortcutSlotItem(Inventory.shorcutSlots[i - 1]);
