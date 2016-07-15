@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 
-public static class HeroStats 
+public static class HeroStats
 {
     static float life;    
     static float endurance;     // en secondes de course possible
@@ -65,6 +66,10 @@ public static class HeroStats
         return false;
     }
 
+    public static void takeDamage(int damage) {
+        Debug.LogError("Damage: " + damage);
+        Life -= damage;
+    }
 }
 
 

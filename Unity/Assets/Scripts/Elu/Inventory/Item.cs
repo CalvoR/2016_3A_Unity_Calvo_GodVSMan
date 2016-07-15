@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.Networking.Types;
 
 /// <summary>
 /// Objet ou ressource à identifiant unique
@@ -9,41 +11,46 @@ public class Item {
 
     #region Attributs
 
-    private int id;
-    private string name;
-    private ItemType type;
-    private Dictionary<string, int> bonus;
-    private string spritePath;
+    public GameObject go;
 
+    private string name;
     public string Name
     {
         get { return name; }
         set { name = value; }
     }
 
-    public ItemType Type
-    {
-        get { return type; }
-        set { type = value; }
-    }
-
-    public Dictionary<string, int> Bonus
-    {
-        get { return bonus; }
-        set { bonus = value; }
-    }
-
+    private string spritePath;
     public string SpritePath
     {
         get { return spritePath; }
         set { spritePath = value; }
     }
 
+    private ItemType type;
+    public ItemType Type
+    {
+        get { return type; }
+        set { type = value; }
+    }
+
+    public bool Equipped;
+    public gvmAnimations animations;
+    private Dictionary<string, int> bonus;
+    public Dictionary<string, int> Bonus
+    {
+        get { return bonus; }
+        set { bonus = value; }
+    }
+
+
     #endregion
 
     #region Constructeurs
 
-    public Item() {    }
+    public Item() {
+        Equipped = false;
+    }
 
     public Item(string name, ItemType type, Dictionary<string, int> bonus, string spritePath)
     {
@@ -51,6 +58,7 @@ public class Item {
         Type = type;
         Bonus = bonus;
         SpritePath = spritePath;
+        Equipped = false;
     }
         // Constructeur utilisant un objet de référence chargé dans le XML
     public Item (Item itemModel)
@@ -59,6 +67,7 @@ public class Item {
         Type = itemModel.Type;
         Bonus = itemModel.Bonus;
         SpritePath = itemModel.SpritePath;
+        Equipped = false;
     }
    
     #endregion
@@ -98,6 +107,22 @@ public class Item {
 
     #endregion
 
+    public void unequip() {
+        Debug.LogError("Unequip");
+        go.SetActive(false);
+        Equipped = false;
+        animations = null;
+    }
+
+    public void equip(Transform position) {
+        go.transform.SetParent(position);
+        go.transform.position = Vector3.zero;
+        go.transform.localPosition = Vector3.zero;
+        go.transform.rotation = Quaternion.identity;
+        animations = go.GetComponent<gvmAnimations>();
+        Equipped = true;
+        go.SetActive(true);
+    }
 }
 
 

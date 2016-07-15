@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Enemy_Attack : MonoBehaviour 
+public class Enemy_Attack : NetworkBehaviour
 {
     [SerializeField]
-    private EnemyMaster enemyMaster;
+    private int damageMin;
     [SerializeField]
+    private int damageMax;
+
+    [SerializeField]
+    private EnemyMaster enemyMaster;
     private Transform attackTarget;
     [SerializeField]
     private Transform myTransform;
@@ -17,6 +22,9 @@ public class Enemy_Attack : MonoBehaviour
     public float attackRange = 3.5f;
     [SerializeField]
     public int attackDamage = 10;
+
+    [SerializeField]
+    private gvmZombiesManager ZombiesManager;
 
     void OnEnable()
     {
@@ -58,6 +66,7 @@ public class Enemy_Attack : MonoBehaviour
                     Vector3 lookAtVector = new Vector3(attackTarget.position.x, myTransform.position.y, attackTarget.position.z);
                     myTransform.LookAt(lookAtVector);
                     enemyMaster.CallEventEnemyAttack();
+                    OnEnemyAttack();
                     enemyMaster.isOnRoute = false;
                 }
             }
@@ -66,15 +75,12 @@ public class Enemy_Attack : MonoBehaviour
 
     public void OnEnemyAttack()
     {
-        if (attackTarget != null)
-        {
-            if (Vector3.Distance(myTransform.position, attackTarget.position) <= attackRange)
-            {
+        if (attackTarget != null && isServer) {
+            if (Vector3.Distance(myTransform.position, attackTarget.position) <= attackRange) {
                 Vector3 toOther = attackTarget.position - myTransform.position;
-
-                if (Vector3.Dot(toOther, myTransform.forward) > 0.5f)
-                { 
-                    //appelle de la fonction qui deduis les pv du joueur
+                
+                if (Vector3.Dot(toOther, myTransform.forward) > 0.5f) {
+                    ZombiesManager.zombieDealDamage(Random.Range(damageMin, damageMax));
                 }
             }
         }

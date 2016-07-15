@@ -31,9 +31,13 @@ public class gvmUI_InventoryManager : MonoBehaviour {
         Inventory.InitSlotsTable();
         isVisible = false;
     }
+    
+    void Update () {
+        if (Inventory.leftHand.Item.Equipped && Input.GetMouseButtonDown(0))
+        {
+            Inventory.leftHand.Item.animations.animation1.Play();
+        }
 
-
-	void Update () {
 
         if (Input.GetKeyDown("e"))          // Ouverture / cache de l'inventaire
         {

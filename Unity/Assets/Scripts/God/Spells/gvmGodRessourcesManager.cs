@@ -28,6 +28,12 @@ public class gvmGodRessourcesManager : NetworkBehaviour {
             InvokeRepeating("updateRessources", 2, 1f);
         }
     }
+    
+    void updateRessources() {
+        faith += faithPerSeconds;
+        fear += fearPerSeconds;
+        RpcSetGodResources(fear, faith);
+    }
 
     void FixedUpdate()
     {
@@ -52,13 +58,15 @@ public class gvmGodRessourcesManager : NetworkBehaviour {
                 faith -= spellData.faithCost;
             }
         }
+        Rpctest();
         RpcSetGodResources(fear, faith);
+        Debug.LogError("use resources");
     }
 
-    void updateRessources() {
-        faith += faithPerSeconds;
-        fear += fearPerSeconds;
-        RpcSetGodResources(fear, faith);
+    [ClientRpc]
+    public void Rpctest()
+    {
+        Debug.LogError("rpc");
     }
 
     [ClientRpc]

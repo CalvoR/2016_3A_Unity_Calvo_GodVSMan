@@ -40,15 +40,15 @@ public class gvmPitchYawCamera : NetworkBehaviour {
             xVariation += Input.GetAxisRaw("Mouse X") * Time.deltaTime * yawSpeed;
             CmdRotateCamera(xVariation, yVariation);
 
+            CharacterTransform.rotation = Quaternion.Euler(0.0f, xVariation, 0.0f);
             HeadTransform.rotation = Quaternion.Euler(-yVariation, xVariation, 0.0f);
-            //CharacterTransform.rotation = Quaternion.Euler(0.0f, xVariation, 0.0f);
         }
     }
 
     [Command]
     void CmdRotateCamera(float x, float y) {
-        //HeadTransform.rotation = Quaternion.Euler(-y, x, 0.0f);
         CharacterTransform.rotation = Quaternion.Euler(0.0f, x, 0.0f);
+        HeadTransform.rotation = Quaternion.Euler(-y, x, 0.0f);
     }
 
     #endregion

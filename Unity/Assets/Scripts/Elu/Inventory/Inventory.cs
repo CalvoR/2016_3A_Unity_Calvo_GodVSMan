@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEngine.Networking;
 
 namespace InventoryManagement {
 
@@ -46,8 +47,9 @@ namespace InventoryManagement {
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <param name="spritePath"></param>
-        public static void AddItem(Item itemToAdd)
+        public static void AddItem(Item itemToAdd, GameObject go)
         {
+            itemToAdd.go = go;
             int slotId = 0;
             InventorySlot currentSlot;
 
@@ -81,6 +83,7 @@ namespace InventoryManagement {
         /// <param name="ToDisarm"></param>
         public static void EquipWeapon(Item weapon, bool ToDisarm)
         {
+            Debug.LogError("Equip: " + ToDisarm);
             if (weapon == null)
                 return;
 
@@ -250,13 +253,13 @@ namespace InventoryManagement {
             get;
             set;
         }
-
-
+        
         // Constructeurs
         public InventorySlot()
             {
                 IsEmpty = true;
                 Amount = 0;
+                Item = new Item();
             }
 
         public InventorySlot(bool isEmpty, Item item, int amount, SlotType type)

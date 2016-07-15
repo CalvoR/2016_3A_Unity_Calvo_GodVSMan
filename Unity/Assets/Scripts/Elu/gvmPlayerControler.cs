@@ -85,7 +85,7 @@ public class gvmPlayerControler : NetworkBehaviour {
     public void UpdateStatsDisplay()
     {
         if (heroStatsDisplay != null)
-            heroStatsDisplay.text =  "Player\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + currentSpeed;
+            heroStatsDisplay.text =  "Statistiques:\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + currentSpeed + "\n Points de vie:" + HeroStats.Life;
     }
 
 
@@ -112,13 +112,13 @@ public class gvmPlayerControler : NetworkBehaviour {
 
         if (ItemInfos == null)
             return;
-
+        Debug.LogError(targetResource.tag+":"+ targetResource.GetComponent<NetworkIdentity>().netId);
         CmdDisableResource(targetResource.GetComponent<NetworkIdentity>().netId);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
         if (ItemInfos[0].Equals("Relic"))
             return;
 
         Inventory.AddItem(
-            DefaultItemsList.ItemList[(ItemType)int.Parse(ItemInfos[1])].Where(x => x.Name.Equals(ItemInfos[0])).SingleOrDefault()
+            DefaultItemsList.ItemList[(ItemType)int.Parse(ItemInfos[1])].SingleOrDefault(x => x.Name.Equals(ItemInfos[0])), targetResource
             );
     }
 
