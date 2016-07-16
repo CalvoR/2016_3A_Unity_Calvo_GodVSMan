@@ -6,12 +6,16 @@ public class gvmZombiesManager : NetworkBehaviour
 {
     [SerializeField]
     private GameObject[] zombies;
+    public GameObject[] humans;
 
-    void OnEnable()
+    void Awake()
     {
         for (int i = 0; i < zombies.Length; i++)
         {
-            zombies[i].SetActive(true);
+            zombies[i].SetActive(false);
+        }
+        for (int i = 0; i < humans.Length; i++) {
+            humans[i].SetActive(true);
         }
     }
 

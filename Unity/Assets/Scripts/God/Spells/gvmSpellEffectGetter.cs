@@ -21,7 +21,6 @@ public class gvmSpellEffectGetter : MonoBehaviour {
     void Awake() {
         properties = gvmPropertiesManager.GetInstance();
         effectList = new List<int>();
-        resources.NPCCounter++;
     }
 
     void update() {

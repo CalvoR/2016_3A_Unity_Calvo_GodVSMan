@@ -1,17 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class gvmAnimations : MonoBehaviour
+public class gvmAnimations : NetworkBehaviour
 {
     public Animation animation1;
 
     public bool Equiped = false;
-    
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "npc")
-        {
-            collision.gameObject.GetComponent<gvmNPCData>().takeDamage(10);
-        }
-    }
 }

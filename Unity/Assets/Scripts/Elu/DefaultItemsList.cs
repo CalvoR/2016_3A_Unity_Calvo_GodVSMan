@@ -16,8 +16,7 @@ public class DefaultItemsList : MonoBehaviour {
     {
         FillListFromXmlFile();
     }
-
-
+    
     /// <summary>
     /// Remplit la liste d'objets en lisant le fichier XML
     /// </summary>

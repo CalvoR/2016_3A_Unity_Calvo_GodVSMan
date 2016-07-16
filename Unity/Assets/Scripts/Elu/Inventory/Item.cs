@@ -7,11 +7,11 @@ using UnityEngine.Networking.Types;
 /// <summary>
 /// Objet ou ressource à identifiant unique
 /// </summary>
-public class Item {
+public class Item  {
 
     #region Attributs
 
-    public GameObject go;
+    public NetworkInstanceId go;
 
     private string name;
     public string Name
@@ -42,16 +42,17 @@ public class Item {
         get { return bonus; }
         set { bonus = value; }
     }
-
-
+    
     #endregion
 
     #region Constructeurs
-
-    public Item() {
+    
+    public Item()
+    {
+        Name = "itemName";
         Equipped = false;
     }
-
+    /*
     public Item(string name, ItemType type, Dictionary<string, int> bonus, string spritePath)
     {
         Name = name;
@@ -59,8 +60,8 @@ public class Item {
         Bonus = bonus;
         SpritePath = spritePath;
         Equipped = false;
-    }
-        // Constructeur utilisant un objet de référence chargé dans le XML
+    }*/
+      /*  // Constructeur utilisant un objet de référence chargé dans le XML
     public Item (Item itemModel)
     {
         Name = itemModel.Name;
@@ -68,7 +69,7 @@ public class Item {
         Bonus = itemModel.Bonus;
         SpritePath = itemModel.SpritePath;
         Equipped = false;
-    }
+    }*/
    
     #endregion
 
@@ -107,22 +108,7 @@ public class Item {
 
     #endregion
 
-    public void unequip() {
-        Debug.LogError("Unequip");
-        go.SetActive(false);
-        Equipped = false;
-        animations = null;
-    }
 
-    public void equip(Transform position) {
-        go.transform.SetParent(position);
-        go.transform.position = Vector3.zero;
-        go.transform.localPosition = Vector3.zero;
-        go.transform.rotation = Quaternion.identity;
-        animations = go.GetComponent<gvmAnimations>();
-        Equipped = true;
-        go.SetActive(true);
-    }
 }
 
 

@@ -11,6 +11,11 @@ public class gvmPlayerControler : NetworkBehaviour {
     #region Attributs
 
     [SerializeField]
+    private Transform playerRightHand;
+    [SerializeField]
+    private Transform playerLeftHand;
+
+    [SerializeField]
     Transform characterTransform;
 
     [SerializeField]
@@ -40,7 +45,7 @@ public class gvmPlayerControler : NetworkBehaviour {
 
 
     #region Méthodes
-
+    
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
         if (Camera.main && Camera.main.gameObject) {
@@ -117,9 +122,7 @@ public class gvmPlayerControler : NetworkBehaviour {
         if (ItemInfos[0].Equals("Relic"))
             return;
 
-        Inventory.AddItem(
-            DefaultItemsList.ItemList[(ItemType)int.Parse(ItemInfos[1])].SingleOrDefault(x => x.Name.Equals(ItemInfos[0])), targetResource
-            );
+        Inventory.AddItem(DefaultItemsList.ItemList[(ItemType)int.Parse(ItemInfos[1])].SingleOrDefault(x => x.Name.Equals(ItemInfos[0])), targetResource.GetComponent<NetworkIdentity>().netId);
     }
 
 
@@ -152,6 +155,43 @@ public class gvmPlayerControler : NetworkBehaviour {
     [ClientRpc]
     private void RpcDisableResource(NetworkInstanceId netId) {
         ClientScene.FindLocalObject(netId).SetActive(false);
+    }
+
+
+    [Command]
+    public void CmdUnequipItem(NetworkInstanceId netId) {
+        Debug.LogError("Unequip: " + netId);
+        NetworkServer.FindLocalObject(netId).SetActive(false);
+        RpcUnequipItem(netId);
+    }
+
+    [ClientRpc]
+    public void RpcUnequipItem(NetworkInstanceId netId) {
+        Debug.LogError("Unequip: " + netId);
+        ClientScene.FindLocalObject(netId).SetActive(false);
+    }
+
+    [Command]
+    public void CmdEquipItem(NetworkInstanceId netId, int handIndex) {
+        Debug.LogError("Equip: "+netId);
+        var go = NetworkServer.FindLocalObject(netId);
+        go.transform.SetParent(handIndex == -1 ? playerLeftHand : playerRightHand);
+        go.transform.position = Vector3.zero;
+        go.transform.localPosition = Vector3.zero;
+        go.transform.rotation = Quaternion.identity;
+        go.SetActive(true);
+        RpcEquipItem(netId, handIndex);
+    }
+
+    [ClientRpc]
+    public void RpcEquipItem(NetworkInstanceId netId, int handIndex) {
+        Debug.LogError("Equip: " + netId);
+        var go = ClientScene.FindLocalObject(netId);
+        go.transform.SetParent(handIndex == -1 ? playerLeftHand : playerRightHand);
+        go.transform.position = Vector3.zero;
+        go.transform.localPosition = Vector3.zero;
+        go.transform.rotation = Quaternion.identity;
+        go.SetActive(true);
     }
 
     #endregion

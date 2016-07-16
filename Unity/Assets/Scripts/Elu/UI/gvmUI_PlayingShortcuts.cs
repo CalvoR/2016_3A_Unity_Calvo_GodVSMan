@@ -23,10 +23,7 @@ public class gvmUI_PlayingShortcuts : MonoBehaviour {
         shortcutSlots = Inventory.shorcutSlots;
         boostTimer = 0.0f;
         isBoostActive = false;
-
-        // A ENLEVER
-        Inventory.AddItem(DefaultItemsList.ItemList[ItemType.weapon].Where(x => x.Name.Equals("SteelSword")).SingleOrDefault(), null);
-        // A ENLEVER
+        
     }
 	
     void Update()

@@ -47,9 +47,9 @@ namespace InventoryManagement {
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <param name="spritePath"></param>
-        public static void AddItem(Item itemToAdd, GameObject go)
+        public static void AddItem(Item itemToAdd, NetworkInstanceId _go)
         {
-            itemToAdd.go = go;
+            itemToAdd.go = _go;
             int slotId = 0;
             InventorySlot currentSlot;
 
@@ -72,7 +72,7 @@ namespace InventoryManagement {
                 }
                 slotId++;
             }
-
+            Debug.LogError("SlotId: " + slotId);
             slots[slotId].FillSlot(itemToAdd);
         }
 
@@ -81,13 +81,13 @@ namespace InventoryManagement {
         /// </summary>
         /// <param name="weapon"></param>
         /// <param name="ToDisarm"></param>
-        public static void EquipWeapon(Item weapon, bool ToDisarm)
+        public static void EquipWeapon(Item weapon, bool Equip)
         {
-            Debug.LogError("Equip: " + ToDisarm);
+            Debug.LogError("Equip: " + Equip);
             if (weapon == null)
                 return;
 
-            int toDisarmCoef = (ToDisarm) ? -1 : 1;
+            int toDisarmCoef = (Equip) ? 1 : -1;
 
             foreach (string key in weapon.Bonus.Keys)
             {
@@ -279,13 +279,14 @@ namespace InventoryManagement {
         {
             if (!IsEmpty && !Item.Name.Equals(itemToAdd.Name))
             {
-                Debug.Log("Trying to add a different item to an already filled slot");
+                Debug.LogError("Trying to add a different item to an already filled slot");
                 return;
             }
 
             IsEmpty = false;
             Amount++;
             Item = itemToAdd;     
+            Debug.LogError("ItemAdded");
         }
 
     }

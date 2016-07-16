@@ -3,18 +3,18 @@ using System.Collections;
 using InventoryManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Classe de gestion de l'inventaire côté GUI
 /// </summary>
-public class gvmUI_InventoryManager : MonoBehaviour {
+public class gvmUI_InventoryManager : NetworkBehaviour {
     
     [SerializeField]
     Image image;
 
     // Liste des objets UI de chaque slot
-    [SerializeField]
-    public List<GameObject> UI_SlotsList;
+    private List<gvmUI_SlotManager> UI_SlotsList;
 
     // UI des informations sur l'item
     [SerializeField]
@@ -22,14 +22,29 @@ public class gvmUI_InventoryManager : MonoBehaviour {
 
     [SerializeField]
     public GameObject playing_ShortcutSlots;
+    [SerializeField]
+    private GameObject DefaultSlots;
+    [SerializeField]
+    private GameObject ShortcutSlots;
+    [SerializeField]
+    private GameObject HandSlots;
 
     private bool isVisible;
-
-
+    
     void Awake()
     {
         Inventory.InitSlotsTable();
         isVisible = false;
+        UI_SlotsList = new List<gvmUI_SlotManager>();
+        for (int i = 0; i < DefaultSlots.transform.childCount; i++) {
+            UI_SlotsList.Add(DefaultSlots.transform.GetChild(i).GetComponent<gvmUI_SlotManager>());
+        }
+        for (int i = 0; i < ShortcutSlots.transform.childCount; i++) {
+            UI_SlotsList.Add(ShortcutSlots.transform.GetChild(i).GetComponent<gvmUI_SlotManager>());
+        }
+        for (int i = 0; i < HandSlots.transform.childCount; i++) {
+            UI_SlotsList.Add(HandSlots.transform.GetChild(i).GetComponent<gvmUI_SlotManager>());
+        }
     }
     
     void Update () {
@@ -37,17 +52,16 @@ public class gvmUI_InventoryManager : MonoBehaviour {
         {
             Inventory.leftHand.Item.animations.animation1.Play();
         }
-
-
+        
         if (Input.GetKeyDown("e"))          // Ouverture / cache de l'inventaire
         {
             image.enabled = (isVisible = !isVisible);
             playing_ShortcutSlots.SetActive(!isVisible);
-            foreach (GameObject UI_Slot in UI_SlotsList)
-            {
-                UI_Slot.SetActive(isVisible);
-                if (UI_Slot.GetComponent<gvmUI_SlotManager>() != null && isVisible)
-                    UI_Slot.GetComponent<gvmUI_SlotManager>().LoadImage();
+            for (int i = 0; i < UI_SlotsList.Count; i++) {
+                UI_SlotsList[i].SetActive(isVisible);
+                if (isVisible) {
+                    UI_SlotsList[i].LoadImage();
+                }
             }
 
             if (!isVisible)         // La fenêtre d'info d'un item est cachée si l'inventaire est fermé, et les raccourcis en jeu cachés si l'inventaire est ouvert

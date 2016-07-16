@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 
 public class gvmControlCameraScript : NetworkBehaviour {
 
+    [SerializeField]
     private GameObject gameCamera;
     private Vector3 mapPosition;
     private Vector3 mouseClickDownPosition;
@@ -28,12 +29,23 @@ public class gvmControlCameraScript : NetworkBehaviour {
     [SerializeField]
     private float cameraKeyboardSpeed = 1.0f;
 
+    private bool isPaused = false;
 
     void Start() {
-        gameCamera = GameObject.FindGameObjectWithTag("GodCamera");
+        //gameCamera = GameObject.FindGameObjectWithTag("GodCamera");
     }
 
-    void Update() {
+    void OnApplicationFocus(bool focusStatus) {
+        isPaused = focusStatus;
+    }
+
+    void OnApplicationPause(bool pauseStatus) {
+        isPaused = pauseStatus;
+    }
+
+    void Update()
+    {
+        if (!isPaused) return;
         //set new camera position controled with mouse
         if (Input.mousePosition.x >= Screen.width - 5) {
             gameCamera.transform.position = checkCameraLocationOnTheMap(gameCamera.transform.position + Vector3.right / cameraSpeed);

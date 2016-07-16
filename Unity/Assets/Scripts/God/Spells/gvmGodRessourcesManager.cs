@@ -15,15 +15,19 @@ public class gvmGodRessourcesManager : NetworkBehaviour {
     public Text FearText;
     [SerializeField]
     public Text FaithText;
+
+    [SerializeField]
+    private gvmZombiesManager NPCManager;
     
     private gvmSpellContainer resourcesContainer;
-    public int NPCCounter = 0;
+    public int NPCCounter;
     public int FaithfulNPCCounter = 0;
     public int FearfulNPCCounter = 0;
 
     void Start() {
         gvmMonoBehaviourReference.Ressources = this;
         resourcesContainer = gvmSpellContainer.Load("SpellData");
+        NPCCounter = NPCManager.humans.Length; 
         if (isServer) {
             InvokeRepeating("updateRessources", 2, 1f);
         }
@@ -37,6 +41,7 @@ public class gvmGodRessourcesManager : NetworkBehaviour {
 
     void FixedUpdate()
     {
+        if (NPCCounter == 0) return;
         if (FaithfulNPCCounter * 100 / NPCCounter >= 75)
         {
             Debug.LogError("GOD WIN BY FAITH");
@@ -58,17 +63,10 @@ public class gvmGodRessourcesManager : NetworkBehaviour {
                 faith -= spellData.faithCost;
             }
         }
-        Rpctest();
         RpcSetGodResources(fear, faith);
         Debug.LogError("use resources");
     }
-
-    [ClientRpc]
-    public void Rpctest()
-    {
-        Debug.LogError("rpc");
-    }
-
+    
     [ClientRpc]
     public void RpcSetGodResources(int _fear, int _faith)
     {

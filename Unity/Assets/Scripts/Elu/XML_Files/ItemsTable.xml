@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding ="utf-8"?>
 <ItemsTable>
-  
     <weapon>
       <Dagger id="weapon1" sprite="">
 			  <attack>15</attack>

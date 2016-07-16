@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 /// <summary>
 /// Classe de gestion d'un slot d'inventaire côté GUI
 /// </summary>
-public class gvmUI_SlotManager : MonoBehaviour {
+public class gvmUI_SlotManager : NetworkBehaviour {
 
     #region Attributs
 
@@ -24,15 +24,13 @@ public class gvmUI_SlotManager : MonoBehaviour {
     [SerializeField]
     public GameObject itemInfosBackground;
     
-    [SerializeField]
-    private Transform playerRightHand;
-    [SerializeField]
-    private Transform playerLeftHand;
 
     // UI text des informations sur l'item
     [SerializeField]
-    public Text itemInfosText;   
+    public Text itemInfosText;
 
+    [SerializeField]
+    private gvmPlayerControler playerControler;
 
     // Slot en mémoire associé à ce slot UI
     public InventorySlot DataSlot  { get; set; }
@@ -50,11 +48,14 @@ public class gvmUI_SlotManager : MonoBehaviour {
 
     #region Méthodes
 
-    void Start()
-    {
+    void Awake() { 
         gameObject.SetActive(false);
         draggedUI_Slot = null;
         linkDataSlotsToUI();     
+    }
+
+    void OnEnable() {
+        linkDataSlotsToUI();
     }
 
     /// <summary>
@@ -130,16 +131,22 @@ public class gvmUI_SlotManager : MonoBehaviour {
             // Déséquippe si le slot d'origine était une arme et était placée sur un slot de main
         if (dragSlotId < 0 && slotSrc.Item.Type.Equals(ItemType.weapon))
         {
-            Inventory.EquipWeapon(slotDest.Item, true);
-            Inventory.leftHand.Item.unequip();
+            Inventory.EquipWeapon(slotDest.Item, false);
+            playerControler.CmdUnequipItem(slotDest.Item.go);
+            slotDest.Item.Equipped = false;
+            slotDest.Item.animations = null;
         }
         
-            // Equipe si l'objet est une arme et que le nouveau slot est une des mains
+        // Equipe si l'objet est une arme et que le nouveau slot est une des mains
         if (slotId < 0 && slotDest.Item.Type.Equals(ItemType.weapon)) {
-            Inventory.EquipWeapon(slotDest.Item, false);
-            Inventory.leftHand.Item.equip(dragSlotId == -1 ? playerLeftHand : playerRightHand);
+            Inventory.EquipWeapon(slotDest.Item, true);
+            Debug.LogError("netId: " + slotDest.Item.go);
+            playerControler.CmdEquipItem(slotDest.Item.go, dragSlotId);
+            slotDest.Item.animations = ClientScene.FindLocalObject(slotDest.Item.go).GetComponent<gvmAnimations>();
+            slotDest.Item.Equipped = true;
         }
     }
+    
 
     /// <summary>
     /// Met à jour le contenu en mémoire des slots destinataire et source envoyés en paramètres (avec leurs IDs respectifs)
@@ -186,7 +193,7 @@ public class gvmUI_SlotManager : MonoBehaviour {
         try { 
             if (DataSlot.Item == null || image == null)
                 return;
-
+            Debug.LogError("LoadSprite");
             image.sprite = Resources.Load <Sprite> (DataSlot.Item.SpritePath);
         }
         catch (Exception e)
@@ -220,14 +227,19 @@ public class gvmUI_SlotManager : MonoBehaviour {
                 DataSlot = Inventory.shorcutSlots[slotId];
                 Type = SlotType.shortcut;
             }
-            else {                                      // cas d'un slot classique
+            else {
+                //Debug.LogError("link: " + Inventory.slots[slotId].Item.Type);                              // cas d'un slot classique
                 DataSlot = Inventory.slots[slotId];
                 Type = SlotType.defaultSlot;
             }
         }
     }
 
+    public void SetActive(bool isVisible) {
+        gameObject.SetActive(isVisible);
+    }
     #endregion
+
 }
 
 
