@@ -58,7 +58,6 @@ namespace InventoryManagement {
             {
                 if (slotId >= SLOTS_NBR)
                 {
-                    Debug.Log("No empty slot can be found in Inventory");
                     return;
                 }
 
@@ -72,7 +71,6 @@ namespace InventoryManagement {
                 }
                 slotId++;
             }
-            Debug.LogError("SlotId: " + slotId);
             slots[slotId].FillSlot(itemToAdd);
         }
 
@@ -83,7 +81,6 @@ namespace InventoryManagement {
         /// <param name="ToDisarm"></param>
         public static void EquipWeapon(Item weapon, bool Equip)
         {
-            Debug.LogError("Equip: " + Equip);
             if (weapon == null)
                 return;
 
@@ -279,14 +276,12 @@ namespace InventoryManagement {
         {
             if (!IsEmpty && !Item.Name.Equals(itemToAdd.Name))
             {
-                Debug.LogError("Trying to add a different item to an already filled slot");
                 return;
             }
 
             IsEmpty = false;
             Amount++;
             Item = itemToAdd;     
-            Debug.LogError("ItemAdded");
         }
 
     }

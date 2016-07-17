@@ -11,11 +11,19 @@ public class gvmGodSceneManager : NetworkBehaviour {
     gvmSpellButton[] spellButtons = new gvmSpellButton[5];
 
     [SerializeField]
-    GameObject GodUI;
-    
+    private GameObject GodUI;
+
+    [SerializeField]
+    private GameObject EndGameVictoryUI;
+
+    [SerializeField]
+    private GameObject EndGameDefeatUI;
+
     [SerializeField]
     GameObject playerCamera;
-    
+    [SerializeField]
+    private GameObject NoAuthorityScripts;
+
     gvmSpellContainer spellDataContainer;
 
     public override void OnStartLocalPlayer() {
@@ -77,5 +85,19 @@ public class gvmGodSceneManager : NetworkBehaviour {
     [Command]
     public void CmdSetSpellActive(int i) {
         spellButtons[i].spellGO.SetActive(true);
+    }
+
+    [ClientRpc]
+    public void RpcEndTheGame(bool win) {
+        if (hasAuthority) {
+            GodUI.SetActive(false);
+            if (win) {
+                EndGameVictoryUI.SetActive(true);
+                NoAuthorityScripts.SetActive(false);
+            } else {
+                EndGameDefeatUI.SetActive(true);
+                NoAuthorityScripts.SetActive(false);
+            }
+        }
     }
 }

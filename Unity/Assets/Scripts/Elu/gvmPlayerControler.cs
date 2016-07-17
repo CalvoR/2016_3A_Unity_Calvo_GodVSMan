@@ -27,6 +27,15 @@ public class gvmPlayerControler : NetworkBehaviour {
     [SerializeField]
     private GameObject ChosenUI;
 
+    [SerializeField]
+    private GameObject EndGameVictoryUI;
+
+    [SerializeField]
+    private GameObject EndGameDefeatUI;
+
+    [SerializeField]
+    private GvmGameControler controler;
+
     private float forwardVar;               // distance de déplacement sur les axes X et Z
     private float SidewayVar;
 
@@ -45,7 +54,7 @@ public class gvmPlayerControler : NetworkBehaviour {
 
 
     #region Méthodes
-    
+
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
         if (Camera.main && Camera.main.gameObject) {
@@ -59,9 +68,8 @@ public class gvmPlayerControler : NetworkBehaviour {
         currentSpeed = HeroStats.Speed;
         runSpeed = HeroStats.Speed * RUN_COEF;
     }
-    
-    void Update()
-    {
+
+    void Update() {
         if (isLocalPlayer) {
             ManageRun();
 
@@ -74,11 +82,9 @@ public class gvmPlayerControler : NetworkBehaviour {
             UpdateStatsDisplay();
         }
     }
-    
-    void FixedUpdate()
-    {
-        if (isLocalPlayer)
-        {
+
+    void FixedUpdate() {
+        if (isLocalPlayer) {
             CmdMoveCharacter(forwardVar, SidewayVar);
         }
     }
@@ -87,13 +93,11 @@ public class gvmPlayerControler : NetworkBehaviour {
     /// <summary>
     /// Met à jour l'affichage des statistiques
     /// </summary>
-    public void UpdateStatsDisplay()
-    {
+    public void UpdateStatsDisplay() {
         if (heroStatsDisplay != null)
-            heroStatsDisplay.text =  "Statistiques:\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + currentSpeed + "\n Points de vie:" + HeroStats.Life;
+            heroStatsDisplay.text = "Statistiques:\n Attaque:" + HeroStats.Attack + "\n Defense:" + HeroStats.Defense + "\n Vitesse:" + currentSpeed + "\n Points de vie:" + HeroStats.Life;
     }
-
-
+    
     [Command]
     public void CmdMoveCharacter(float f, float s) {
         characterTransform.Translate(
@@ -106,8 +110,7 @@ public class gvmPlayerControler : NetworkBehaviour {
     /// <summary>
     /// Disparition et ajout de la ressource lorsque celle-ci est récupérée au sol
     /// </summary>
-    public void GetItem()
-    {
+    public void GetItem() {
         var ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         if (!Physics.Raycast(ray, out rayHit, 5.0f))
             return;
@@ -117,23 +120,24 @@ public class gvmPlayerControler : NetworkBehaviour {
 
         if (ItemInfos == null)
             return;
-        Debug.LogError(targetResource.tag+":"+ targetResource.GetComponent<NetworkIdentity>().netId);
         CmdDisableResource(targetResource.GetComponent<NetworkIdentity>().netId);                        // l'objet est "détruit" dans la scène et ajouté dans l'inventaire
-        if (ItemInfos[0].Equals("Relic"))
+        if (ItemInfos[0].Equals("Relic")) {
+            CmdAddRelic();
             return;
-
+        }
         Inventory.AddItem(DefaultItemsList.ItemList[(ItemType)int.Parse(ItemInfos[1])].SingleOrDefault(x => x.Name.Equals(ItemInfos[0])), targetResource.GetComponent<NetworkIdentity>().netId);
     }
 
-
+    [Command]
+    public void CmdAddRelic() {
+        controler.addRelicCounter();
+    }
 
     /// <summary>
     /// Met à jour la vitesse de déplacement si la course commence ou doit s'arrêter
     /// </summary>
-    public void ManageRun()
-    {
-        if (Input.GetKeyDown("up") || Input.GetKeyDown("z"))
-        {
+    public void ManageRun() {
+        if (Input.GetKeyDown("up") || Input.GetKeyDown("z")) {
             if (Time.time - lastTapTime < doubleTapDelay)       // activationde la course
             {
                 runSpeed = HeroStats.Speed * RUN_COEF;
@@ -143,7 +147,7 @@ public class gvmPlayerControler : NetworkBehaviour {
             lastTapTime = Time.time;
         }
         if (Input.GetKeyUp("up") || Input.GetKeyUp("z") || HeroStats.isEnduranceFinished(startRunningTime))       // test sur la jauge d'endurance 
-             currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut     
+            currentSpeed = HeroStats.Speed;                                                                 // vitesse remise à sa valeur par défaut     
     }
 
     [Command]
@@ -160,20 +164,17 @@ public class gvmPlayerControler : NetworkBehaviour {
 
     [Command]
     public void CmdUnequipItem(NetworkInstanceId netId) {
-        Debug.LogError("Unequip: " + netId);
         NetworkServer.FindLocalObject(netId).SetActive(false);
         RpcUnequipItem(netId);
     }
 
     [ClientRpc]
     public void RpcUnequipItem(NetworkInstanceId netId) {
-        Debug.LogError("Unequip: " + netId);
         ClientScene.FindLocalObject(netId).SetActive(false);
     }
 
     [Command]
     public void CmdEquipItem(NetworkInstanceId netId, int handIndex) {
-        Debug.LogError("Equip: "+netId);
         var go = NetworkServer.FindLocalObject(netId);
         go.transform.SetParent(handIndex == -1 ? playerLeftHand : playerRightHand);
         go.transform.position = Vector3.zero;
@@ -185,7 +186,6 @@ public class gvmPlayerControler : NetworkBehaviour {
 
     [ClientRpc]
     public void RpcEquipItem(NetworkInstanceId netId, int handIndex) {
-        Debug.LogError("Equip: " + netId);
         var go = ClientScene.FindLocalObject(netId);
         go.transform.SetParent(handIndex == -1 ? playerLeftHand : playerRightHand);
         go.transform.position = Vector3.zero;
@@ -194,6 +194,19 @@ public class gvmPlayerControler : NetworkBehaviour {
         go.SetActive(true);
     }
 
+    [ClientRpc]
+    public void RpcEndTheGame(bool win) {
+        if (hasAuthority) {
+            ChosenUI.SetActive(false);
+            if (win) {
+                EndGameVictoryUI.SetActive(true);
+                controler.NoAuthorityScripts.SetActive(false);
+            } else {
+                EndGameDefeatUI.SetActive(true);
+                controler.NoAuthorityScripts.SetActive(false);
+            }
+        }
+    }
     #endregion
 
 }

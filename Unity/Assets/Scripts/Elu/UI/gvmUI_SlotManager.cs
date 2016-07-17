@@ -127,7 +127,6 @@ public class gvmUI_SlotManager : NetworkBehaviour {
         draggedUI_Slot.linkDataSlotsToUI();
         draggedUI_Slot.LoadImage();
         draggedUI_Slot = null;
-        Debug.LogError(dragSlotId);
             // Déséquippe si le slot d'origine était une arme et était placée sur un slot de main
         if (dragSlotId < 0 && slotSrc.Item.Type.Equals(ItemType.weapon))
         {
@@ -140,7 +139,6 @@ public class gvmUI_SlotManager : NetworkBehaviour {
         // Equipe si l'objet est une arme et que le nouveau slot est une des mains
         if (slotId < 0 && slotDest.Item.Type.Equals(ItemType.weapon)) {
             Inventory.EquipWeapon(slotDest.Item, true);
-            Debug.LogError("netId: " + slotDest.Item.go);
             playerControler.CmdEquipItem(slotDest.Item.go, dragSlotId);
             slotDest.Item.animations = ClientScene.FindLocalObject(slotDest.Item.go).GetComponent<gvmAnimations>();
             slotDest.Item.Equipped = true;
@@ -193,7 +191,6 @@ public class gvmUI_SlotManager : NetworkBehaviour {
         try { 
             if (DataSlot.Item == null || image == null)
                 return;
-            Debug.LogError("LoadSprite");
             image.sprite = Resources.Load <Sprite> (DataSlot.Item.SpritePath);
         }
         catch (Exception e)
@@ -227,8 +224,7 @@ public class gvmUI_SlotManager : NetworkBehaviour {
                 DataSlot = Inventory.shorcutSlots[slotId];
                 Type = SlotType.shortcut;
             }
-            else {
-                //Debug.LogError("link: " + Inventory.slots[slotId].Item.Type);                              // cas d'un slot classique
+            else {                      // cas d'un slot classique
                 DataSlot = Inventory.slots[slotId];
                 Type = SlotType.defaultSlot;
             }

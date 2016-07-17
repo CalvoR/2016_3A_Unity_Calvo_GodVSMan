@@ -82,7 +82,13 @@ public class gvmAOEBehaviour : NetworkBehaviour {
         spellCasted = false;
         gameObject.transform.position = Vector3.up * -1000;
         gameObject.SetActive(false);
+        CmdDisableSpell();
     }
-    
+
+    public void CmdDisableSpell() {
+        spellCasted = false;
+        gameObject.transform.position = Vector3.up * -1000;
+        gameObject.SetActive(false);
+    }
     
 }

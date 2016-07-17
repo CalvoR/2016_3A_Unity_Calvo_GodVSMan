@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class gvmSpellEffectGetter : MonoBehaviour {
+public class gvmSpellEffectGetter : NetworkBehaviour {
 
 
     [SerializeField]
@@ -11,10 +12,6 @@ public class gvmSpellEffectGetter : MonoBehaviour {
     private gvmPropertiesManager properties;
     [SerializeField]
     private gvmNPCData data;
-
-    [SerializeField]
-    private MeshRenderer mesh;
-
     [SerializeField]
     private gvmGodRessourcesManager resources;
 
@@ -33,73 +30,28 @@ public class gvmSpellEffectGetter : MonoBehaviour {
     }
 
     public void getNewEffect(gvmUIDataContainer Container) {
-        for(int i = 0; i < Container.propertiesId.Count; i++) {
-            effectList.Add(Container.propertiesId[i]);
-            int v1 = 0;
-            int v2 = 0;
-            if (data.state >= 0) {
-                if (data.state + Container.stateEffect >= 0)
-                {
-                    v2 = Container.stateEffect;
-                } else {
-                    v2 = -data.state; 
-                    v1 = -(data.state + Container.stateEffect); 
-                }
+        for (int i = 0; i < Container.propertiesId.Count; i++) {
+            if (!effectList.Contains(Container.propertiesId[i])) {
+                effectList.Add(Container.propertiesId[i]);
             }
-            if (data.state <= 0) {
-                if (data.state + Container.stateEffect <= 0) {
-                    v1 = -Container.stateEffect;
-                } else {
-                    v1 = data.state;
-                    v2 = data.state + Container.stateEffect;
-                }
-            }
-
-            resources.setResourcesPerSeconds(v1, v2);
-            
-            StartCoroutine(dealDamage(Container.propertiesId[i], i));
-        }
-        if (data.state == 0) {
-            if (data.state + Container.stateEffect > 0) {
-                resources.FaithfulNPCCounter++;
-            }
-            if (data.state + Container.stateEffect < 0) {
-                resources.FearfulNPCCounter++;
+            if (isServer) {
+                StartCoroutine(dealDamage(Container.propertiesId[i]));
             }
         }
-        if (data.state < 0) {
-            if (data.state + Container.stateEffect > 0) {
-                resources.FaithfulNPCCounter++;
-                resources.FearfulNPCCounter--;
-            }
-            if (data.state + Container.stateEffect == 0) {
-                resources.FearfulNPCCounter--;
-            }
-        }
-        if (data.state > 0) {
-            if (data.state + Container.stateEffect < 0) {
-                resources.FaithfulNPCCounter--;
-                resources.FearfulNPCCounter++;
-            }
-            if (data.state + Container.stateEffect == 0) {
-                resources.FaithfulNPCCounter--;
-            }
-        }
-
-        data.state += Container.stateEffect;
-        mesh.material.color = data.state == 0 ? Color.yellow : data.state < 0 ? Color.red : Color.green;
+        data.CorruptionState += Container.stateEffect;
     }
 
-    private IEnumerator dealDamage(int effect, int effectIndex) {
+    private IEnumerator dealDamage(int effect) {
         var prop = properties.getPropertyById(effect);
         data.HP += prop.damage;
+        data.CorruptionState += prop.stateEffect;
         for (int i = 0; i < prop.duration; i++) {
             yield return new WaitForSeconds(1);
-            data.HP += prop.damage;
-            if (data.HP < 0) {
-                gameObject.SetActive(false);
+            if (!data.UpdateState(data.HP + prop.damage, data.CorruptionState + prop.stateEffect)) {
+                i = prop.duration;
+                data.changeIntoAZombie();
             }
         }
-        effectList.Remove(effect);
+        //effectList.Remove(effect);
     }
 }

@@ -64,7 +64,7 @@ public class gvmPropertiesUI : EditorWindow {
         EditorGUILayout.LabelField("name", GUILayout.Width(60));
         EditorGUILayout.LabelField("damage", GUILayout.Width(60));
         EditorGUILayout.LabelField("duration", GUILayout.Width(60));
-        EditorGUILayout.LabelField("state effect", GUILayout.Width(60));
+        EditorGUILayout.LabelField("CorruptionState effect", GUILayout.Width(60));
         EditorGUILayout.EndHorizontal();
         for (int i = 0; i < data.Count; i++) {
             EditorGUILayout.BeginHorizontal();

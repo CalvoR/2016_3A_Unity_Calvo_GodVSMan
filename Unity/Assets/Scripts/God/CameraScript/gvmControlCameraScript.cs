@@ -9,12 +9,12 @@ public class gvmControlCameraScript : NetworkBehaviour {
     private Vector3 mapPosition;
     private Vector3 mouseClickDownPosition;
     private Vector3 vectorZoom;
-    private float xMinLimit = 50f;
-    private float xMaxLimit = -50f;
+    private float xMinLimit = 5000f;
+    private float xMaxLimit = -5000f;
     private float yMinLimit = 15f;
     private float yMaxLimit = 150f;
-    private float zMinLimit = 100f;
-    private float zMaxLimit = -100f;
+    private float zMinLimit = 5000f;
+    private float zMaxLimit = -5000f;
 
     [Range(-20f, -120f)]
     [SerializeField]
@@ -30,22 +30,23 @@ public class gvmControlCameraScript : NetworkBehaviour {
     private float cameraKeyboardSpeed = 1.0f;
 
     private bool isPaused = false;
+    private bool isFocused = false;
 
-    void Start() {
-        //gameCamera = GameObject.FindGameObjectWithTag("GodCamera");
+    public void setPause() {
+        isPaused = !isPaused;
     }
 
     void OnApplicationFocus(bool focusStatus) {
-        isPaused = focusStatus;
+        isFocused = focusStatus;
     }
 
     void OnApplicationPause(bool pauseStatus) {
-        isPaused = pauseStatus;
+        isFocused = pauseStatus;
     }
 
     void Update()
     {
-        if (!isPaused) return;
+        if (!isFocused || isPaused) return;
         //set new camera position controled with mouse
         if (Input.mousePosition.x >= Screen.width - 5) {
             gameCamera.transform.position = checkCameraLocationOnTheMap(gameCamera.transform.position + Vector3.right / cameraSpeed);
