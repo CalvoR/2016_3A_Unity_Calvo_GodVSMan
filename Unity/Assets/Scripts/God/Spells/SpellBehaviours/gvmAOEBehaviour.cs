@@ -8,7 +8,7 @@ public class gvmAOEBehaviour : NetworkBehaviour {
     [SyncVar]
     private int areaCounter;
     private bool spellCasted = false;
-    private float camRayLength = 100f;
+    private float camRayLength = 200f;
     private Camera GodCamera;
     [SerializeField]
     private GameObject[] AOEContainer;
@@ -25,6 +25,7 @@ public class gvmAOEBehaviour : NetworkBehaviour {
             resourcesUI = GameObject.FindGameObjectWithTag("AvatarPoolManager").GetComponent<gvmGodRessourcesManager>();
         }
         for (int i = 0; i < AOEContainer.Length; i++) {
+            AOEContainer[i].name = gameObject.name + i;
             AOEContainer[i].transform.parent = null;
             AOEContainer[i].GetComponent<gvmSpellCollider>().Init(SpellData);
         }
@@ -41,7 +42,6 @@ public class gvmAOEBehaviour : NetworkBehaviour {
                 if (Input.GetMouseButtonDown(0)) {
                     spellCasted = true;
                     CmdCastSpell(transform.position);
-                    //spellEffect(transform.position);
                 }
             }
         }
@@ -60,14 +60,13 @@ public class gvmAOEBehaviour : NetworkBehaviour {
     [Command]
     public void CmdCastSpell(Vector3 pos) {
         resourcesUI.useRessourcesForCastedSpell(gameObject.name);
+        RpcCastSpell(pos);
         AOEContainer[areaCounter].transform.position = pos;
         AOEContainer[areaCounter].SetActive(true);
-        RpcCastSpell(pos);
         areaCounter++;
         if (areaCounter == AOEContainer.Length) {
             areaCounter = 0;
         }
-        disableSpell();
     }
     
     [ClientRpc]
@@ -79,15 +78,18 @@ public class gvmAOEBehaviour : NetworkBehaviour {
     }
     
     public void disableSpell() {
-        spellCasted = false;
+        if (hasAuthority) {
+            CmdDisableSpell();
+        }
         gameObject.transform.position = Vector3.up * -1000;
+        spellCasted = false;
         gameObject.SetActive(false);
-        CmdDisableSpell();
     }
 
+    [Command]
     public void CmdDisableSpell() {
-        spellCasted = false;
         gameObject.transform.position = Vector3.up * -1000;
+        spellCasted = false;
         gameObject.SetActive(false);
     }
     

@@ -9,13 +9,7 @@ public class Movement_npc : MonoBehaviour
 
     [SerializeField]
     private NavMeshAgent myNavMeshAgent;
-
-    [SerializeField]
-    private float checkRate;
-
-    [SerializeField]
-    private float nextCheck;
-
+    
     [SerializeField]
     private Transform myTransform;
 
@@ -43,13 +37,11 @@ public class Movement_npc : MonoBehaviour
 
     void update()
     {
-        nextCheck = Time.time + checkRate;
         CheckIfIShouldWander();
     }
 
     void SetInitialReferences()
     {
-        checkRate = Random.Range(0.3f, 0.4f);
         myTransform = transform;
     }
 

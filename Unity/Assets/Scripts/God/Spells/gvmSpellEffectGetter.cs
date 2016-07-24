@@ -7,51 +7,60 @@ public class gvmSpellEffectGetter : NetworkBehaviour {
 
 
     [SerializeField]
-    private List<int> effectList;
     private int XMLdata;
     private gvmPropertiesManager properties;
     [SerializeField]
     private gvmNPCData data;
     [SerializeField]
     private gvmGodRessourcesManager resources;
+    private int DPS;
+    private int CPS;
+    private WaitForSeconds waitOneSecond = new WaitForSeconds(1);
+    private bool AOEDamage;
+
 
     void Awake() {
         properties = gvmPropertiesManager.GetInstance();
-        effectList = new List<int>();
-    }
-
-    void update() {
-        if (effectList.Count >= 0) {
-            List<gvmSpellProperty> Data = gvmPropertiesManager.GetInstance().propertiesContainer; //get spell data when affected by
-            for (int i = 0; i < Data.Count; i++) {
-                Debug.Log(Data[i]); //display affectedBy (spell) data from xml file 
-            }
-        }
+        AOEDamage = false;
     }
 
     public void getNewEffect(gvmUIDataContainer Container) {
-        for (int i = 0; i < Container.propertiesId.Count; i++) {
-            if (!effectList.Contains(Container.propertiesId[i])) {
-                effectList.Add(Container.propertiesId[i]);
+        if (isServer) {
+            data.CorruptionState -= Container.instantCorruption;
+            data.HP -= Container.instantDamage;
+
+            var prop = properties.getPropertyById(Container.propertiesId[0]);
+            if (prop.dot > 0 || prop.cot > 0) {
+                StartCoroutine(propertyDamages(prop.cot, prop.dot, prop.duration));
             }
-            if (isServer) {
-                StartCoroutine(dealDamage(Container.propertiesId[i]));
+            DPS += Container.areaDPS;
+            CPS += Container.areaCPS;
+            if (!AOEDamage && (CPS > 0 || DPS > 0)) {
+                AOEDamage = true;
+                StartCoroutine(areaDamages());
             }
         }
-        data.CorruptionState += Container.stateEffect;
+    }
+    
+    private IEnumerator areaDamages() {
+        while (data.UpdateState(DPS, CPS)) {
+            yield return waitOneSecond;
+        }
+        AOEDamage = false;
     }
 
-    private IEnumerator dealDamage(int effect) {
-        var prop = properties.getPropertyById(effect);
-        data.HP += prop.damage;
-        data.CorruptionState += prop.stateEffect;
-        for (int i = 0; i < prop.duration; i++) {
-            yield return new WaitForSeconds(1);
-            if (!data.UpdateState(data.HP + prop.damage, data.CorruptionState + prop.stateEffect)) {
-                i = prop.duration;
+    private IEnumerator propertyDamages(int cot, int dot, int duration) {
+        for (int i = 0; i < duration; i++) {
+            yield return waitOneSecond;
+            if (!data.UpdateState(dot, cot)) {
+                i = duration;
                 data.changeIntoAZombie();
             }
         }
-        //effectList.Remove(effect);
+    }
+    
+    public void removeAreaEffect(gvmUIDataContainer Container) {
+        DPS -= Container.areaDPS;
+        CPS -= Container.areaCPS;
     }
 }

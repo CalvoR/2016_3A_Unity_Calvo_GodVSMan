@@ -67,7 +67,6 @@ public static class HeroStats
     }
 
     public static void takeDamage(int damage) {
-        Debug.LogError("Damage: " + damage);
         Life -= damage;
     }
 }

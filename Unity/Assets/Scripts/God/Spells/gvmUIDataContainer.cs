@@ -2,36 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class gvmUIDataContainer : NetworkBehaviour {
-    
+public class gvmUIDataContainer : NetworkBehaviour
+{
+
     public string Name;
-    
-    public int stateEffect;
-    
-    public List<int> propertiesId;
-    
-    public int areaMax;
-    
+    public string prefab;
+    public int cost;
+    public int instantCorruption;
+    public int instantDamage;
+    public int areaCPS;
+    public int areaDPS;
     public int areaDuration;
-    
-    public string behaviour;
+    public float castTime;
+    public int cooldown;
+    public List<int> propertiesId;
 
     public void init(gvmSpellData data) {
         Name = data.name;
-        stateEffect = data.stateEffect;
-        propertiesId = data.propertiesId;
-        areaMax = data.areaMax;
+        prefab = data.prefab;
+        cost = data.cost;
+        instantCorruption = data.instantCorruption;
+        instantDamage = data.instantDamage;
+        areaCPS = data.areaCPS;
+        areaDPS = data.areaDPS;
         areaDuration = data.areaDuration;
-        behaviour = data.behaviour;
+        castTime = data.castTime;
+        cooldown = data.cooldown;
+        propertiesId = data.propertiesId;
     }
-    
 
     public void init(gvmUIDataContainer data) {
         Name = data.name;
-        stateEffect = data.stateEffect;
-        propertiesId = data.propertiesId;
-        areaMax = data.areaMax;
+        prefab = data.prefab;
+        cost = data.cost;
+        instantCorruption = data.instantCorruption;
+        instantDamage = data.instantDamage;
+        areaCPS = data.areaCPS;
+        areaDPS = data.areaDPS;
         areaDuration = data.areaDuration;
-        behaviour = data.behaviour;
+        castTime = data.castTime;
+        cooldown = data.cooldown;
+        propertiesId = data.propertiesId;
     }
 }

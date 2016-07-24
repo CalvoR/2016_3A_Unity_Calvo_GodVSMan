@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using System.IO;
+using System.Linq;
 
 public class gvmSpellUI : EditorWindow {
 
@@ -12,6 +13,7 @@ public class gvmSpellUI : EditorWindow {
     private List<int>[] propList;
     private Vector2 scroll;
     private string[] fileList;
+    private string fileToLoad = "SpellData";
 
     [MenuItem("GvM/Data Editor/Spell Editor")]
     public static void ShowWindow() {
@@ -21,14 +23,14 @@ public class gvmSpellUI : EditorWindow {
     void OnEnable() {
 
         scroll = new Vector2(0, 0);
-        spellContainer = gvmSpellContainer.Load("SpellData");
+        spellContainer = gvmSpellContainer.Load(fileToLoad);
         data = spellContainer.spells;
         index = new int[data.Count];
         var behaviourDir = Resources.LoadAll("Prefabs/God/Spells", typeof(GameObject));
 
         fileList = toArrayOfString(behaviourDir);
         for (int i = 0; i < index.Length; i++) {
-            index[i] = getndexOf(data[i].behaviour, fileList);
+            index[i] = getndexOf(data[i].prefab, fileList);
         }
 
         var properties = gvmPropertiesManager.GetInstance().propertiesContainer;
@@ -50,7 +52,7 @@ public class gvmSpellUI : EditorWindow {
         if (GUILayout.Button("Save")) {
             var path = EditorUtility.SaveFilePanel("Save Spell",
                                                    "Asset/Ressources",
-                                                   "SpellData",
+                                                   fileToLoad,
                                                    "xml");
             if (path.Length != 0) {
                 spellContainer.Save(data);
@@ -60,10 +62,30 @@ public class gvmSpellUI : EditorWindow {
             var path = EditorUtility.OpenFilePanel("Load Spell",
                                                    "Asset/Ressources",
                                                    "xml");
-            if (path.Length != 0) {
-                spellContainer = gvmSpellContainer.Load("SpellData");
+            if (path.Length != 0)
+            {
+                path = path.Split('/').Last().Split('.')[0];
+                Debug.Log(path);
+                spellContainer = gvmSpellContainer.Load(path);
                 data = spellContainer.spells;
                 index = new int[data.Count];
+                var behaviourDir = Resources.LoadAll("Prefabs/God/Spells", typeof(GameObject));
+
+                fileList = toArrayOfString(behaviourDir);
+                for (int i = 0; i < index.Length; i++) {
+                    index[i] = getndexOf(data[i].prefab, fileList);
+                }
+
+                var properties = gvmPropertiesManager.GetInstance().propertiesContainer;
+                propertiesNameList = new string[properties.Count];
+                for (int i = 0; i < properties.Count; i++) {
+                    propertiesNameList[i] = properties[i].name;
+                }
+
+                propList = new List<int>[data.Count];
+                for (int i = 0; i < propList.Length; i++) {
+                    propList[i] = data[i].propertiesId;
+                }
             }
         }
         if (GUILayout.Button("Create New Spell")) {
@@ -79,63 +101,85 @@ public class gvmSpellUI : EditorWindow {
         }
         EditorGUILayout.BeginVertical();
 
-        if (data != null) {
-            for(int j = 0; j < data.Count; j++) {
+        if (data != null)
+        {
+            for (int j = 0; j < data.Count; j++)
+            {
                 var spell = data[j];
                 EditorGUILayout.BeginHorizontal();
                 spell.name = EditorGUILayout.TextField(spell.name);
-                if (GUILayout.Button("Remove Spell")) {
+                if (GUILayout.Button("Remove Spell"))
+                {
                     data.Remove(spell);
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUI.indentLevel++;
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
-                EditorGUILayout.LabelField("Fear Cost");
-                spell.fearCost = EditorGUILayout.IntField(spell.fearCost);
+                EditorGUILayout.LabelField("Cost");
+                spell.cost = EditorGUILayout.IntField(spell.cost);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
-                EditorGUILayout.LabelField("Faith Cost");
-                spell.faithCost = EditorGUILayout.IntField(spell.faithCost);
+                EditorGUILayout.LabelField("Instant Corruption");
+                spell.instantCorruption = EditorGUILayout.IntField(spell.instantCorruption);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
-                EditorGUILayout.LabelField("State Effect");
-                spell.stateEffect = EditorGUILayout.IntField(spell.stateEffect);
+                EditorGUILayout.LabelField("Instant Damage");
+                spell.instantDamage = EditorGUILayout.IntField(spell.instantDamage);
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+                EditorGUILayout.LabelField("Area CPS (Corruption)");
+                spell.areaCPS = EditorGUILayout.IntField(spell.areaCPS);
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+                EditorGUILayout.LabelField("Area DPS (Damage)");
+                spell.areaDPS = EditorGUILayout.IntField(spell.areaDPS);
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+                EditorGUILayout.LabelField("Area Duration");
+                spell.areaDuration = EditorGUILayout.IntField(spell.areaDuration);
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+                EditorGUILayout.LabelField("Cast Time");
+                spell.castTime = EditorGUILayout.IntField(spell.castTime);
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
+                EditorGUILayout.LabelField("Cooldown");
+                spell.cooldown = EditorGUILayout.IntField(spell.cooldown);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Properties", GUILayout.Width(100));
-                if (GUILayout.Button("+", GUILayout.Width(30))) {
+                if (GUILayout.Button("+", GUILayout.Width(30)))
+                {
                     propList[j].Add(0);
                 }
-                if (GUILayout.Button("-", GUILayout.Width(30))) {
+                if (GUILayout.Button("-", GUILayout.Width(30)))
+                {
                     propList[j].RemoveAt(0);
                 }
-                for (int i = 0; i < spell.propertiesId.Count; i++) {
+                for (int i = 0; i < spell.propertiesId.Count; i++)
+                {
                     propList[j][i] = EditorGUILayout.Popup(propList[j][i], propertiesNameList);
                 }
-                EditorGUILayout.EndHorizontal();
-                
-                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
-                EditorGUILayout.LabelField("number of area to instantiate");
-                spell.areaMax = EditorGUILayout.IntField(spell.areaMax);
-                EditorGUILayout.EndHorizontal();
-
-
-                EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
-                EditorGUILayout.LabelField("area duration");
-                spell.areaDuration = EditorGUILayout.IntField(spell.areaDuration);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal(GUILayout.Width(400));
                 EditorGUILayout.LabelField("prefab");
                 index[j] = EditorGUILayout.Popup(index[j], fileList);
-                spell.behaviour = fileList[index[j]];
+                spell.prefab = fileList[index[j]];
                 EditorGUILayout.EndHorizontal();
-                                
+
                 EditorGUI.indentLevel--;
             }
+        } else {
+            EditorGUILayout.LabelField("Erreur De Chargement Des Données");
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndScrollView();
@@ -154,7 +198,7 @@ public class gvmSpellUI : EditorWindow {
 
     public int getndexOf(string strToFind, string[] strArray) {
         for (int i = 0; i < strArray.Length; i++) {
-            if (strToFind.Equals(strArray[i])) {
+            if (strArray[i].Equals(strToFind)) {
                 return i;
             }
         }

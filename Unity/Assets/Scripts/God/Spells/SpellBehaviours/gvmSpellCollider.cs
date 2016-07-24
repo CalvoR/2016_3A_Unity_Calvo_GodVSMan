@@ -7,13 +7,11 @@ public class gvmSpellCollider : NetworkBehaviour {
     
     
     public gvmUIDataContainer dataContainer;
-    private gvmPropertiesManager properties;
     private List<int> basicProperty = new List<int>();
     readonly Vector3 _areaDefaultPosition = new Vector3(0, -200, 0);
 
     public void Init(gvmUIDataContainer data) {
         dataContainer = data;
-        properties = gvmPropertiesManager.GetInstance();
         basicProperty.Add(dataContainer.propertiesId[0]);
     }
 
@@ -35,8 +33,12 @@ public class gvmSpellCollider : NetworkBehaviour {
     void OnTriggerEnter(Collider col) {
         if (col.gameObject.tag == "HumanNPC") {
             col.gameObject.GetComponent<gvmSpellEffectGetter>().getNewEffect(dataContainer);
-        } else if (col.gameObject.tag == "GodSpell") {
-            dataContainer.propertiesId = properties.GetCompatibility(dataContainer.propertiesId, col.GetComponent<gvmUIDataContainer>().propertiesId);
+        }
+    }
+
+    void OnTriggerExit(Collider col) {
+        if (col.gameObject.tag == "HumanNPC") {
+            col.gameObject.GetComponent<gvmSpellEffectGetter>().removeAreaEffect(dataContainer);
         }
     }
 }

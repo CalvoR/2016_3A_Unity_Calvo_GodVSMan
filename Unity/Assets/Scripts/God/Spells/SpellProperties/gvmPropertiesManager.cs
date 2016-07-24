@@ -27,7 +27,6 @@ public class gvmPropertiesManager {
 
     public void Load() {
         TextAsset _xml = Resources.Load<TextAsset>(_path);
-
         XmlSerializer serializer = new XmlSerializer(typeof(gvmPropertiesManager));
         StringReader reader = new StringReader(_xml.text);
 
@@ -56,7 +55,7 @@ public class gvmPropertiesManager {
 
         for (int x = 0; x < tmp.Count-1; x++) {
             for (int y = x+1; y < tmp.Count; y++) {
-                switch (propertiesContainer[tmp[x]].compatibility[tmp[y]]) {
+                switch (propertiesContainer[tmp[x]].compatibilities[tmp[y]]) {
                     case -1:
                         tmp.RemoveAt(y);
                         break;
@@ -89,20 +88,20 @@ public class gvmSpellProperty {
     public int id;
     [XmlElement("duration")]
     public int duration = 1;
-    [XmlElement("damage")]
-    public float damage;
-    [XmlElement("stateEffect")]
-    public int stateEffect;
-    [XmlArray("compatibility")]
-    public List<int> compatibility;
+    [XmlElement("damageOverTime")]
+    public int dot;
+    [XmlElement("corruptionOverTime")]
+    public int cot;
+    [XmlArray("compatibilities")]
+    public List<int> compatibilities;
 
     public gvmSpellProperty() {
     }
 
     public gvmSpellProperty(int length) {
-        compatibility = new List<int>();
+        compatibilities = new List<int>();
         for(int i = 0; i < length; i++) {
-            compatibility.Add(0);
+            compatibilities.Add(0);
         }
     }
 }
