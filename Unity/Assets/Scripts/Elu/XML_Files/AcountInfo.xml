@@ -1,0 +1,45 @@
+
+<AccountInfo>
+
+	<UserProfil>
+		<name> </name>
+		<level> </level>
+		<playTime> </playTime>
+		<victoryNb> </victoryNb>
+		<defeatNb> </defeatNb>
+		<creationDate> </creationDate>
+	</userProfil>
+
+
+	<Skills>
+
+		<Skill name="Courreur" 			type="endurance1"		isUnlocked="false"> </Skill>
+		<Skill name="Athlète" 			type="endurance2"		isUnlocked="false"> </Skill>
+		<Skill name="Inépuisable" 		type="endurance3"		isUnlocked="false"> </Skill>
+		<Skill name="Résistant"		 	type="defense1"			isUnlocked="false"> </Skill>
+		<Skill name="Peau dure" 		type="defense2"			isUnlocked="false"> </Skill>
+		<Skill name="Forteresse" 		type="defense3"			isUnlocked="false"> </Skill>
+		<Skill name="Léger" 			type="speed1"			isUnlocked="false"> </Skill>
+		<Skill name="Lévitation" 		type="speed2"			isUnlocked="false"> </Skill>
+		<Skill name="Charismatique" 	type="charisma1"		isUnlocked="false"> </Skill>
+		<Skill name="Guide des foules" 	type="charisma2"		isUnlocked="false"> </Skill>
+		<Skill name="Organisme sain" 	type="lifePotion1"		isUnlocked="false"> </Skill>
+		<Skill name="Bon métabolisme" 	type="lifePotion2"		isUnlocked="false"> </Skill>
+		<Skill name="Adrénaline" 		type="statsPotion"		isUnlocked="false"> </Skill>
+		<Skill name="Régénération"		type="autoLife"			isUnlocked="false"> </Skill>
+		<Skill name="Dépeçage" 			type="dropMonster"		isUnlocked="false"> </Skill>
+		<Skill name="Flair" 			type="dropField"		isUnlocked="false"> </Skill>
+		<Skill name="Capital de départ" type="ressourcesStart"	isUnlocked="false"> </Skill>
+		<Skill name="Réserve" 			type="ItemStart1"		isUnlocked="false"> </Skill>
+		<Skill name="Entrepôt" 			type="ItemStart2"		isUnlocked="false"> </Skill>
+		<Skill name="Héritage" 			type="ItemStart3"		isUnlocked="false"> </Skill>
+		<Skill name="Seconde chance" 	type="noDeath"			isUnlocked="false"> </Skill>
+		<Skill name="Recycleur" 		type="keepItemUse"		isUnlocked="false"> </Skill>
+		<Skill name="Forgeron" 			type="keepWeapon"		isUnlocked="false"> </Skill>
+		<Skill name="Botaniste" 		type="keepPotion"		isUnlocked="false"> </Skill>
+		<Skill name="Marchand" 			type="prices"			isUnlocked="false"> </Skill>
+
+	</Skills>
+
+
+</AccountInfo>

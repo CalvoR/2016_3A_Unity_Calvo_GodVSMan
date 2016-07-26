@@ -1,0 +1,9 @@
+﻿Nom 1 Calvo Robert
+Nom 2 Mezelle Clement
+Nom 3 Scarpellini  Xavier
+ddd
+God VS Man
+Features spécialisées:
+	- Génération de map aléatoire
+	- Intégration réseaux sociaux (?)
+	- Gameplay Multi exotique (?)
