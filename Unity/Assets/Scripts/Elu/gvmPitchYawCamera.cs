@@ -48,7 +48,7 @@ public class gvmPitchYawCamera : NetworkBehaviour {
         }
     }
 
-    public void SetPause()
+    public void SetEscapeMenu()
     {
         isInGamePause = !isInGamePause;
         gvmUI_InventoryManager.isInGamePause = isInGamePause;

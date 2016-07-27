@@ -18,6 +18,7 @@ public class gvmGameMenu : NetworkBehaviour
     void Update () {
 	    if (Input.GetKeyDown(KeyCode.Escape)) {
 	        SettingsMenu.SetActive(!SettingsMenu.activeInHierarchy);
+            electControl.SetEscapeMenu();
         }
     }
     
@@ -41,7 +42,6 @@ public class gvmGameMenu : NetworkBehaviour
     public void RpcPauseUnpauseGame() {
         Time.timeScale = Time.timeScale == 0 ? 1.0f : 0.0f;
         godControl.setPause();
-        electControl.SetPause();
     }
 
     public void Surrender() {
