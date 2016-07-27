@@ -11,7 +11,9 @@ public class DefaultItemsList : MonoBehaviour {
 
     public static Dictionary<ItemType, List<Item>> ItemList;
 
-
+    /// <summary>
+    /// Initialise la liste des objets en mémoire
+    /// </summary>
     public void Awake()
     {
         FillListFromXmlFile();

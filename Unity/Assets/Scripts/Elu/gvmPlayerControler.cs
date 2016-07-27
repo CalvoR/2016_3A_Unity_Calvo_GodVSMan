@@ -67,6 +67,9 @@ public class gvmPlayerControler : NetworkBehaviour {
         lastTapTime = 0;
         currentSpeed = HeroStats.Speed;
         runSpeed = HeroStats.Speed * RUN_COEF;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     void Update() {

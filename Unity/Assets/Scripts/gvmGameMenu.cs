@@ -11,6 +11,8 @@ public class gvmGameMenu : NetworkBehaviour
     [SerializeField]
     private gvmControlCameraScript godControl;
     [SerializeField]
+    private gvmPitchYawCamera electControl;
+    [SerializeField]
     private gvmControlCameraScript serverControl;
     
     void Update () {
@@ -39,6 +41,7 @@ public class gvmGameMenu : NetworkBehaviour
     public void RpcPauseUnpauseGame() {
         Time.timeScale = Time.timeScale == 0 ? 1.0f : 0.0f;
         godControl.setPause();
+        electControl.SetPause();
     }
 
     public void Surrender() {
