@@ -35,15 +35,7 @@ public class gvmRelicManager : MonoBehaviour {
             relicImage.enabled = true;
             relicImage.sprite = Resources.Load<Sprite>("Picture/Relic");            
         }
-
-        if (nbFoundRelics >= NB_RELICS)
-        {
-            ActiveElectVictory();
-        }
+        
     }
-
-    void ActiveElectVictory()
-    {
-        Debug.LogWarning("VICTOOOOORY !!!");
-    }
+    
 }

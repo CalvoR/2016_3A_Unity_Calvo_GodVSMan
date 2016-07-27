@@ -4,8 +4,8 @@ using UnityEngine.Networking;
 
 public class gvmNPCData : NetworkBehaviour {
     // currently useless
-    public float HP = 100;
-    public int CorruptionState = 100;
+    public float HP = 1000;
+    public int CorruptionState = 1000;
     [SerializeField]
     private GameObject zombie;
     [SerializeField]
@@ -16,32 +16,51 @@ public class gvmNPCData : NetworkBehaviour {
     private Collider col;
     [SerializeField]
     private GvmGameControler controler;
-        
+    [SerializeField]
+    private gvmGodRessourcesManager resources;
+    private int resourcesPerSeconds = 0;
+
     void OnTriggerEnter(Collider col) {
         if (col.gameObject.tag == "sword_weapon" && isServer) {
             Debug.LogError(col.name);
-            if (!UpdateState(HP - 10, CorruptionState) && gameObject.tag == "HumanNPC") {
-                changeIntoAZombie();
+            if (gameObject.tag == "HumanNPC") {
+                UpdateState(10, 0);
             }
         }
     }
-    
+
     public bool UpdateState(float hp, int s) {
-        if (isServer) {
-            if (s < 50 && CorruptionState >= 50) {
+        var _hp = HP - hp;
+        var _corruption = CorruptionState - s;
+        if (_corruption > 0) {
+            if (_corruption < 200 && CorruptionState >= 200) {
+                mesh.material.color = Color.red;
                 controler.addNPCHasCorrupted();
+            } else if (_corruption < 500 && CorruptionState >= 500) {
+                mesh.material.color = Color.yellow;
+            } else {
+                mesh.material.color = Color.green;
             }
-            if (hp <= 0 && CorruptionState > 0) {
-                controler.addNPCHasDead();
-            }
+            CorruptionState = _corruption;
+            /*
+            var newRes = Mathf.FloorToInt((1000 - CorruptionState) / 100);
+            resources.setResourcesPerSeconds(newRes - resourcesPerSeconds);
+            resourcesPerSeconds = newRes;*/
+        } else {
+            CorruptionState = 0;
+            mesh.material.color = Color.black;
         }
 
-        HP = hp >= 0 ? hp : 0;
-        CorruptionState = s >= 0 ? s : 0;
-        mesh.material.color = CorruptionState == 0 ? Color.black : CorruptionState <= 20 ? Color.red : CorruptionState <= 50 ? Color.yellow : Color.green;
+        if (_hp <= 0 && HP > 0) {
+            controler.addNPCHasDead();
+            HP = 0;
+        } else {
+            HP = _hp;
+        }
 
         RpcUpdateState(hp, s);
         if (HP <= 0 && CorruptionState <= 0) {
+            changeIntoAZombie();
             return false;
         }
         return true;
@@ -51,7 +70,7 @@ public class gvmNPCData : NetworkBehaviour {
     public void RpcUpdateState(float hp, int s) {
         HP = hp;
         CorruptionState = s;
-        mesh.material.color = CorruptionState <= 20 ? Color.red : CorruptionState <= 50 ? Color.yellow : Color.green;
+        mesh.material.color = CorruptionState < 200 ? Color.red : CorruptionState < 500 ? Color.yellow : Color.green;
     }
 
     public void changeIntoAZombie() {
@@ -59,7 +78,7 @@ public class gvmNPCData : NetworkBehaviour {
         col.enabled = false;
         zombie.transform.parent = NPCContainer;
         zombie.SetActive(true);
-        RpcChangeIntoAZombie();
+        //RpcChangeIntoAZombie();
         gameObject.SetActive(false);
     }
 

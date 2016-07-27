@@ -9,27 +9,36 @@ public class gvmSpellData {
     [XmlElement("name")]
     public string name;
 
-    [XmlElement("fearCost")]
-    public int fearCost;
+    [XmlElement("cost")]
+    public int cost;
+    
+    [XmlElement("instantCorruption")]
+    public int instantCorruption;
 
-    [XmlElement("faithCost")]
-    public int faithCost;
+    [XmlElement("instantDamage")]
+    public int instantDamage;
 
-    [XmlElement("stateEffect")]
-    public int stateEffect;
+    [XmlElement("areaCPS")]
+    public int areaCPS;
+
+    [XmlElement("areaDPS")]
+    public int areaDPS;
+
+    [XmlElement("areaDuration")]
+    public int areaDuration;
+    
+    [XmlElement("castTime")]
+    public int castTime;
+
+    [XmlElement("cooldown")]
+    public int cooldown;
+
+    [XmlElement("prefab")]
+    public string prefab;
 
     [XmlElement("properties")]
     public List<int> propertiesId;
     
-    [XmlElement("areaMax")]
-    public int areaMax = 15;
-
-    [XmlElement("duration")]
-    public int areaDuration; 
-
-    [XmlElement("behaviour")]
-    public string behaviour;
-
     public gvmSpellData() {
         propertiesId = new List<int>();
     }

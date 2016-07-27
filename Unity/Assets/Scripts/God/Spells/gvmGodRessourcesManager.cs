@@ -5,16 +5,11 @@ using UnityEngine.UI;
 
 public class gvmGodRessourcesManager : NetworkBehaviour {
     
-    private int faith = 100;
-    private int fear = 100;
-    [SerializeField]
-    private int faithPerSeconds = 0;
+    private int fear = 400;
     [SerializeField]
     private int fearPerSeconds = 0;
     [SerializeField]
     public Text FearText;
-    [SerializeField]
-    public Text FaithText;
 
     
     private gvmSpellContainer resourcesContainer;
@@ -30,32 +25,28 @@ public class gvmGodRessourcesManager : NetworkBehaviour {
     }
     
     void updateRessources() {
-        faith += faithPerSeconds;
         fear += fearPerSeconds;
-        RpcSetGodResources(fear, faith);
+        RpcSetGodResources(fear);
     }
     
-    public void setResourcesPerSeconds(int _fear, int _faith) {
-        faithPerSeconds += _faith;
-        fearPerSeconds += _fear;
+    public void setResourcesPerSeconds(int res)
+    {
+        fearPerSeconds += res;
     }
 
     public void useRessourcesForCastedSpell(string spellName) {
-        foreach (gvmSpellData spellData in resourcesContainer.spells) {
-            if (spellData.behaviour+"(Clone)" == spellName) {
-                fear -= spellData.fearCost;
-                faith -= spellData.faithCost;
+        for (var i = 0; i < resourcesContainer.spells.Count; i++) {
+            if (resourcesContainer.spells[i].prefab+"(Clone)" == spellName) {
+                fear -= resourcesContainer.spells[i].cost;
             }
         }
-        RpcSetGodResources(fear, faith);
+        RpcSetGodResources(fear);
     }
     
     [ClientRpc]
-    public void RpcSetGodResources(int _fear, int _faith)
+    public void RpcSetGodResources(int _fear)
     {
         fear = _fear;
-        faith = _faith;
         FearText.text = fear.ToString();
-        FaithText.text = faith.ToString();
     }
 }

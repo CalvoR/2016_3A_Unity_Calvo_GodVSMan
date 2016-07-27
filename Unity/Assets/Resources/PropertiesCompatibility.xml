@@ -5,137 +5,91 @@
       <name>fire</name>
       <id>0</id>
       <duration>20</duration>
-      <damage>-1.5</damage>
-      <stateEffect>-1</stateEffect>
-      <compatibility>
+      <damageOverTime>4</damageOverTime>
+      <corruptionOverTime>2</corruptionOverTime>
+      <compatibilities>
         <int>-1</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
-        <int>2</int>
-        <int>2</int>
-      </compatibility>
+      </compatibilities>
     </property>
     <property>
       <name>ice</name>
-      <id>0</id>
-      <duration>60</duration>
-      <damage>-0.5</damage>
-      <stateEffect>-1</stateEffect>
-      <compatibility>
+      <id>1</id>
+      <duration>40</duration>
+      <damageOverTime>1</damageOverTime>
+      <corruptionOverTime>2</corruptionOverTime>
+      <compatibilities>
         <int>2</int>
         <int>-1</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
-        <int>2</int>
-        <int>2</int>
-      </compatibility>
+      </compatibilities>
     </property>
     <property>
-      <name>electricity</name>
-      <id>0</id>
+      <name>psychic</name>
+      <id>2</id>
+      <duration>50</duration>
+      <damageOverTime>0</damageOverTime>
+      <corruptionOverTime>4</corruptionOverTime>
+      <compatibilities>
+        <int>2</int>
+        <int>2</int>
+        <int>-1</int>
+        <int>2</int>
+        <int>2</int>
+        <int>2</int>
+      </compatibilities>
+    </property>
+    <property>
+      <name>electric</name>
+      <id>3</id>
+      <duration>10</duration>
+      <damageOverTime>20</damageOverTime>
+      <corruptionOverTime>1</corruptionOverTime>
+      <compatibilities>
+        <int>2</int>
+        <int>2</int>
+        <int>2</int>
+        <int>-1</int>
+        <int>2</int>
+        <int>2</int>
+      </compatibilities>
+    </property>
+    <property>
+      <name>water</name>
+      <id>4</id>
       <duration>1</duration>
-      <damage>-30</damage>
-      <stateEffect>-1</stateEffect>
-      <compatibility>
-        <int>2</int>
-        <int>2</int>
-        <int>-1</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-      </compatibility>
-    </property>
-    <property>
-      <name>shock/wind</name>
-      <id>0</id>
-      <duration>1</duration>
-      <damage>-5</damage>
-      <stateEffect>-1</stateEffect>
-      <compatibility>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>-1</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-      </compatibility>
-    </property>
-    <property>
-      <name>void/arcane</name>
-      <id>0</id>
-      <duration>5</duration>
-      <damage>-14</damage>
-      <stateEffect>-3</stateEffect>
-      <compatibility>
+      <damageOverTime>60</damageOverTime>
+      <corruptionOverTime>20</corruptionOverTime>
+      <compatibilities>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>-1</int>
         <int>2</int>
-        <int>2</int>
-        <int>2</int>
-      </compatibility>
+      </compatibilities>
     </property>
     <property>
-      <name>poison </name>
-      <id>0</id>
+      <name>poison</name>
+      <id>5</id>
       <duration>30</duration>
-      <damage>-1.5</damage>
-      <stateEffect>-2</stateEffect>
-      <compatibility>
+      <damageOverTime>4</damageOverTime>
+      <corruptionOverTime>3</corruptionOverTime>
+      <compatibilities>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>2</int>
         <int>-1</int>
-        <int>2</int>
-        <int>2</int>
-      </compatibility>
-    </property>
-    <property>
-      <name>acid</name>
-      <id>0</id>
-      <duration>60</duration>
-      <damage>-0.4</damage>
-      <stateEffect>-2</stateEffect>
-      <compatibility>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>-1</int>
-        <int>2</int>
-      </compatibility>
-    </property>
-    <property>
-      <name>holy</name>
-      <id>0</id>
-      <duration>20</duration>
-      <damage>4</damage>
-      <stateEffect>3</stateEffect>
-      <compatibility>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>2</int>
-        <int>-1</int>
-      </compatibility>
+      </compatibilities>
     </property>
   </properties>
   <_path>PropertiesCompatibility</_path>

@@ -13,7 +13,7 @@ public class gvmSpellContainer {
 
     public gvmSpellData getDataByBehaviour(string spellName) {
         foreach (gvmSpellData spell in spells) {
-            if(spell.behaviour == spellName) {
+            if(spell.prefab == spellName) {
                 return spell;
             }
         }

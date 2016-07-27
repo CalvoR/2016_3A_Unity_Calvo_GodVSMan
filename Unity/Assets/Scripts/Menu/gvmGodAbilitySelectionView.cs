@@ -6,7 +6,7 @@ using System.Xml;
 using System.Xml.Serialization;
 
 public class gvmGodAbilitySelectionView : MonoBehaviour {
-
+    /*
     [SerializeField]
     private Text[] abilitiesFaithTextArea;
     [SerializeField]
@@ -23,7 +23,6 @@ public class gvmGodAbilitySelectionView : MonoBehaviour {
         playerBuildContainer = gvmSpellContainer.Load(xmlPlayerPreferencesFile);
         
         var spellContainer = gvmSpellContainer.Load("SpellData");
-        int faithCounter = 0;
         int fearCounter = 0;
         foreach (gvmSpellData spell in spellContainer.spells) {
             if (spell.faithCost >= 1) {
@@ -59,5 +58,5 @@ public class gvmGodAbilitySelectionView : MonoBehaviour {
             playerBuildContainer.spells.Add(new gvmSpellData());
             playerBuildContainer.spells[playerBuildContainer.spells.Count-1].name = toggleText.text;
         }
-    }
+    }*/
 }

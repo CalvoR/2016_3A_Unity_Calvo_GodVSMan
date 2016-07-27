@@ -23,7 +23,9 @@ public class gvmWaveBehaviour : NetworkBehaviour {
     private bool clickedTwice;
     private float areaSize = 1f;
     private int tsunamiWaveSpeed = 30;
-    
+    private readonly WaitForSeconds positionUpdateDelay = new WaitForSeconds(0.1f);
+    private WaitForSeconds castTime;
+
     void Start() {
         if (hasAuthority) {
             GodCamera = GameObject.FindGameObjectWithTag("GodCamera").GetComponent<Camera>();
@@ -33,6 +35,7 @@ public class gvmWaveBehaviour : NetworkBehaviour {
             resourcesUI = GameObject.FindGameObjectWithTag("AvatarPoolManager").GetComponent<gvmGodRessourcesManager>();
         }
         spellCollider.GetComponent<gvmSpellCollider>().Init(gameObject.GetComponent<gvmUIDataContainer>());
+        castTime = new WaitForSeconds(gameObject.GetComponent<gvmUIDataContainer>().castTime);
         gameObject.SetActive(false);
     }
 
@@ -48,6 +51,7 @@ public class gvmWaveBehaviour : NetworkBehaviour {
             if (Input.GetMouseButtonDown(1))
             {
                 disableSpell();
+                CmdDisableSpell();
             }
             if (Input.GetMouseButtonDown(0))
             {
@@ -120,9 +124,8 @@ public class gvmWaveBehaviour : NetworkBehaviour {
             var angle = Math.Acos(xAxis / (float)Math.Sqrt((xAxis * xAxis) + (yAxis * yAxis))) * 180 / Math.PI;
             angle = yAxis > 0 ? -angle : angle;
             if (double.IsNaN(angle) == false) {
-            gameObject.transform.localRotation = Quaternion.Euler(0, (float)angle, 0);
+                gameObject.transform.localRotation = Quaternion.Euler(0, (float)angle, 0);
             }
-        
     }
 
     [Command]
@@ -136,8 +139,7 @@ public class gvmWaveBehaviour : NetworkBehaviour {
         RpcCastSpellTsunami(spellAreaBeginning, spellAreaEnd);
         StartCoroutine(spellAnimation());
     }
-
-    //display final spell position and area end start trigger animation
+    
     [ClientRpc]
     void RpcCastSpellTsunami(Vector3 spellAreaBeginning, Vector3 spellAreaEnd) {
         displayCastedSpellPosition(spellAreaEnd);
@@ -148,18 +150,28 @@ public class gvmWaveBehaviour : NetworkBehaviour {
         displayCastedSpellPosition(spellAreaEnd);
         StartCoroutine(spellAnimation());
     }
-
-    //translate trigger block along aera effect
+    
     IEnumerator spellAnimation() {
+        yield return castTime;
         spellCollider.SetActive(true);
         while (spellCollider.transform.localPosition.x < areaSize) {
             spellCollider.transform.Translate(Vector3.right * tsunamiWaveSpeed * Time.deltaTime);
-            yield return new WaitForSeconds(0.1f);
+            yield return positionUpdateDelay;
         }
         disableSpell();
     }
     
     public void disableSpell() {
+        spellCollider.SetActive(false);
+        secondArea.SetActive(false);
+        gameObject.SetActive(false);
+        gameObject.transform.position = Vector3.up * -1000;
+        gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        spellCollider.transform.localPosition = Vector3.up * 2.5f;
+    }
+
+    [Command]
+    public void CmdDisableSpell() {
         spellCollider.SetActive(false);
         secondArea.SetActive(false);
         gameObject.SetActive(false);

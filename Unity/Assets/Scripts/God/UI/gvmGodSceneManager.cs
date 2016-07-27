@@ -23,6 +23,8 @@ public class gvmGodSceneManager : NetworkBehaviour {
     GameObject playerCamera;
     [SerializeField]
     private GameObject NoAuthorityScripts;
+    [SerializeField]
+    private GameObject chosenControler;
 
     gvmSpellContainer spellDataContainer;
 
@@ -38,9 +40,11 @@ public class gvmGodSceneManager : NetworkBehaviour {
         GodUI.SetActive(true);
         initialiseSpellButtons(xmlDoc);
         playerCamera.gameObject.SetActive(true);
+        chosenControler.SetActive(false);
     }
 
     void Awake() {
+        
         gvmPropertiesManager.GetInstance();
         spellDataContainer = gvmSpellContainer.Load("SpellData");
     }

@@ -3,63 +3,81 @@
   <spells>
     <spell>
       <name>Eclair</name>
-      <fearCost>0</fearCost>
-      <faithCost>10</faithCost>
-      <stateEffect>-1</stateEffect>
-      <properties>2</properties>
-      <areaMax>1</areaMax>
-      <duration>1</duration>
-      <behaviour>Crackle</behaviour>
+      <cost>20</cost>
+      <instantCorruption>50</instantCorruption>
+      <instantDamage>0</instantDamage>
+      <areaCPS>0</areaCPS>
+      <areaDPS>0</areaDPS>
+      <areaDuration>0</areaDuration>
+      <castTime>1</castTime>
+      <cooldown>5</cooldown>
+      <prefab>Crackle</prefab>
+      <properties>3</properties>
     </spell>
     <spell>
       <name>Tsunami</name>
-      <fearCost>50</fearCost>
-      <faithCost>0</faithCost>
-      <stateEffect>-1</stateEffect>
-      <properties>3</properties>
-      <areaMax>1</areaMax>
-      <duration>15</duration>
-      <behaviour>Tsunami</behaviour>
+      <cost>150</cost>
+      <instantCorruption>50</instantCorruption>
+      <instantDamage>400</instantDamage>
+      <areaCPS>0</areaCPS>
+      <areaDPS>0</areaDPS>
+      <areaDuration>4</areaDuration>
+      <castTime>4</castTime>
+      <cooldown>20</cooldown>
+      <prefab>Tsunami</prefab>
+      <properties>4</properties>
+    </spell>
+    <spell>
+      <name>Totem Demoniaque</name>
+      <cost>150</cost>
+      <instantCorruption>0</instantCorruption>
+      <instantDamage>0</instantDamage>
+      <areaCPS>10</areaCPS>
+      <areaDPS>0</areaDPS>
+      <areaDuration>45</areaDuration>
+      <castTime>4</castTime>
+      <cooldown>30</cooldown>
+      <prefab>Totem</prefab>
+      <properties>2</properties>
+    </spell>
+    <spell>
+      <name>Etreinte Malefique</name>
+      <cost>20</cost>
+      <instantCorruption>0</instantCorruption>
+      <instantDamage>50</instantDamage>
+      <areaCPS>0</areaCPS>
+      <areaDPS>0</areaDPS>
+      <areaDuration>0</areaDuration>
+      <castTime>1</castTime>
+      <cooldown>5</cooldown>
+      <prefab>Blessing</prefab>
+      <properties>2</properties>
+    </spell>
+    <spell>
+      <name>Reveil des morts</name>
+      <cost>400</cost>
+      <instantCorruption>0</instantCorruption>
+      <instantDamage>0</instantDamage>
+      <areaCPS>0</areaCPS>
+      <areaDPS>0</areaDPS>
+      <areaDuration>0</areaDuration>
+      <castTime>10</castTime>
+      <cooldown>60</cooldown>
+      <prefab>ZombieRises</prefab>
+      <properties>2</properties>
     </spell>
     <spell>
       <name>Maladie</name>
-      <fearCost>20</fearCost>
-      <faithCost>0</faithCost>
-      <stateEffect>-1</stateEffect>
+      <cost>250</cost>
+      <instantCorruption>0</instantCorruption>
+      <instantDamage>0</instantDamage>
+      <areaCPS>0</areaCPS>
+      <areaDPS>0</areaDPS>
+      <areaDuration>40</areaDuration>
+      <castTime>1</castTime>
+      <cooldown>40</cooldown>
+      <prefab>Disease</prefab>
       <properties>5</properties>
-      <areaMax>15</areaMax>
-      <duration>30</duration>
-      <behaviour>Disease</behaviour>
-    </spell>
-    <spell>
-      <name>Soin</name>
-      <fearCost>0</fearCost>
-      <faithCost>10</faithCost>
-      <stateEffect>1</stateEffect>
-      <properties>7</properties>
-      <areaMax>15</areaMax>
-      <duration>30</duration>
-      <behaviour>MassHeal</behaviour>
-    </spell>
-    <spell>
-      <name>Totem Sacre</name>
-      <fearCost>0</fearCost>
-      <faithCost>15</faithCost>
-      <stateEffect>1</stateEffect>
-      <properties>7</properties>
-      <areaMax>1</areaMax>
-      <duration>60</duration>
-      <behaviour>Totem</behaviour>
-    </spell>
-    <spell>
-      <name>Illumination</name>
-      <fearCost>0</fearCost>
-      <faithCost>20</faithCost>
-      <stateEffect>3</stateEffect>
-      <properties>7</properties>
-      <areaMax>1</areaMax>
-      <duration>1</duration>
-      <behaviour>Blessing</behaviour>
     </spell>
   </spells>
 </spellCollection>
