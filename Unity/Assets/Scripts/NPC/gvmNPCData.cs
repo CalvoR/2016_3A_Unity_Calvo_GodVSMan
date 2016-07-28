@@ -42,10 +42,10 @@ public class gvmNPCData : NetworkBehaviour {
                 mesh.material.color = Color.green;
             }
             CorruptionState = _corruption;
-            /*
+            
             var newRes = Mathf.FloorToInt((1000 - CorruptionState) / 100);
             resources.setResourcesPerSeconds(newRes - resourcesPerSeconds);
-            resourcesPerSeconds = newRes;*/
+            resourcesPerSeconds = newRes;
         } else {
             CorruptionState = 0;
             mesh.material.color = Color.black;
