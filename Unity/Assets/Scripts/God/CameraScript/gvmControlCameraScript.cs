@@ -11,8 +11,8 @@ public class gvmControlCameraScript : NetworkBehaviour {
     private Vector3 vectorZoom;
     private float xMinLimit = 5000f;
     private float xMaxLimit = -5000f;
-    private float yMinLimit = 15f;
-    private float yMaxLimit = 150f;
+    private float yMinLimit = 220f;
+    private float yMaxLimit = 300f;
     private float zMinLimit = 5000f;
     private float zMaxLimit = -5000f;
 

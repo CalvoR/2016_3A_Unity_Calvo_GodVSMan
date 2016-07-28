@@ -10,6 +10,8 @@ public class gvmZombiesManager : NetworkBehaviour
     private gvmNPCData[] humans;
     [SerializeField]
     private GvmGameControler controler;
+    [SerializeField]
+    private Light light;
 
     void Awake()
     {
@@ -54,7 +56,6 @@ public class gvmZombiesManager : NetworkBehaviour
     }
 
     private IEnumerator castSpell(int castTime) {
-        var light = GameObject.FindGameObjectWithTag("light").GetComponent<Light>();
         light.color = Color.green;
         yield return new WaitForSeconds(castTime);
         riseTheCorrupted();

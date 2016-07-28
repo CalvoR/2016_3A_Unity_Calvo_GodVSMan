@@ -219,6 +219,7 @@ public class gvmUI_SlotManager : NetworkBehaviour {
             }
         }
         else {                                          // cas des raccourcis
+            Debug.LogError(gameObject.name);
             if (tag.Equals("ItemShortcutSlot"))
             {
                 DataSlot = Inventory.shorcutSlots[slotId];

@@ -52,7 +52,7 @@ public class gvmAOEBehaviour : NetworkBehaviour {
         RaycastHit floorHit;
         if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
             Vector3 spellPosition = floorHit.point;
-            spellPosition.y = 0f;
+            spellPosition.y = 200f;
             transform.position = spellPosition;
         }
     }

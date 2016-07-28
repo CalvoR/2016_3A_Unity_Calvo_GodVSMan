@@ -57,6 +57,7 @@ public class gvmPlayerControler : NetworkBehaviour {
 
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
+        Debug.LogError("LOCALSTART");
         if (Camera.main && Camera.main.gameObject) {
             Camera.main.gameObject.SetActive(false);
         }

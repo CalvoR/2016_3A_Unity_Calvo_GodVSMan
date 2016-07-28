@@ -30,7 +30,7 @@ public class gvmGodSceneManager : NetworkBehaviour {
 
     public override void OnStartLocalPlayer() {
         base.OnStartLocalPlayer();
-        GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>().enabled = false;
+        Debug.LogError("localstart");
         if (Camera.main && Camera.main.gameObject) {
             Camera.main.gameObject.SetActive(false);
         }
@@ -82,6 +82,7 @@ public class gvmGodSceneManager : NetworkBehaviour {
     }
     
     public void OnClickBehaviour(int i) {
+        Debug.LogError("click: " + i);
         spellButtons[i].spellGO.SetActive(true);
         CmdSetSpellActive(i);
     }
